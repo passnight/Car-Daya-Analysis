@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import Vue from 'vue'
 import Router from 'vue-router'
 import Element from 'element-ui'
@@ -40,4 +38,3 @@ export default new Router({
     }
   ]
 })
->>>>>>> 9fb10cd5c764bbd8c2516191b485c3396ef3fb7f
