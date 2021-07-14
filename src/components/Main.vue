@@ -1,71 +1,13 @@
-<template>
-  <div id="Main">
-    <el-row>
-      <el-col style="height: 60px">
-        <el-header style="text-align: right; font-size: 12px">
-          <el-dropdown>
-            <i class="el-icon-setting" style="margin-right: 15px; color: #ffffff"></i>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改密码</el-dropdown-item>
-              <el-button  @click="open">注销用户</el-button>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <span>王小虎</span>
-        </el-header>
-      </el-col>
-    </el-row>
-        <el-row>
-          <el-button style="color = transprant" @click="isCollapse = !isCollapse"><i class="el-icon-s-fold"></i></el-button>
-        </el-row>
-    <el-container style="height: 500px; border: 1px solid #eee">
-      <!-- <el-aside width="200px" style="background-color: #024195"> -->
+<template id = "car-big-data-main-template">
 
-        <el-menu :default-openeds="['1','2']" :collapse="isCollapse" :collapse-transition=false>
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-message"></i>
-              <span slot="title">填写分析信息</span>
-            </template>
-            <el-menu-item-group>
-              <template slot="title">填写汽车型号</template>
-              <el-input placeholder="请输入汽车型号" v-model="input" clearable>
-              </el-input>
-            </el-menu-item-group>
-            <el-menu-item-group>
-              <template slot="title">选择查看价位</template>
-
-              <!--下拉框-->
-              <el-select v-model="value" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-menu"></i>
-              <span slot="title">功能选择</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="2-1">购车目的</el-menu-item>
-              <el-menu-item index="2-2">用户评价</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-        </el-menu>
-      <!-- </el-aside> -->
-      <el-container>
-
-      </el-container>
-    </el-container>
-  </div>
 </template>
 
 <script>
+import Vue from 'vue'
+Vue.component("car-big-data-main", {
+  template: "#car-big-data-main-template"
+});
+
 export default {
   name: "Main",
   data() {
@@ -111,26 +53,28 @@ export default {
     };
   },
 
-   methods: {
-     //注销用户
-      open() {
-        this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
+  methods: {
+    //注销用户
+    open() {
+      this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
           this.$message({
-            type: 'success',
-            message: '删除成功!'
+            type: "success",
+            message: "删除成功!",
           });
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
+            type: "info",
+            message: "已取消删除",
+          });
         });
-      }
-    }
+    },
+  },
 };
 </script>
 
