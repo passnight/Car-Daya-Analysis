@@ -76,7 +76,7 @@
         </el-submenu>
       </el-menu>
       <!-- </el-aside> -->
-      <el-container> 
+      <el-container>
         <router-view></router-view>
       </el-container>
     </el-container>
@@ -150,7 +150,7 @@ export default {
           });
         });
     },
-  }
+  },
 };
 </script>
 
@@ -171,5 +171,9 @@ export default {
 
 .el-aside {
   color: #333;
+}
+#app {
+  margin: 0;
+  padding: 0;
 }
 </style>
