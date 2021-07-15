@@ -55,7 +55,7 @@
           class="map_title"
           style="background-image: url(img/second_title.png)"
         >
-          推荐生产
+          数据筛选
         </div>
       </div>
       <div>
@@ -64,6 +64,18 @@
           <option value="">前景排名</option>
         </select>
       </div>
+      <form>
+        <li>型号 <input type="text" name="型号" /></li>
+        <li>时间 <input type="text" name="时间" /></li>
+      </form>
+    </div>
+
+    <!-- 推荐生产 -->
+    <div
+      class="dataAllBorder01 cage_cl"
+      style="margin-top: 9% !important; height: 24%"
+    >
+      <!-- 推荐生产的车型 -->
     </div>
   </div>
 </template>
@@ -74,6 +86,18 @@ export default {
 };
 </script>
 <style scoped>
+#selLayer {
+  width: 200px;
+  display: block;
+  height: 26px;
+  background-color: transparent;
+  color: #0b7ff3;
+  border: #0b7ff3 2px solid;
+  position: absolute;
+  right: 2px;
+  border-radius: 5px;
+  margin-top: 2px;
+}
 .map {
   width: 100%;
   height: 95%;

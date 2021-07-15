@@ -26,7 +26,7 @@
             <router-link to="manager" tag="el-button" id="router-manager"
               >manager</router-link
             >
-            
+
             王小虎
           </span>
         </el-header>

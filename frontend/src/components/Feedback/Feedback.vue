@@ -85,8 +85,12 @@
             <span slot="title">功能选择</span>
           </template>
           <el-menu-item-group>
-            <router-link to="/Feedback/FeedbackTarget" tag="el-menu-item">购车目的</router-link>
-            <router-link to="/Feedback/FeedbackComment" tag="el-menu-item">用户评价</router-link>
+            <router-link to="/Feedback/FeedbackTarget" tag="el-menu-item"
+              >购车目的</router-link
+            >
+            <router-link to="/Feedback/FeedbackComment" tag="el-menu-item"
+              >用户评价</router-link
+            >
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -99,9 +103,7 @@
 </template>
 
 <script>
-
 // import axios from 'axios'
-
 
 export default {
   name: "Feedback",
@@ -116,7 +118,6 @@ export default {
   //       console.log(response);
   //     });
   // },
-
 
   data() {
     return {

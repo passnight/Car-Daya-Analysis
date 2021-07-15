@@ -27,7 +27,7 @@ export default {
       clientWidth: document.documentElement.clientWidth,
       clientHeight: document.documentElement.clientHeight,
       tableData: Array(20).fill(item),
-      document
+      document,
     };
   },
   methods: {
@@ -37,7 +37,7 @@ export default {
       }
     },
   },
-    mounted() {
+  mounted() {
     window.onresize = () => {
       this.clientHeight = document.body.clientHeight;
       this.clientWidth = document.body.clientWidth;

@@ -68,10 +68,18 @@
             <span slot="title">功能选择</span>
           </template>
           <el-menu-item-group>
-            <router-link to="/Engineering/Fuel" tag="el-menu-item">油耗分析</router-link>
-            <router-link to="/Engineering/power" tag="el-menu-item">动力分析</router-link>
-            <router-link to="/Engineering/Brake" tag="el-menu-item">制动分析</router-link>
-            <router-link to="/Engineering/Target" tag="el-menu-item">指标分析</router-link>
+            <router-link to="/Engineering/Fuel" tag="el-menu-item"
+              >油耗分析</router-link
+            >
+            <router-link to="/Engineering/power" tag="el-menu-item"
+              >动力分析</router-link
+            >
+            <router-link to="/Engineering/Brake" tag="el-menu-item"
+              >制动分析</router-link
+            >
+            <router-link to="/Engineering/Target" tag="el-menu-item"
+              >指标分析</router-link
+            >
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
