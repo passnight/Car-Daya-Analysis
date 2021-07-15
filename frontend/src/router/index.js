@@ -16,6 +16,7 @@ import Brake from "../components/Engineering/Brake.vue"
 import Fuel from "../components/Engineering/Fuel.vue"
 import Power from "../components/Engineering/Power.vue"
 import Target from "../components/Engineering/Target.vue"
+import Test from "../components/Test.vue"
 
 
 Vue.use(Router)
@@ -31,7 +32,7 @@ Vue.use(Brake)
 Vue.use(Fuel)
 Vue.use(Power)
 Vue.use(Target)
-
+Vue.use(Test)
 
 export default new Router({
   routes: [
@@ -98,6 +99,11 @@ export default new Router({
           component:Target
         }
       ]
+    },
+    {
+      path: "/Test",
+      name: "Test",
+      component: Test
     }
   ]
 })
