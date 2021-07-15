@@ -2,6 +2,7 @@
 <div>
   <router-link to="/Feedback">feedback page</router-link>
   <router-link to="/Login">login page</router-link>
+  <router-link to="/Sale">Sale</router-link>
   <router-view></router-view>
 </div>
 
