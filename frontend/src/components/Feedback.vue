@@ -36,9 +36,18 @@
             <span slot="title">填写分析信息</span>
           </template>
           <el-menu-item-group>
-            <template slot="title">填写汽车型号</template>
-            <el-input placeholder="请输入汽车型号" v-model="input" clearable>
-            </el-input>
+            <template slot="title">请选择型号</template>
+
+            <!--型号绑定-->
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                v-for="item in carModels.carModelList"
+                :key="item.model"
+                :label="item.model"
+                :value="item.model"
+              >
+              </el-option>
+            </el-select>
           </el-menu-item-group>
           <el-menu-item-group>
             <template slot="title">选择查看价位</template>
@@ -65,15 +74,6 @@
             <el-menu-item index="2-2">用户评价</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-submenu index="3">
-          <template slot="title">
-            <i class="el-icon-menu"></i>
-            <span slot="title">系统设置</span>
-          </template>
-          <el-menu-item-group>
-            <router-link to="/Login" tag="el-menu-item">登录界面</router-link>
-          </el-menu-item-group>
-        </el-submenu>
       </el-menu>
       <!-- </el-aside> -->
       <el-container>
@@ -84,10 +84,17 @@
 </template>
 
 <script>
-
+import axios from "axios";
 
 export default {
   name: "Feedback",
+
+  mounted() {
+    axios.get("../json/CarModel.json").then((response) => {
+      this.carModels = response.data;
+    });
+  },
+
   data() {
     return {
       //收缩和弹出
@@ -127,6 +134,23 @@ export default {
           label: "100万以上",
         },
       ],
+      //汽车型号
+      carModels: {
+        carModelList: [
+          {
+            model: "A",
+          },
+          {
+            model: "B",
+          },
+          {
+            model: "C",
+          },
+          {
+            model: "D",
+          },
+        ],
+      },
       value: "",
     };
   },
@@ -157,7 +181,6 @@ export default {
 </script>
 
 <style>
-
 .el-header {
   background-color: #134194;
   color: #ffffff;
