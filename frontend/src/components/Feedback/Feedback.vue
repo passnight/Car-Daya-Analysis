@@ -26,7 +26,7 @@
             <router-link to="manager" tag="el-button" id="router-manager"
               >manager</router-link
             >
-            
+
             王小虎
           </span>
         </el-header>
@@ -85,8 +85,8 @@
             <span slot="title">功能选择</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="2-1">购车目的</el-menu-item>
-            <el-menu-item index="2-2">用户评价</el-menu-item>
+            <router-link to="/Feedback/FeedbackTarget" tag="el-menu-item">购车目的</router-link>
+            <router-link to="/Feedback/FeedbackComment" tag="el-menu-item">用户评价</router-link>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -99,16 +99,24 @@
 </template>
 
 <script>
-import axios from "axios";
+
+// import axios from 'axios'
+
 
 export default {
   name: "Feedback",
 
-//   mounted() {
-//     axios.get("../json/CarModel.json").then((response) => {
-//       this.carModels = response.data;
-//     });
-//   },
+  // created() {
+  //   axios
+  //     .get("../json/CarModel.json")
+  //     .then((response) => {
+  //       this.carModels = response.data;
+  //       console.log(carModels);
+  //       console.log("---");
+  //       console.log(response);
+  //     });
+  // },
+
 
   data() {
     return {

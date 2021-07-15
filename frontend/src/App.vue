@@ -5,6 +5,7 @@
   <router-link to="/Sale">Sale</router-link>
   <router-link to="/Home">Home</router-link>
   <router-link to="/Manager">Manager</router-link>
+  <router-link to="/Engineering">Engineering</router-link>
   <router-view></router-view>
 </div>
 
