@@ -1,5 +1,6 @@
 <template>
   <div class="homepage">
+
     <div
       class="dataAllBorder01 cage_cl"
       style="margin-top: 9% !important; height: 24%"
@@ -16,10 +17,10 @@
       style="margin-top: 1.5% !important; height: 38%"
     >
       <div class="dataAllBorder02 video_cage">
-        <img class="video_around" src="../assets/img/car1.jpg" />
+        <!-- <img class="video_around" src="../assets/img/car1.jpg" />
         <img class="video_around" src="../assets/img/car2.jpg" />
         <img class="video_around" src="../assets/img/car3.jpg" />
-        <img class="video_around" src="../assets/img/car4.jpg" />
+        <img class="video_around" src="../assets/img/car4.jpg" /> -->
       </div>
     </div>
 
@@ -46,7 +47,7 @@
       </div>
     </div>
     <div class="map" id="map">
-      <img src="../assets/img/waifu.jpeg" />
+      <!-- <img src="../assets/img/waifu.jpeg" /> -->
     </div>
 
     <div class="map_title_box">
@@ -111,7 +112,7 @@ export default {
 }
 .map_title {
   width: 358px;
-  background-image: url("../assets/img/first_title.png");
+  background-image: url("../../assets/img/first_title.png");
   background-repeat: no-repeat;
   margin: auto;
   height: 28px;
@@ -156,7 +157,7 @@ export default {
 .homepage {
   width: 100%;
   height: 100%;
-  background-image: url("../assets/img/home-background.png");
+  background-image: url("../../assets/img/home-background.png");
   background-size: 100% 100%;
   position: absolute;
 }
@@ -172,7 +173,7 @@ export default {
 }
 .scroll_title {
   float: left;
-  background-image: url("../assets/img/pushmessage_class.png");
+  background-image: url("../../assets/img/pushmessage_class.png");
   background-repeat: no-repeat;
   width: 150px;
   line-height: 25px;
