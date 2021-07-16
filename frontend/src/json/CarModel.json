@@ -1,0 +1,19 @@
+{
+    "carModelList": [
+        {
+            "model": "A"
+        },
+        {
+            "model": "B"
+        },
+        {
+            "model": "C"
+        },
+        {
+            "model": "D"
+        },
+        {
+            "model": "E"
+        }
+    ]
+}
