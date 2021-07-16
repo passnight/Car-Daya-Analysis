@@ -34,66 +34,67 @@ Vue.use(Target)
 
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
-      path: "/Login",
+      path: "/login",
       name: "Login",
       component: Login
     },
     {
-      path: "/Feedback",
+      path: "/feedback",
       name: "Feedback",
       component: Feedback,
       children: [
         {
-          path: "FeedbackComment",
+          path: "feedbackComment",
           name: "FeedbackComment",
           component: FeedbackComment
         },
         {
-          path: "FeedbackTarget",
+          path: "feedbackTarget",
           name: "FeedbackTarget",
           component: FeedbackTarget
         }
       ]
     },
     {
-      path: "/Sale",
+      path: "/sale",
       name: "Sale",
       component: Sale
     },
     {
-      path: "/Manager",
+      path: "/manager",
       name: "Manager",
       component: Manager
     },
     {
-      path: "/Home",
+      path: "/home",
       name: "Home",
       component: Home
     },
     {
-      path: "/Engineering",
+      path: "/engineering",
       name: "Engineering",
       component: Engineering,
       children: [
         {
-          path: "Brake",
+          path: "brake",
           name: "Brake",
           component: Brake
         },
         {
-          path: "Fuel",
+          path: "fuel",
           name: "Fuel",
           component:Fuel
         },
         {
-          path: "Power",
+          path: "power",
           name: "Power",
           component:Power
         },
         {
-          path: "Target",
+          path: "target",
           name: "Target",
           component:Target
         }

@@ -1,13 +1,13 @@
 <template>
-<div>
-  <router-link to="/Feedback">feedback page</router-link>
-  <router-link to="/Login">login page</router-link>
-  <router-link to="/Sale">Sale</router-link>
-  <router-link to="/Home">Home</router-link>
-  <router-link to="/Manager">Manager</router-link>
-  <router-link to="/Engineering">Engineering</router-link>
+<div style="height: 100%">
+  <!-- <router-link to="/feedback">feedback page</router-link>
+  <router-link to="/login">login page</router-link>
+  <router-link to="/sale">Sale</router-link>
+  <router-link to="/home">Home</router-link>
+  <router-link to="/manager">Manager</router-link>
+  <router-link to="/engineering">Engineering</router-link> -->
   <router-view></router-view>
-</div>
+</div> 
 
 </template>
 

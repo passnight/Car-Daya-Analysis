@@ -44,6 +44,9 @@
         :default-openeds="['1', '2']"
         :collapse="isCollapse"
         :collapse-transition="false"
+        background-color="#2656ad"
+        text-color="#fff"
+        active-text-color="#ffd04b"
       >
         <el-submenu index="1">
           <template slot="title">

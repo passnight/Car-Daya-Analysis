@@ -1,8 +1,6 @@
 <template>
   <body id="poster">
-    <el-header>
-      <h2 class="login-header" style="height: 30px">汽车大数据分析系统</h2>
-    </el-header>
+    <h2 class="login-header" style="text-align: center; color: #ffffff">汽车大数据分析系统</h2>
     <el-form class="login-container" label-position="left" label-width="10px">
       <h2 class="login_title">登录</h2>
       <el-form-item>
@@ -16,12 +14,14 @@
         ></el-input>
       </el-form-item>
       <el-form-item style="width: 100%">
+        <router-link to="/home">
         <el-button
           type="primary"
           style="width: 100%; background: #bae2f8; border: none"
           v-on:click="login"
           >登录</el-button
         >
+        </router-link>
       </el-form-item>
     </el-form>
     <el-footer class="login-footer" style="height: 30px">

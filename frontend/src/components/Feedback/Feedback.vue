@@ -1,49 +1,73 @@
 <template id = "car-big-data-feedback-template">
-  <div id="feedback">
-    <el-row>
-      <el-col style="height: 60px">
-        <el-header style="text-align: right; font-size: 12px">
-          <el-dropdown>
-            <i
-              class="el-icon-setting"
-              style="margin-right: 15px; color: #ffffff"
-            ></i>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改密码</el-dropdown-item>
-              <el-button @click="open">注销用户</el-button>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <span>
-            <router-link to="sale" tag="el-button" id="router-sale"
-              >Sale</router-link
-            >
-            <router-link to="login" tag="el-button" id="router-login"
-              >Login</router-link
-            >
-            <router-link to="feedback" tag="el-button" id="router-feedback"
-              >feedback</router-link
-            >
-            <router-link to="manager" tag="el-button" id="router-manager"
-              >manager</router-link
-            >
-
-            王小虎
-          </span>
-        </el-header>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-button style="color = transprant" @click="isCollapse = !isCollapse"
-        ><i class="el-icon-s-fold"></i
-      ></el-button>
-    </el-row>
-    <el-container style="height: 500px; border: 1px solid #eee">
-      <!-- <el-aside width="200px" style="background-color: #024195"> -->
-
+  <div id="feedback" style="display: flex; flex-direction: column">
+    <el-row style="flex: none; display: flex; height: 60px">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          margin-left: 10px;
+          flex: none;
+        "
+      >
+        <el-button stytle="color = #719cdc" @click="isCollapse = !isCollapse">
+          <i class="el-icon-s-fold"></i>
+        </el-button>
+      </div>
       <el-menu
+        class="el-menu-demo"
+        mode="horizontal"
+        router
+        default-active="/feedback"
+        @select="handleSelect"
+        background-color="transparent"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        style="flex: auto; display: flex"
+      >
+        <el-menu-item
+          index="/sale"
+          style="margin-left: 70px; margin-right: 10px"
+          >销售分析</el-menu-item
+        >
+        <el-menu-item index="/feedback">用户反馈</el-menu-item>
+        <el-menu-item index="/engineering" style="margin-left: auto"
+          >指标分析</el-menu-item
+        >
+        <el-menu-item index="/manager" style="margin-right: 40px">用户管理</el-menu-item>
+      </el-menu>
+      <div
+        style="
+          margin-left: auto;
+          display: flex;
+          align-items: center;
+          margin-right: 10px;
+          flex: none;
+        "
+      >
+        <el-dropdown>
+          <i
+            class="el-icon-setting"
+            style="margin-right: 10px; color: #ffffff"
+          ></i>
+          <el-dropdown-menu slot="dropdown">
+            <el-button @click="changeData">修改密码</el-button>
+            <el-button @click="destoryUser">注销用户</el-button>
+          </el-dropdown-menu>
+        </el-dropdown>
+
+        <span style="color: white"> 王小虎 </span>
+      </div>
+    </el-row>
+    <el-container style="border: 1px solid #eee; display: flex; flex: auto">
+      <!-- <el-aside width="200px" style="background-color: #024195"> -->
+      <el-menu
+        style="flex: none"
         :default-openeds="['1', '2']"
         :collapse="isCollapse"
         :collapse-transition="false"
+        background-color="rgba(35,81,162,0.5)"
+        text-color="#fff"
+        active-text-color="white"
       >
         <el-submenu index="1">
           <template slot="title">
@@ -54,12 +78,12 @@
             <template slot="title">请选择型号</template>
 
             <!--型号绑定-->
-            <el-select v-model="value" placeholder="请选择">
+            <el-select v-model="mvalue" placeholder="请选择">
               <el-option
                 v-for="item in carModels.carModelList"
-                :key="item.model"
+                :key="item.mvalue"
                 :label="item.model"
-                :value="item.model"
+                :value="item.mvalue"
               >
               </el-option>
             </el-select>
@@ -85,17 +109,17 @@
             <span slot="title">功能选择</span>
           </template>
           <el-menu-item-group>
-            <router-link to="/Feedback/FeedbackTarget" tag="el-menu-item"
+            <router-link to="/feedback/feedbackTarget" tag="el-menu-item"
               >购车目的</router-link
             >
-            <router-link to="/Feedback/FeedbackComment" tag="el-menu-item"
+            <router-link to="/feedback/feedbackComment" tag="el-menu-item"
               >用户评价</router-link
             >
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
       <!-- </el-aside> -->
-      <el-container>
+      <el-container style="flex: auto">
         <router-view></router-view>
       </el-container>
     </el-container>
@@ -123,6 +147,8 @@ export default {
     return {
       //收缩和弹出
       isCollapse: false,
+
+      activeIndex: "1",
 
       //输出信息
       input: "",
@@ -162,26 +188,31 @@ export default {
       carModels: {
         carModelList: [
           {
+            mvalue: "1",
             model: "A",
           },
           {
+            mvalue: "2",
             model: "B",
           },
           {
+            mvalue: "3",
             model: "C",
           },
           {
+            mvalue: "4",
             model: "D",
           },
         ],
       },
       value: "",
+      mvalue: "",
     };
   },
 
   methods: {
     //注销用户
-    open() {
+    destoryUser() {
       this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -200,50 +231,63 @@ export default {
           });
         });
     },
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    //修改密码
+    changeData() {
+      this.$prompt("请输入新密码，为6~20位数字+字母", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        //密码格式为6~20位有字母和数字
+        inputPattern: /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{6,20})$/,
+        inputErrorMessage: "密码格式不正确",
+      })
+        .then(({ value }) => {
+          this.$message({
+            type: "success",
+            message: "修改密码成功",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消修改密码",
+          });
+        });
+    },
   },
 };
 </script>
 
 <style>
 .el-header {
-  background-color: #134194;
+  background-color: transparent;
   color: #ffffff;
   line-height: 60px;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .el-aside {
   color: #333;
 }
-#router-sale {
-  color: white;
-  /* position: absolute;
-    left: screen.15rem;
-    top: 200px; */
-  background-color: #134194;
-  border: 0px;
+
+#feedback {
+  background: url("./resource/b01.png") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: top;
 }
-#router-login {
-  color: white;
-  /* position: absolute;
-    left: screen.15rem;
-    top: 200px; */
-  background-color: #134194;
-  border: 0px;
-}
-#router-manager {
-  color: white;
-  /* position: absolute;
-    left: screen.15rem;
-    top: 200px; */
-  background-color: #134194;
-  border: 0px;
-}
-#router-feedback {
-  color: white;
-  /* position: absolute;
-    left: screen.15rem;
-    top: 200px; */
-  background-color: #134194;
-  border: 0px;
+
+.el-menu.el-menu--horizontal {
+  border-bottom: none;
 }
 </style>
