@@ -8,7 +8,14 @@ import Login from "../components/Login.vue"
 import Feedback from "../components/Feedback/Feedback.vue"
 import FeedbackComment from "../components/Feedback/feedbackComment.vue"
 import FeedbackTarget from "../components/Feedback/FeedbackTarget.vue"
-import Sale from "../components/Sale.vue"
+//更改ZHJ
+import Sale from "../components/Sale/Sale.vue"
+import SaleNumber from "../components/Sale/SaleNumber.vue"
+import SalePrice from "../components/Sale/SalePrice.vue"
+import SaleTime from "../components/Sale/SaleTime.vue"
+import SalePlace from "../components/Sale/SalePlace.vue"
+//
+//import Sale from "../components/Sale.vue"
 import Manager from "../components/Manager.vue"
 import Home from "../components/Home/Home.vue"
 import HotSale from "../components/Home/HotSale.vue"
@@ -26,6 +33,13 @@ Vue.use(Element)
 Vue.use(Login)
 Vue.use(Feedback)
 Vue.use(Sale)
+//ZHJ
+Vue.use(SaleNumber)
+Vue.use(SaleTime)
+Vue.use(SalePrice)
+Vue.use(SalePlace)
+
+//
 Vue.use(Home)
 Vue.use(HotSale)
 Vue.use(SuggestProduction)
@@ -66,7 +80,32 @@ export default new Router({
     {
       path: "/sale",
       name: "Sale",
-      component: Sale
+      component: Sale,
+      //ZHJ
+     children:[
+        {
+          path:"SaleTime",
+          name:"SaleTime",
+         component:SaleTime,
+        } ,
+        {
+          path:"SalePrice",
+          name:"SalePrice",
+         component:SalePrice,
+        },
+        {
+          path:"SaleNumber",
+          name:"SaleNumber",
+         component:SaleNumber,
+        }
+        ,
+        {
+          path:"SalePlace",
+          name:"SalePlace",
+         component: SalePlace,
+        }
+      ]
+      //
     },
     {
       path: "/manager",

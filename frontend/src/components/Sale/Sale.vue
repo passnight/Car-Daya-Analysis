@@ -1,49 +1,76 @@
 <template>
-  <div id="app">
-    <el-row>
-      <el-col style="height: 60px">
-        <el-header style="text-align: right; font-size: 12px">
-          <el-dropdown>
-            <i
-              class="el-icon-setting"
-              style="margin-right: 15px; color: #ffffff"
-            ></i>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改密码</el-dropdown-item>
-              <el-button @click="open">注销用户</el-button>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <span>
-            <router-link to="sale" tag="el-button" id="router-sale"
-              >Sale</router-link
-            >
-            <router-link to="login" tag="el-button" id="router-login"
-              >Login</router-link
-            >
-            <router-link to="feedback" tag="el-button" id="router-feedback"
-              >feedback</router-link
-            >
-            <router-link to="manager" tag="el-button" id="router-manager"
-              >manager</router-link
-            >
+  <div id="Sale" style="display: flex; flex-direction: column">
+    <el-row style="flex: none; display: flex; height: 60px">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          margin-left: 10px;
+          flex: none;
+        "
+      >
+        <el-button stytle="color = #719cdc" @click="isCollapse = !isCollapse">
+          <i class="el-icon-s-fold"></i>
+        </el-button>
+      </div>
+      <el-menu
+        class="el-menu-demo"
+        mode="horizontal"
+        router
+        default-active="/feedback"
+        @select="handleSelect"
+        background-color="transparent"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        style="flex: auto; display: flex"
+      >
+        <el-menu-item
+          index="/sale"
+          style="margin-left: 70px; margin-right: 10px"
+          >销售分析</el-menu-item
+        >
+        <el-menu-item index="/feedback">用户反馈</el-menu-item>
+        <el-menu-item index="/engineering" style="margin-left: auto"
+          >指标分析</el-menu-item
+        >
+        <el-menu-item index="/manager" style="margin-right: 40px">用户管理</el-menu-item>
+      </el-menu>
+      <div
+        style="
+          margin-left: auto;
+          display: flex;
+          align-items: center;
+          margin-right: 10px;
+          flex: none;
+        "
+      >
+        <el-dropdown>
+          <i
+            class="el-icon-setting"
+            style="margin-right: 10px; color: #ffffff"
+          ></i>
+          <el-dropdown-menu slot="dropdown">
+            <el-button @click="changeData">修改密码</el-button>
+            <el-button @click="destoryUser">注销用户</el-button>
+          </el-dropdown-menu>
+        </el-dropdown>
 
-            王小虎
-          </span>
-        </el-header>
-      </el-col>
+        <span style="color: white"> 王小虎 </span>
+      </div>
     </el-row>
-    <el-row>
-      <el-button style="color = transprant" @click="isCollapse = !isCollapse"
-        ><i class="el-icon-s-fold"></i
-      ></el-button>
-    </el-row>
-    <el-container style="height: 500px; border: 1px solid #eee">
+    
+    
+    <el-container style="border: 1px solid #eee; display: flex; flex: auto">
       <!-- <el-aside width="200px" style="background-color: #024195"> -->
 
-      <el-menu
+       <el-menu
+        style="flex: none"
         :default-openeds="['1', '2']"
         :collapse="isCollapse"
         :collapse-transition="false"
+        background-color="rgba(35,81,162,0.5)"
+        text-color="#fff"
+        active-text-color="white"
       >
         <el-submenu index="1">
           <template slot="title">
@@ -66,7 +93,7 @@
             <template slot="title">选择分析时间区间</template>
 
             <div class="block">
-    <span class="demonstration">带快捷选项</span>
+    
     <el-date-picker
       v-model="value2"
       type="monthrange"
@@ -86,15 +113,26 @@
             <span slot="title">功能选择</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="2-1">销售趋势分析</el-menu-item>
-            <el-menu-item index="2-2">销量对比</el-menu-item>
-            <el-menu-item index="2-3">价格对比</el-menu-item>
+            <router-link to="/Sale/SaleTime" tag="el-menu-item"
+              >销售趋势分析</router-link
+            >
+            <router-link to="/Sale/SaleNumber" tag="el-menu-item"
+              >销量对比</router-link
+            >
+             <router-link to="/Sale/SalePrice" tag="el-menu-item"
+              >价格对比</router-link
+            >
+              <router-link to="/Sale/SalePlace" tag="el-menu-item"
+              >销售地点分析</router-link
+            >
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
       <!-- </el-aside> -->
       <el-container>
-        <router-view> </router-view>
+        <router-view> 
+
+        </router-view>
       </el-container>
     </el-container>
   </div>
@@ -163,7 +201,8 @@ export default {
 </script>
 
 <style>
-#app {
+#Sale {
+  
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -177,11 +216,27 @@ export default {
   line-height: 60px;
 }
 
+html,
+body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
 .el-aside {
   color: #333;
 }
-#app {
+#Sale {
+  background: url("./test/home-background.png") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: top;
   margin: 0;
   padding: 0;
+}
+.el-menu.el-menu--horizontal {
+  border-bottom: none;
 }
 </style>
