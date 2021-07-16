@@ -18,14 +18,20 @@ import SalePlace from "../components/Sale/SalePlace.vue"
 //import Sale from "../components/Sale.vue"
 import Manager from "../components/Manager.vue"
 import Home from "../components/Home/Home.vue"
-import HotSale from "../components/Home/HotSale.vue"
-import SuggestProduction from "../components/Home/SuggestProduction.vue"
+import SaleMap from '../components/Home/SellMap.vue'
+
 import Engineering from "../components/Engineering/Engineering.vue"
 import Brake from "../components/Engineering/Brake.vue"
 import Fuel from "../components/Engineering/Fuel.vue"
 import Power from "../components/Engineering/Power.vue"
 import Target from "../components/Engineering/Target.vue"
 import Test from "../components/Test.vue"
+
+//component
+// import mycom3 from '../components/Test.vue';
+
+// Vue.use(mycom3)
+
 
 
 Vue.use(Router)
@@ -41,8 +47,7 @@ Vue.use(SalePlace)
 
 //
 Vue.use(Home)
-Vue.use(HotSale)
-Vue.use(SuggestProduction)
+Vue.use(SaleMap)
 Vue.use(FeedbackComment)
 Vue.use(FeedbackTarget)
 Vue.use(Engineering)
@@ -51,6 +56,8 @@ Vue.use(Fuel)
 Vue.use(Power)
 Vue.use(Target)
 Vue.use(Test)
+
+
 
 export default new Router({
   mode: 'history',
@@ -118,15 +125,11 @@ export default new Router({
       component: Home,
       children: [
         {
-          path: "HotSale",
-          name: "HotSale",
-          component: HotSale
-        },
-        {
-          path: "SuggestProduction",
-          name: "SuggestProduction",
-          component: SuggestProduction
+          path:"SaleMap",
+          name:"SaleMap",
+          component: SaleMap
         }
+
       ]
     },
     {
@@ -161,5 +164,9 @@ export default new Router({
       name: "Test",
       component: Test
     }
-  ]
+  ],
+  components: {
+    // mycom3
+    SaleMap
+  }
 })

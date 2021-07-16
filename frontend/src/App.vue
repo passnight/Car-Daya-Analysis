@@ -1,12 +1,12 @@
 <template>
 <div style="height: 100%">
-  <!-- <router-link to="/feedback">feedback page</router-link>
+  <router-link to="/feedback">feedback page</router-link>
   <router-link to="/">login page</router-link>
   <router-link to="/sale">Sale</router-link>
   <router-link to="/home">Home</router-link>
   <router-link to="/manager">Manager</router-link>
   <router-link to="/engineering">Engineering</router-link>
-  <router-link to="/test">Test</router-link> -->
+  <router-link to="/test">Test</router-link>
   <router-view></router-view>
 </div> 
 

@@ -1,5 +1,6 @@
 <template>
   <el-container class="homepage">
+    <!-- <mycom3></mycom3> -->
     <el-header>
       <el-menu
         class="el-menu-demo"
@@ -26,100 +27,150 @@
         >
       </el-menu>
     </el-header>
-  <el-container>
-    <el-aside id="left_box" width="400px">
-      <div>
-        <el-row :gutter="200">
-          <el-col :span="1">
-            <img src="../../assets/img/car1.jpg" alt="car1" width="190"
-          /></el-col>
-          <el-col :span="1"
-            ><img src="../../assets/img/car1.jpg" alt="car1" width="190"
-          /></el-col>
-        </el-row>
-        <el-row :gutter="200">
-          <el-col :span="1"
-            ><img src="../../assets/img/car1.jpg" alt="car1" width="190"
-          /></el-col>
-          <el-col :span="1"
-            ><img src="../../assets/img/car1.jpg" alt="car1" width="190"
-          /></el-col>
-        </el-row>
-      </div>
 
-      <div >
-        <el-carousel :interval="5000" arrow="always" height="300">
-          <el-carousel-item v-for="item in teamMembers" :key="item">
-            <h3>{{ item }}</h3>
-          </el-carousel-item>
-        </el-carousel>
-      </div>
-    </el-aside>
+    <el-container>
+      <el-aside id="left_box" width="400px">
+        <div>
+          <el-row :gutter="200">
+            <el-col :span="1">
+              <img src="../../assets/img/car1.jpg" alt="car1" width="190"
+            /></el-col>
+            <el-col :span="1"
+              ><img src="../../assets/img/car2.jpg" alt="car2" width="190"
+            /></el-col>
+          </el-row>
+          <el-row :gutter="200">
+            <el-col :span="1"
+              ><img src="../../assets/img/car3.jpg" alt="car3" width="190"
+            /></el-col>
+            <el-col :span="1"
+              ><img src="../../assets/img/car4.jpg" alt="car4" width="190"
+            /></el-col>
+          </el-row>
+        </div>
 
-    <el-main id="main_table">
-      <div></div>
-      <img src="../../assets/img/car1.jpg" alt="car" width="60%" />
-      <p></p>
-      <el-select v-model="value" placeholder="请选择汽车型号">
-        <el-option
-          v-for="item in carModels"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
+        <div>
+          <el-carousel :interval="5000" arrow="always" height="300">
+            <el-carousel-item v-for="item in teamMembers" :key="item">
+              <h3>{{ item }}</h3>
+            </el-carousel-item>
+          </el-carousel>
+        </div>
+      </el-aside>
 
-      <div class="block">
-        <p style="color: white">请选择分析时间：{{ value }}</p>
-        <el-date-picker
-          v-model="value"
-          type="daterange"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :default-time="['00:00:00', '23:59:59']"
-        >
-        </el-date-picker>
-      </div>
-    </el-main>
-  </el-container>
+      <el-main id="main_table">
+        <div></div>
+        <!-- <img src="../../assets/img/car1.jpg" alt="car" width="60%" /> -->
+        <sale-map style="background-color: transparent"></sale-map>
+        <p></p>
 
+        <el-select v-model="value" placeholder="请选择汽车型号">
+          <el-option
+            v-for="item in carModels"
+            :key="item.value"
+            :label="item.model"
+            :value="item.model"
+          >
+          </el-option>
+        </el-select>
+
+        <div class="block">
+          <p style="color: white">请选择分析时间：{{ value }}</p>
+          <el-date-picker
+            v-model="value"
+            type="daterange"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :default-time="['00:00:00', '23:59:59']"
+          >
+          </el-date-picker>
+        </div>
+      </el-main>
+    </el-container>
   </el-container>
 </template>
 
 <script>
+import * as echarts from "echarts";
+import axios from "axios";
 export default {
   name: "home",
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    drawMap() {
+      axios.get("../../static/json/ChinaMap.json").then((response) => {
+        echarts.registerMap("china", response.data);
+        this.mapChart = echarts.init(
+          document.getElementById("chinese_selling_map")
+        );
+        let option = {
+          title: {
+            text: "车辆销售区域分布图",
+            x: "center",
+            textStyle: {
+              color: "#9c0505",
+            },
+          },
+
+          series: [
+            {
+              type: "map",
+              map: "china",
+              label: {
+                show: this.showLabel,
+                color: "black",
+                fontSize: 10,
+              },
+              // 地图大小倍数
+              zoom: 1.2,
+              data: this.datas.data,
+            },
+          ],
+          visualMap: {
+            min: 800,
+            max: 50000,
+            text: ["High", "Low"],
+            realtime: false,
+            calculable: true,
+            inRange: {
+              color: ["lightskyblue", "yellow", "orangered"],
+            },
+          },
+        };
+        this.mapChart.setOption(option);
+      });
+    },
+  },
   data() {
     const item = {
       carType: "兰博基尼",
       userComment: "不错，挺好",
     };
     return {
+      mapChart: null,
+      showLabel: false,
+      datas: [{ name: "北京市", value: 40000 }],
+      value: null,
       teamMembers: ["rjx", "lr", "cdw", "zhj"],
       carModels: [
         {
-          value: "选项1",
-          label: "型号1",
-        },
-        {
-          value: "选项2",
-          label: "型号2",
-        },
-        {
-          value: "选项3",
-          label: "型号3",
-        },
-        {
-          value: "选项4",
-          label: "型号4",
-        },
-        {
-          value: "选项5",
-          label: "型号5",
-        },
+          model: "特斯拉"
+        }
       ],
     };
+  },
+  mounted() {
+    axios.get("../../../static/data/CarModel.json").then((response) => {
+      this.carModels = response.data.carModelList;
+    });
+    axios.get("../../../static/data/SellingData.json").then((response) => {
+      this.datas = response.data;
+    });
+    this.$nextTick(function () {
+      this.drawMap();
+    });
   },
 };
 </script>
