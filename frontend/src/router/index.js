@@ -10,7 +10,9 @@ import FeedbackComment from "../components/Feedback/feedbackComment.vue"
 import FeedbackTarget from "../components/Feedback/FeedbackTarget.vue"
 import Sale from "../components/Sale.vue"
 import Manager from "../components/Manager.vue"
-import Home from "../components/Home.vue"
+import Home from "../components/Home/Home.vue"
+import HotSale from "../components/Home/HotSale.vue"
+import SuggestProduction from "../components/Home/SuggestProduction.vue"
 import Engineering from "../components/Engineering/Engineering.vue"
 import Brake from "../components/Engineering/Brake.vue"
 import Fuel from "../components/Engineering/Fuel.vue"
@@ -25,6 +27,8 @@ Vue.use(Login)
 Vue.use(Feedback)
 Vue.use(Sale)
 Vue.use(Home)
+Vue.use(HotSale)
+Vue.use(SuggestProduction)
 Vue.use(FeedbackComment)
 Vue.use(FeedbackTarget)
 Vue.use(Engineering)
@@ -71,7 +75,19 @@ export default new Router({
     {
       path: "/Home",
       name: "Home",
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: "HotSale",
+          name: "HotSale",
+          component: HotSale
+        },
+        {
+          path: "SuggestProduction",
+          name: "SuggestProduction",
+          component: SuggestProduction
+        }
+      ]
     },
     {
       path: "/Engineering",

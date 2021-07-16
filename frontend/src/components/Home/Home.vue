@@ -51,13 +51,7 @@
             <span slot="title">填写销售分析信息</span>
           </template>
           <el-menu-item-group>
-            <template slot="title">填写A汽车型号</template>
-            <el-input placeholder="请输入汽车型号" v-model="input" clearable>
-            </el-input>
-          </el-menu-item-group>
-
-          <el-menu-item-group>
-            <template slot="title">填写B汽车型号</template>
+            <template slot="title">填写汽车型号</template>
             <el-input placeholder="请输入汽车型号" v-model="input" clearable>
             </el-input>
           </el-menu-item-group>
@@ -85,9 +79,8 @@
             <span slot="title">功能选择</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="2-1">销售趋势分析</el-menu-item>
-            <el-menu-item index="2-2">销量对比</el-menu-item>
-            <el-menu-item index="2-3">价格对比</el-menu-item>
+            <router-link to="/Home/HotSale" tag="el-menu-item">销售热点分布</router-link>
+            <router-link to="/Home/SuggestProduction" tag="el-menu-item">汽车推荐</router-link>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
