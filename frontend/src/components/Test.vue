@@ -1,51 +1,47 @@
 <template>
   <div>
-<el-row :gutter="20">
-  <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-</el-row>
-<el-row :gutter="20">
-  <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-</el-row>
-<el-row :gutter="20">
-  <el-col :span="6">
-      
-  </el-col>
-  <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-</el-row>
+    <div class="left">
+      sdsfkahfkjhsfdkhskfjdh
+      sdkjfalskjdfhkjsadhfkjsdhf
+      dskjfbkasjdbfkshdbfjasbdf
+      sdfjhsakjdflkasdjhfkjashdflz      sdsfkahfkjhsfdkhskfjdh
+      sdkjfalskjdfhkjsadhfkjsdhf
+      dskjfbkasjdbfkshdbfjasbdf
+      sdfjhsakjdflkasdjhfkjashdfl
+      skdjfalkdsjhflkasdhf;asjhf
+      sadfjhalksdjfkasdhjfawkjefg
+      sdjhfkaejshflakwhefkljawefkj      sdsfkahfkjhsfdkhskfjdh
+      sdkjfalskjdfhkjsadhfkjsdhf
+      dskjfbkasjdbfkshdbfjasbdf
+      sdfjhsakjdflkasdjhfkjashdfl
+      skdjfalkdsjhflkasdhf;asjhf
+      sadfjhalksdjfkasdhjfawkjefg
+      sdjhfkaejshflakwhefkljawefkj      sdsfkahfkjhsfdkhskfjdh
+      sdkjfalskjdfhkjsadhfkjsdhf
+      dskjfbkasjdbfkshdbfjasbdf
+      sdfjhsakjdflkasdjhfkjashdfl
+      skdjfalkdsjhflkasdhf;asjhf
+      sadfjhalksdjfkasdhjfawkjefg
+      sdjhfkaejshflakwhefkljawefkj
+      skdjfalkdsjhflkasdhf;asjhf
+      sadfjhalksdjfkasdhjfawkjefg
+      sdjhfkaejshflakwhefkljawefkj
+      <img src="../assets/img/waifu.jpeg" alt="waifu" style="width: 100%">
+      f</div>
+    <div></div>
+    <div class="right">sdfsdf</div>
   </div>
 </template>
 
 
 <style>
- .el-row {
-    margin-bottom: 20px;
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
+.left{
+  float: left;
+  background-color:bisque;
+  width:30%;
+}
+.right{
+  float: right;
+  background-color:aqua;
   }
 </style>

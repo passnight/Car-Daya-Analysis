@@ -1,34 +1,21 @@
 <template>
   <div class="homepage">
     <div id="left_box">
+
       <div
         class="dataAllBorder01 cage_cl"
-        style="margin-top: 9% !important; height: 24%"
-      >
-        <!-- 视频 -->
-        <video
-          autoplay="autoplay"
-          loop="loop"
-          class="dataAllBorder02 video_cage"
-        >
-          <!-- <source class="video" title="主监控位" src="./video/test_mv02.mov" /> -->
-          <!-- <img class="video_around" src="../assets/img/car1.jpg" /> -->
-        </video>
-      </div>
-      <!-- 图片 -->
-      <div
-        class="dataAllBorder01 cage_cl"
-        style="margin-top: 1.5% !important; height: 38%; width: 20%"
+        style="margin-top: 1.5% !important; height: 33%; width: 100%"
       >
         <div class="dataAllBorder02 video_cage">
-          <img class="video_around" src="../assets/img/car1.jpg" />
-          <img class="video_around" src="../assets/img/car2.jpg" />
-          <img class="video_around" src="../assets/img/car3.jpg" />
-          <img class="video_around" src="../assets/img/car4.jpg" />
+          <img class="video_around" src="../assets/img/car1.jpg" style="width:50%">
+          <img class="video_around" src="../assets/img/car2.jpg" style="width:50%"/>
+          <img class="video_around" src="../assets/img/car3.jpg" style="width:50%"/>
+          <img class="video_around" src="../assets/img/car4.jpg" style="width:50%"/>
         </div>
       </div>
+
       <!-- 滚动栏 -->
-      <div class="dataAllBorder02" style="padding: 1.2%; overflow: hidden">
+      <div class="dataAllBorder02" style="padding: 1.2%; overflow: hidden height:33% width:33%">
         <!-- will be import scroll message -->
         <div class="message_scroll_box">
           <div class="message_scroll">
@@ -78,22 +65,21 @@
         </form>
       </div>
     </div>
-<div id="right_box">
-    <div
-      class="dataAllBorder01 cage_cl"
-      style="margin-top: 9% !important; height: 24%"
-    >
-      <!-- 推荐生产的车型 -->
-      <form>
-        <li>model1</li>
-        <li>model2</li>
-        <li>model3</li>
-        <li>model4</li>
-      </form>
+    <div id="right_box">
+      <div
+        class="dataAllBorder01 cage_cl"
+        style="margin-top: 9% !important; height: 24%"
+      >
+        <!-- 推荐生产的车型 -->
+        <form>
+          <li>model1</li>
+          <li>model2</li>
+          <li>model3</li>
+          <li>model4</li>
+        </form>
+      </div>
     </div>
-</div>
-    <!-- 推荐生产 -->
-
+    推荐生产
   </div>
 </template>
 
@@ -103,18 +89,20 @@ export default {
 };
 </script>
 <style scoped>
-#left_box{
+#left_box {
   width: 20%;
   float: left;
   display: flex;
+  background-color:aliceblue
 }
-#central_box{
+#central_box {
   width: 60%;
   display: flex;
 }
-#right_box{
+#right_box {
   width: 20%;
   float: right;
+  background-color:bisque
 }
 .homepage {
   width: 100%;
