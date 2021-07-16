@@ -10,9 +10,10 @@
     stripe
     :height="clientHeight - 62 < 370 ? 370 : clientHeight - 62"
   >
-    <el-table-column prop="carType" label="汽车型号" width="250">
-    </el-table-column>
-    <el-table-column prop="userComment" label="用户评价"> </el-table-column>
+    <el-table-column prop="carType" label="实测100-0km/h制动(m)" width="250"></el-table-column>
+    <el-table-column prop="userComment" label="前制动器类型" width="250"></el-table-column>
+    <el-table-column prop="carType" label="后制动器类型" width="250"></el-table-column>
+    <el-table-column prop="carType" label="驻车制动类型" width="250"></el-table-column>
   </el-table>
 </template>
 

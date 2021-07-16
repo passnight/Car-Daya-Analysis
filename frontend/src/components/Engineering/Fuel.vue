@@ -1,28 +1,51 @@
 <template>
-  <el-container>
-    <el-main>
-      <div class="demo-image__placeholder">
-        <div class="block">
-          <span class="demonstration">自定义</span>
-          <el-image :src="src" :fit="scale - down">
-            <div slot="placeholder" class="image-slot">
-              加载中<span class="dot">...</span>
-            </div>
-          </el-image>
-        </div>
-      </div>
-    </el-main>
-  </el-container>
+  <el-table
+    :data="tableData"
+    size="medium"
+    :cell-style="cellStyle"
+    :header-cell-style="{
+      color: '#fff',
+      background: 'rgba(78, 131, 211, 0.8)',
+    }"
+    stripe
+    :height="clientHeight - 62 < 370 ? 370 : clientHeight - 62"
+  >
+    <el-table-column prop="carType" label="认证车主平均油耗(L/100km)" width="250"></el-table-column>
+    <el-table-column prop="userComment" label="NEDC综合油耗(L/100km)" width="250"></el-table-column>
+    <el-table-column prop="carType" label="实测油耗(L/100km)" width="250"></el-table-column>
+  </el-table>
 </template>
 
-
-<script>
+<script >
 export default {
-  name: "Fuel",
+  name: "Brake",
   data() {
+    const item = {
+      carType: "兰博基尼",
+      userComment: "不错，挺好",
+    };
     return {
-      src: "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+      clientWidth: document.documentElement.clientWidth,
+      clientHeight: document.documentElement.clientHeight,
+      tableData: Array(20).fill(item),
+      document,
+    };
+  },
+  methods: {
+    cellStyle({ row, column, rowIndex, columnIndex }) {
+      if (rowIndex % 2 == 1) {
+        return "background:rgba(160,188,231,0.3)";
+      }
+    },
+  },
+  mounted() {
+    window.onresize = () => {
+      this.clientHeight = document.body.clientHeight;
+      this.clientWidth = document.body.clientWidth;
     };
   },
 };
 </script>
+
+<style scoped>
+</style>

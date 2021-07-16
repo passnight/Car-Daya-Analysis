@@ -6,6 +6,28 @@
           <i class="el-icon-s-fold"></i>
         </el-button>
       </div>
+      <el-menu
+        class="el-menu-demo"
+        mode="horizontal"
+        router
+        default-active="/engineering"
+        @select="handleSelect"
+        background-color="transparent"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        style="flex: auto; display: flex"
+      >
+        <el-menu-item
+          index="/sale"
+          style="margin-left: 70px; margin-right: 10px"
+          >销售分析</el-menu-item
+        >
+        <el-menu-item index="/feedback">用户反馈</el-menu-item>
+        <el-menu-item index="/engineering" style="margin-left: auto"
+          >指标分析</el-menu-item
+        >
+        <el-menu-item index="/manager" style="margin-right: 40px">用户管理</el-menu-item>
+      </el-menu>
       <div
         style="
           margin-left: auto;
@@ -34,9 +56,9 @@
         :default-openeds="['1', '2']"
         :collapse="isCollapse"
         :collapse-transition="false"
-        background-color="#2656ad"
+        background-color="rgba(35,81,162,0.5)"
         text-color="#fff"
-        active-text-color="#ffd04b"
+        active-text-color="white"
       >
         <el-submenu index="1">
           <template slot="title">
@@ -199,7 +221,7 @@ export default {
 </script>
 
 <style>
-#back {
+#engineering {
   background: url("../../assets/img/home-background.png") no-repeat;
   background-position: center;
   height: 100%;
