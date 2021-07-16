@@ -1,152 +1,193 @@
 <template>
-  <div class="homepage">
-    <div class="left_box">
-      <div class="left_box_col"></div>
-      <div class="left_box_col"></div>
-      <div class="left_box_col">
-        <el-carousel indicator-position="outside">
-          <el-carousel-item v-for="item in teamMembers" :key="item">
-            <h3>{{ item }}</h3>
-          </el-carousel-item>
-        </el-carousel>
-      </div>
-    </div>
-    <div class="central_box">
-      <div class="central_img">
-        <!-- <img
-          src="../assets/img/waifu.jpeg"
-          alt="waifu"
-          style="width: 100%"
-          object-fit="fill"
-        /> -->
-      </div>
-      <div style="overflow:scroll width:100% height:'30%'">
-        <div class="map_title" id="choose_info">信息选择</div>
-        <form style="color: white">
-          型号
-          <li><input type="text" /></li>
-          时间
-          <li><input type="text" /></li>
-        </form>
-      </div>
-    </div>
-    <div class="right_box">
-      <div style="overflow:scroll width:100%">
-        <form style="color: white">
-          <div class="map_title" id="hot_model">热销车型</div>
-          <li>show something</li>
-          <li>show something</li>
-        </form>
-      </div>
-    </div>
+  <div id="home">
+    <el-row>
+      <el-col style="height: 60px">
+        <el-header style="text-align: right; font-size: 12px">
+          <el-dropdown>
+            <i
+              class="el-icon-setting"
+              style="margin-right: 15px; color: #ffffff"
+            ></i>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>修改密码</el-dropdown-item>
+              <el-button @click="open">注销用户</el-button>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span>
+            <router-link to="sale" tag="el-button" id="router-sale"
+              >Sale</router-link
+            >
+            <router-link to="login" tag="el-button" id="router-login"
+              >Login</router-link
+            >
+            <router-link to="feedback" tag="el-button" id="router-feedback"
+              >feedback</router-link
+            >
+            <router-link to="manager" tag="el-button" id="router-manager"
+              >manager</router-link
+            >
+
+            王小虎
+          </span>
+        </el-header>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-button style="color = transprant" @click="isCollapse = !isCollapse"
+        ><i class="el-icon-s-fold"></i
+      ></el-button>
+    </el-row>
+    <el-container style="height: 500px; border: 1px solid #eee">
+      <!-- <el-aside width="200px" style="background-color: #024195"> -->
+
+      <el-menu
+        :default-openeds="['1', '2']"
+        :collapse="isCollapse"
+        :collapse-transition="false"
+      >
+        <el-submenu index="1">
+          <template slot="title">
+            <i class="el-icon-message"></i>
+            <span slot="title">填写销售分析信息</span>
+          </template>
+          <el-menu-item-group>
+            <template slot="title">填写A汽车型号</template>
+            <el-input placeholder="请输入汽车型号" v-model="input" clearable>
+            </el-input>
+          </el-menu-item-group>
+
+          <el-menu-item-group>
+            <template slot="title">填写B汽车型号</template>
+            <el-input placeholder="请输入汽车型号" v-model="input" clearable>
+            </el-input>
+          </el-menu-item-group>
+
+          <el-menu-item-group>
+            <template slot="title">选择分析时间区间</template>
+
+            <div class="block">
+              <el-date-picker
+                v-model="value2"
+                type="datetimerange"
+                :picker-options="pickerOptions"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                align="right"
+              >
+              </el-date-picker>
+            </div>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title">
+            <i class="el-icon-menu"></i>
+            <span slot="title">功能选择</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="2-1">销售趋势分析</el-menu-item>
+            <el-menu-item index="2-2">销量对比</el-menu-item>
+            <el-menu-item index="2-3">价格对比</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+      </el-menu>
+      <!-- </el-aside> -->
+      <el-container>
+        <router-view> </router-view>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
 <script>
 export default {
-  name: "home",
+  name: "Sale",
   data() {
     return {
-      teamMembers: ["rjx", "lr", "cdw", "zhj"],
+      //收缩和弹出
+      isCollapse: false,
+
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近三个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+        ],
+      },
+      value1: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
+      value2: "",
     };
+  },
+
+  methods: {
+    //注销用户
+    open() {
+      this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
   },
 };
 </script>
-<style scoped>
-.map_title#choose_info{
-  left: 650px;
-  top: -100px;
-  position: relative;
-  width: 358px;
-  background-image: url("../assets/img/first_title.png");
-  background-repeat: no-repeat;
-  margin: auto;
-  height: 28px;
+
+<style>
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: white;
-  font-size: 14px;
-  font-family: "Microsoft YaHei";
-  font-weight: bold;
+  color: #2c3e50;
+  margin-top: 60px;
 }
-.map_title#hot_model{
-  left: 70px;
-  top: 0px;
-  position: relative;
-  width: 358px;
-  background-image: url("../assets/img/first_title.png");
-  background-repeat: no-repeat;
-  margin: auto;
-  height: 28px;
-  text-align: center;
-  color: white;
-  font-size: 14px;
-  font-family: "Microsoft YaHei";
-  font-weight: bold;
-}
-.homepage {
-  width: 100%;
-  height: 100%;
-  background-image: url("../assets/img/home-background.png");
-  background-size: 100% 100%;
-  position: absolute;
-}
-.central_box .central_img {
-  width: 100%;
-  height: 70%;
-  border: 2px solid black;
-}
-.left_box .left_box_col {
-  width: 100%;
-  height: 33%;
-  border: 2px solid black;
-}
-.left_box {
-  top: 8%;
-  border: 2px solid black;
-  width: 19%;
-  height: 92%;
-  float: left;
-  background-color: transparent;
-  display: flex;
-  flex-wrap: wrap;
-  position: relative;
-}
-.right_box {
-  top: 8%;
-  border: 2px solid black;
-  width: 19%;
-  height: 92%;
-  float: left;
-  background-color: transparent;
-  display: flex;
-  flex-wrap: wrap;
-  position: relative;
-}
-.central_box {
-  top: 8%;
-  border: 2px solid black;
-  width: 60%;
-  height: 92%;
-  float: left;
-  background-color: transparent;
-  display: flex;
-  flex-wrap: wrap;
-  position: relative;
+.el-header {
+  background-color: #134194;
+  color: #ffffff;
+  line-height: 60px;
 }
 
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 300px;
+.el-aside {
+  color: #333;
+}
+#app {
   margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #016ae0;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #2c85d2;
+  padding: 0;
 }
 </style>
