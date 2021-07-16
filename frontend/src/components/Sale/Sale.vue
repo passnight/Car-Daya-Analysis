@@ -17,7 +17,7 @@
         class="el-menu-demo"
         mode="horizontal"
         router
-        default-active="/feedback"
+        default-active="/sale"
         @select="handleSelect"
         background-color="transparent"
         text-color="#fff"
@@ -25,15 +25,17 @@
         style="flex: auto; display: flex"
       >
         <el-menu-item
-          index="/sale"
+          index="/home"
           style="margin-left: 70px; margin-right: 10px"
-          >销售分析</el-menu-item
+          >主页</el-menu-item
         >
         <el-menu-item index="/feedback">用户反馈</el-menu-item>
         <el-menu-item index="/engineering" style="margin-left: auto"
           >指标分析</el-menu-item
         >
-        <el-menu-item index="/manager" style="margin-right: 40px">用户管理</el-menu-item>
+        <el-menu-item index="/sale" style="margin-right: 40px"
+          >销售分析</el-menu-item
+        >
       </el-menu>
       <div
         style="

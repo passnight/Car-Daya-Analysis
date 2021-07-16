@@ -29,7 +29,7 @@
   <el-container>
     <el-aside id="left_box" width="400px">
       <div>
-        <el-row :gutter="200" class="withLine">
+        <el-row :gutter="200">
           <el-col :span="1">
             <img src="../../assets/img/car1.jpg" alt="car1" width="190"
           /></el-col>
@@ -37,7 +37,7 @@
             ><img src="../../assets/img/car1.jpg" alt="car1" width="190"
           /></el-col>
         </el-row>
-        <el-row :gutter="200" class="withLine">
+        <el-row :gutter="200">
           <el-col :span="1"
             ><img src="../../assets/img/car1.jpg" alt="car1" width="190"
           /></el-col>
@@ -47,7 +47,7 @@
         </el-row>
       </div>
 
-      <div class="withLine">
+      <div >
         <el-carousel :interval="5000" arrow="always" height="300">
           <el-carousel-item v-for="item in teamMembers" :key="item">
             <h3>{{ item }}</h3>
@@ -124,14 +124,11 @@ export default {
 };
 </script>
 <style scoped>
-.withLine {
-  border: 2px solid red;
-}
 #main_table {
   height: auto;
 }
 #left_box {
-  border: 2px solid black;
+  border: 2px solid white;
 }
 #selLayer {
   width: 200px;
