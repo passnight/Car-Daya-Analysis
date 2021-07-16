@@ -1,5 +1,5 @@
 <template>
-<div>
+<div style="height:100%">
   <router-link to="/Feedback">feedback page</router-link>
   <router-link to="/Login">login page</router-link>
   <router-link to="/Sale">Sale</router-link>
