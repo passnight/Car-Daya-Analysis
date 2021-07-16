@@ -127,21 +127,19 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
   name: "Feedback",
 
-  // created() {
-  //   axios
-  //     .get("../json/CarModel.json")
-  //     .then((response) => {
-  //       this.carModels = response.data;
-  //       console.log(carModels);
-  //       console.log("---");
-  //       console.log(response);
-  //     });
-  // },
+  mounted() {
+    axios
+      .get("../../../static/json/CarModel.json")
+      .then((response) => {
+        this.carModels=response.data;
+
+      });
+  },
 
   data() {
     return {
@@ -185,26 +183,9 @@ export default {
         },
       ],
       //汽车型号
-      carModels: {
-        carModelList: [
-          {
-            mvalue: "1",
-            model: "A",
-          },
-          {
-            mvalue: "2",
-            model: "B",
-          },
-          {
-            mvalue: "3",
-            model: "C",
-          },
-          {
-            mvalue: "4",
-            model: "D",
-          },
-        ],
-      },
+      carModels:[
+
+      ],
       value: "",
       mvalue: "",
     };
