@@ -6,6 +6,7 @@
   <router-link to="/home">Home</router-link>
   <router-link to="/manager">Manager</router-link>
   <router-link to="/engineering">Engineering</router-link>
+  <router-link to="/test">Test</router-link>
   <router-view></router-view>
 </div> 
 

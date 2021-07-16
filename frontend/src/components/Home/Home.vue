@@ -1,5 +1,32 @@
 <template>
   <el-container class="homepage">
+    <el-header>
+      <el-menu
+        class="el-menu-demo"
+        mode="horizontal"
+        router
+        default-active="/home"
+        @select="handleSelect"
+        background-color="transparent"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        style="flex: auto; display: flex"
+      >
+        <el-menu-item
+          index="/home"
+          style="margin-left: 70px; margin-right: 10px"
+          >主页</el-menu-item
+        >
+        <el-menu-item index="/feedback">用户反馈</el-menu-item>
+        <el-menu-item index="/engineering" style="margin-left: auto"
+          >指标分析</el-menu-item
+        >
+        <el-menu-item index="/sale" style="margin-right: 40px"
+          >销售分析</el-menu-item
+        >
+      </el-menu>
+    </el-header>
+  <el-container>
     <el-aside id="left_box" width="400px">
       <div>
         <el-row :gutter="200" class="withLine">
@@ -30,8 +57,9 @@
     </el-aside>
 
     <el-main id="main_table">
-      <img src="../../assets/img/car1.jpg" alt="car" width="100%" />
-
+      <div></div>
+      <img src="../../assets/img/car1.jpg" alt="car" width="60%" />
+      <p></p>
       <el-select v-model="value" placeholder="请选择汽车型号">
         <el-option
           v-for="item in carModels"
@@ -54,6 +82,8 @@
         </el-date-picker>
       </div>
     </el-main>
+  </el-container>
+
   </el-container>
 </template>
 
@@ -98,14 +128,9 @@ export default {
   border: 2px solid red;
 }
 #main_table {
-  top: 8%;
-  position: relative;
-  height: 92%;
+  height: auto;
 }
 #left_box {
-  top: 8%;
-  position: relative;
-  height: 92%;
   border: 2px solid black;
 }
 #selLayer {
