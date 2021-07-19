@@ -134,7 +134,7 @@ export default {
 
   mounted() {
     axios
-      .get("../../../static/json/CarModel.json")
+      .get("../../../static/data/CarModel.json")
       .then((response) => {
         this.carModels=response.data;
 
