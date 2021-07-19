@@ -241,7 +241,7 @@ export default {
 };
 </script>
 
-<style>
+<style >
 .el-header {
   background-color: transparent;
   color: #ffffff;

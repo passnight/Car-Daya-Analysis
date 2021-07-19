@@ -222,7 +222,7 @@ export default {
 };
 </script>
 
-<style>
+<style >
 #engineering {
   background: url("../../assets/img/home-background.png") no-repeat;
   background-position: center;
