@@ -6,14 +6,14 @@ import "element-ui/lib/theme-chalk/index.css"
 // import component
 import Login from "../views/Login.vue"
 import Feedback from "../views/Feedback/Feedback.vue"
-import FeedbackComment from "../views/Feedback/feedbackComment.vue"
-import FeedbackTarget from "../views/Feedback/FeedbackTarget.vue"
+import FeedbackComment from "../views/Feedback/components/feedbackComment.vue"
+import FeedbackTarget from "../views/Feedback/components/FeedbackTarget.vue"
 //更改ZHJ
 import Sale from "../views/Sale/Sale.vue"
-import SaleNumber from "../views/Sale/SaleNumber.vue"
-import SalePrice from "../views/Sale/SalePrice.vue"
-import SaleTime from "../views/Sale/SaleTime.vue"
-import SalePlace from "../views/Sale/SalePlace.vue"
+import SaleNumber from "../views/Sale/components/SaleNumber.vue"
+import SalePrice from "../views/Sale/components/SalePrice.vue"
+import SaleTime from "../views/Sale/components/SaleTime.vue"
+import SalePlace from "../views/Sale/components/SalePlace.vue"
 //
 //import Sale from "../views/Sale.vue"
 import Manager from "../views/Manager.vue"
@@ -21,10 +21,10 @@ import Home from "../views/Home/Home.vue"
 import SaleMap from '../views/Home/components/SellMap.vue'
 
 import Engineering from "../views/Engineering/Engineering.vue"
-import Brake from "../views/Engineering/Brake.vue"
-import Fuel from "../views/Engineering/Fuel.vue"
-import Power from "../views/Engineering/Power.vue"
-import Target from "../views/Engineering/Target.vue"
+import Brake from "../views/Engineering/components/Brake.vue"
+import Fuel from "../views/Engineering/components/Fuel.vue"
+import Power from "../views/Engineering/components/Power.vue"
+import Target from "../views/Engineering/components/Target.vue"
 import Test from "../views/Test.vue"
 
 //component
