@@ -4,31 +4,31 @@ import Element from 'element-ui'
 import "element-ui/lib/theme-chalk/index.css"
 
 // import component
-import Login from "../components/Login.vue"
-import Feedback from "../components/Feedback/Feedback.vue"
-import FeedbackComment from "../components/Feedback/feedbackComment.vue"
-import FeedbackTarget from "../components/Feedback/FeedbackTarget.vue"
+import Login from "../views/Login.vue"
+import Feedback from "../views/Feedback/Feedback.vue"
+import FeedbackComment from "../views/Feedback/feedbackComment.vue"
+import FeedbackTarget from "../views/Feedback/FeedbackTarget.vue"
 //更改ZHJ
-import Sale from "../components/Sale/Sale.vue"
-import SaleNumber from "../components/Sale/SaleNumber.vue"
-import SalePrice from "../components/Sale/SalePrice.vue"
-import SaleTime from "../components/Sale/SaleTime.vue"
-import SalePlace from "../components/Sale/SalePlace.vue"
+import Sale from "../views/Sale/Sale.vue"
+import SaleNumber from "../views/Sale/SaleNumber.vue"
+import SalePrice from "../views/Sale/SalePrice.vue"
+import SaleTime from "../views/Sale/SaleTime.vue"
+import SalePlace from "../views/Sale/SalePlace.vue"
 //
-//import Sale from "../components/Sale.vue"
-import Manager from "../components/Manager.vue"
-import Home from "../components/Home/Home.vue"
-import SaleMap from '../components/Home/SellMap.vue'
+//import Sale from "../views/Sale.vue"
+import Manager from "../views/Manager.vue"
+import Home from "../views/Home/Home.vue"
+import SaleMap from '../views/Home/components/SellMap.vue'
 
-import Engineering from "../components/Engineering/Engineering.vue"
-import Brake from "../components/Engineering/Brake.vue"
-import Fuel from "../components/Engineering/Fuel.vue"
-import Power from "../components/Engineering/Power.vue"
-import Target from "../components/Engineering/Target.vue"
-import Test from "../components/Test.vue"
+import Engineering from "../views/Engineering/Engineering.vue"
+import Brake from "../views/Engineering/Brake.vue"
+import Fuel from "../views/Engineering/Fuel.vue"
+import Power from "../views/Engineering/Power.vue"
+import Target from "../views/Engineering/Target.vue"
+import Test from "../views/Test.vue"
 
 //component
-// import mycom3 from '../components/Test.vue';
+// import mycom3 from '../views/Test.vue';
 
 // Vue.use(mycom3)
 

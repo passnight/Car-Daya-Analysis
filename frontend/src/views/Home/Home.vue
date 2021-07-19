@@ -1,6 +1,5 @@
 <template>
   <el-container class="homepage">
-    <!-- <mycom3></mycom3> -->
     <el-header>
       <el-menu
         class="el-menu-demo"
