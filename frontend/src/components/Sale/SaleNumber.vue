@@ -16,7 +16,8 @@ import axios from 'axios'
             },
             mounted() {
   axios.get("../../../static/data/CarSaleNumber.json").then((response) => {
-      this.mydata = response.data.options;
+    //   this.mydata = response.data.options;
+    console.log(response.data);
     });
                 this.drawLine();
             },

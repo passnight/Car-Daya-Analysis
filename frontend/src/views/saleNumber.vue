@@ -14,16 +14,20 @@ export default {
     };
   },
   mounted() {
-    axios.get("http://localhost:8080/static/data/carSaleNumber.json").then((response) => {
-      this.carSaleData = response.data.options;
-    });
+                console.log("hello wo2frld");
+    axios
+      .get("http://localhost:8080/static/data/carSaleNumber.json")
+      .then((response) => {
+          console.log("hello world");
+        this.carSaleData = response.data.options;
+      });
     this.drawLine();
   },
   methods: {
     drawLine() {
-      this.chartDom = echarts.init(document.getElementById("柱状图"));
+      this.chartColumn = echarts.init(document.getElementById("柱状图"));
 
-      this.chartDom.setOption(this.carSaleData);
+      this.chartColumn.setOption(this.carSaleData);
     },
   },
 };
