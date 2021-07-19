@@ -1,27 +1,27 @@
 <template>
   <body id="poster">
-    <h2 class="login-header" style="text-align: center; color: #ffffff">汽车大数据分析系统</h2>
+    <h2 class="login-header" style="text-align: center; color: #ffffff">
+      汽车大数据分析系统
+    </h2>
     <el-form class="login-container" label-position="left" label-width="10px">
       <h2 class="login_title">登录</h2>
       <el-form-item>
-        <el-input type="text" auto-complete="off" placeholder="账号"></el-input>
+        <el-input type="text" placeholder="账号" v-model="username"></el-input>
       </el-form-item>
       <el-form-item>
         <el-input
           type="password"
-          auto-complete="off"
           placeholder="密码"
+          v-model="password"
         ></el-input>
       </el-form-item>
       <el-form-item style="width: 100%">
-        <router-link to="/home">
         <el-button
           type="primary"
           style="width: 100%; background: #bae2f8; border: none"
           v-on:click="login"
           >登录</el-button
         >
-        </router-link>
       </el-form-item>
     </el-form>
     <el-footer class="login-footer" style="height: 30px">
@@ -31,8 +31,33 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Login",
+  methods: {
+    login: function () {
+      console.log("someone tries to login");
+      var data = new FormData();
+      data.append("username", this.username);
+      data.append("password", this.password);
+      axios.post("/user.json", data).then((response) => {
+        console.log(response.data);
+        let result = response.data;
+        if (result==="success") {
+          alert("login succeed");
+          this.$router.push("/home");
+        } else {
+          alert("you stupid");
+        }
+      });
+    },
+  },
+  data() {
+    return{
+      username: "rjx",
+      password: "123456"
+    }
+  }
 };
 </script>
 <style scoped>
