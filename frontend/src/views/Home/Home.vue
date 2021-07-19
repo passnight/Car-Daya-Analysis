@@ -99,7 +99,7 @@ export default {
       console.log(key, keyPath);
     },
     drawMap() {
-      axios.get("../../static/json/ChinaMap.json").then((response) => {
+      axios.get("../../../static/json/ChinaMap.json").then((response) => {
         echarts.registerMap("china", response.data);
         this.mapChart = echarts.init(
           document.getElementById("chinese_selling_map")
