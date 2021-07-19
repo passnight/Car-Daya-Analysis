@@ -202,7 +202,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #Sale {
   
   font-family: "Avenir", Helvetica, Arial, sans-serif;

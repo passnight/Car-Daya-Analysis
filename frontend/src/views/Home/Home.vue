@@ -248,11 +248,18 @@ export default {
   border-radius: 10px;
 }
 .homepage {
-  width: 100%;
+  /* width: 100%;
   height: 100%;
   background-image: url("../../assets/img/home-background.png");
   background-size: 100% 100%;
-  position: absolute;
+  position: absolute; */
+
+    background: url("../../assets/img/home-background.png") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: top;
 }
 .message_scroll {
   border: rgba(12, 122, 200, 0.5) 1px solid;
