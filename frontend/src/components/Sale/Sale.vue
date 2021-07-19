@@ -124,9 +124,7 @@
              <router-link to="/Sale/SalePrice" tag="el-menu-item"
               >价格对比</router-link
             >
-              <router-link to="/Sale/SalePlace" tag="el-menu-item"
-              >销售地点分析</router-link
-            >
+             
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
@@ -202,7 +200,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #Sale {
   
   font-family: "Avenir", Helvetica, Arial, sans-serif;

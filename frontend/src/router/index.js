@@ -13,7 +13,7 @@ import Sale from "../components/Sale/Sale.vue"
 import SaleNumber from "../components/Sale/SaleNumber.vue"
 import SalePrice from "../components/Sale/SalePrice.vue"
 import SaleTime from "../components/Sale/SaleTime.vue"
-import SalePlace from "../components/Sale/SalePlace.vue"
+//import SalePlace from "../components/Sale/SalePlace.vue"
 //
 //import Sale from "../components/Sale.vue"
 import Manager from "../components/Manager.vue"
@@ -43,7 +43,7 @@ Vue.use(Sale)
 Vue.use(SaleNumber)
 Vue.use(SaleTime)
 Vue.use(SalePrice)
-Vue.use(SalePlace)
+//Vue.use(SalePlace)
 
 //
 Vue.use(Home)
@@ -105,12 +105,12 @@ export default new Router({
           name:"SaleNumber",
          component:SaleNumber,
         }
-        ,
-        {
-          path:"SalePlace",
-          name:"SalePlace",
-         component: SalePlace,
-        }
+        //,
+        //{
+        //  path:"SalePlace",
+        //  name:"SalePlace",
+        // component: SalePlace,
+        //}
       ]
       //
     },

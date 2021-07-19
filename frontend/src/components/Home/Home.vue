@@ -29,22 +29,22 @@
     </el-header>
 
     <el-container>
-      <el-aside id="left_box" width="400px">
+      <el-aside id="left_box" width="250">
         <div>
-          <el-row :gutter="200">
+          <el-row :gutter="130">
             <el-col :span="1">
-              <img src="../../assets/img/car1.jpg" alt="car1" width="190"
+              <img src="../../assets/img/car1.jpg" alt="car1" width="125"
             /></el-col>
             <el-col :span="1"
-              ><img src="../../assets/img/car2.jpg" alt="car2" width="190"
+              ><img src="../../assets/img/car2.jpg" alt="car2" width="125"
             /></el-col>
           </el-row>
-          <el-row :gutter="200">
+          <el-row :gutter="130">
             <el-col :span="1"
-              ><img src="../../assets/img/car3.jpg" alt="car3" width="190"
+              ><img src="../../assets/img/car3.jpg" alt="car3" width="125"
             /></el-col>
             <el-col :span="1"
-              ><img src="../../assets/img/car4.jpg" alt="car4" width="190"
+              ><img src="../../assets/img/car4.jpg" alt="car4" width="125"
             /></el-col>
           </el-row>
         </div>
@@ -194,11 +194,11 @@ export default {
   margin-top: 2px;
 }
 .map {
-  width: 100%;
-  height: 95%;
+  width: 80%;
+  height: 65%;
   background-repeat: no-repeat;
-  background-position-x: -300px;
-  background-position-y: -200px;
+  background-position-x: -400px;
+  background-position-y: -400px;
   border-radius: 0px 0px 8px 8px;
   position: relative;
   overflow: hidden;
