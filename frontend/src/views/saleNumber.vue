@@ -14,7 +14,7 @@ export default {
     };
   },
   mounted() {
-    axios.get("../../static/data/carSaleNumber.json").then((response) => {
+    axios.get("http://localhost:8080/static/data/carSaleNumber.json").then((response) => {
       this.carSaleData = response.data.options;
     });
     this.drawLine();
