@@ -36,11 +36,10 @@ export default {
   name: "Login",
   methods: {
     login: function () {
-      console.log("someone tries to login");
       var data = new FormData();
       data.append("username", this.username);
       data.append("password", this.password);
-      axios.post("/user.json", data).then((response) => {
+      axios.post("http://127.0.0.1:5000/user.json", data).then((response) => {
         console.log(response.data);
         let result = response.data;
         if (result==="success") {

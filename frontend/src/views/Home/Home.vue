@@ -124,7 +124,7 @@ export default {
               },
               // 地图大小倍数
               zoom: 1.2,
-              data: this.datas.data,
+              data: this.datas,
             },
           ],
           visualMap: {
@@ -155,18 +155,22 @@ export default {
       teamMembers: ["rjx", "lr", "cdw", "zhj"],
       carModels: [
         {
-          model: "特斯拉"
-        }
+          model: "特斯拉",
+        },
       ],
     };
   },
   mounted() {
-    axios.get("../../../static/data/CarModel.json").then((response) => {
-      this.carModels = response.data.carModelList;
+    axios.get("http://127.0.0.1:5000/CarModel.json").then((response) => {
+      this.carModels = response.data;
     });
-    axios.get("../../../static/data/SellingData.json").then((response) => {
+    axios.post("http://127.0.0.1:5000/SellingData.json").then((response) => {
       this.datas = response.data;
+      console.log(this.datas)
     });
+    // axios.get("../../../static/data/SellingData.json").then((response) => {
+    //   this.datas = response.data;
+    // });
     this.$nextTick(function () {
       this.drawMap();
     });
@@ -254,7 +258,7 @@ export default {
   background-size: 100% 100%;
   position: absolute; */
 
-    background: url("../../assets/img/home-background.png") no-repeat;
+  background: url("../../assets/img/home-background.png") no-repeat;
   background-position: center;
   height: 100%;
   width: 100%;
