@@ -145,6 +145,8 @@ export default {
    
 
      return {
+       //输出信息
+      input: "",
         isCollapse: false,
         pickerOptions: {
           shortcuts: [{
@@ -176,7 +178,51 @@ export default {
   },
 
   methods: {
+     handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
     //注销用户
+    changeData() {
+      this.$prompt("请输入新密码，为6~20位数字+字母", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        //密码格式为6~20位有字母和数字
+        inputPattern: /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{6,20})$/,
+        inputErrorMessage: "密码格式不正确",
+      })
+        .then(({ value }) => {
+          this.$message({
+            type: "success",
+            message: "修改密码成功",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消修改密码",
+          });
+        });
+    }, destoryUser() {
+      this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+  
+
     open() {
       this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -200,8 +246,8 @@ export default {
 };
 </script>
 
-<style scoped>
-#Sale {
+<style >
+/* #Sale {
   
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -209,34 +255,36 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
-.el-header {
-  background-color: #134194;
-  color: #ffffff;
-  line-height: 60px;
-}
-
-html,
-body {
-  margin: 0;
-  height: 100%;
-  width: 100%;
-}
-
-.el-aside {
-  color: #333;
-}
+} */
 #Sale {
-  background: url("./test/home-background.png") no-repeat;
+  background: url("../../assets/img/home-background.png") no-repeat;
   background-position: center;
   height: 100%;
   width: 100%;
-  background-size: cover;
+background-size: cover;
   background-position: top;
+
+}
+html,
+body {
   margin: 0;
-  padding: 0;
+  padding: 0;;
+  height: 100%;
+  width: 100%;
 }
-.el-menu.el-menu--horizontal {
+
+
+
+/* .el-menu.el-menu--horizontal {
   border-bottom: none;
+} */
+.el-header {
+  background-color: transparent;
+  color: #ffffff;
+  line-height: 60px;
 }
+.el-aside {
+  color: #333;
+}
+
 </style>

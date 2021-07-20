@@ -244,7 +244,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #Manager {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -263,7 +263,8 @@ export default {
   color: #333;
 }
 #Manager {
-background: url("./Sale/test/home-background.png") no-repeat;
+  background: url("../assets/img/home-background.png") no-repeat;
+
   background-position: center;
   height: 100%;
   width: 100%;
