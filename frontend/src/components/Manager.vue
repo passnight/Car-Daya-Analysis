@@ -1,5 +1,5 @@
 <template>
-  <div id="Sale" style="display: flex; flex-direction: column">
+  <div id="Manager" style="display: flex; flex-direction: column">
     <el-row style="flex: none; display: flex; height: 60px">
       <div
         style="
@@ -17,7 +17,7 @@
         class="el-menu-demo"
         mode="horizontal"
         router
-        default-active="/sale"
+        default-active="/feedback"
         @select="handleSelect"
         background-color="transparent"
         text-color="#fff"
@@ -25,17 +25,15 @@
         style="flex: auto; display: flex"
       >
         <el-menu-item
-          index="/home"
+          index="/sale"
           style="margin-left: 70px; margin-right: 10px"
-          >主页</el-menu-item
+          >销售分析</el-menu-item
         >
         <el-menu-item index="/feedback">用户反馈</el-menu-item>
         <el-menu-item index="/engineering" style="margin-left: auto"
           >指标分析</el-menu-item
         >
-        <el-menu-item index="/sale" style="margin-right: 40px"
-          >销售分析</el-menu-item
-        >
+        <el-menu-item index="/manager" style="margin-right: 40px">用户管理</el-menu-item>
       </el-menu>
       <div
         style="
@@ -61,11 +59,10 @@
       </div>
     </el-row>
     
-    
-    <el-container style="border: 1px solid #eee; display: flex; flex: auto">
+    <el-container style="height: 500px; border: 1px solid #eee">
       <!-- <el-aside width="200px" style="background-color: #024195"> -->
 
-       <el-menu
+     <el-menu
         style="flex: none"
         :default-openeds="['1', '2']"
         :collapse="isCollapse"
@@ -77,62 +74,70 @@
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-message"></i>
-            <span slot="title">填写销售分析信息</span>
+            <span slot="title">填写用户信息</span>
           </template>
           <el-menu-item-group>
-            <template slot="title">填写A汽车型号</template>
-            <el-input placeholder="请输入汽车型号" v-model="input" clearable>
+            <template slot="title">填写用户名</template>
+            <el-input placeholder="请输入用户名" v-model="input" clearable>
             </el-input>
           </el-menu-item-group>
 
           <el-menu-item-group>
-            <template slot="title">填写B汽车型号</template>
-            <el-input placeholder="请输入汽车型号" v-model="input" clearable>
+            <template slot="title">填写用户密码</template>
+            <el-input placeholder="请输入用户密码" v-model="input" clearable>
             </el-input>
           </el-menu-item-group>
 
           <el-menu-item-group>
-            <template slot="title">选择分析时间区间</template>
-
-            <div class="block">
-    
-    <el-date-picker
-      v-model="value2"
-      type="monthrange"
-      align="right"
-      unlink-panels
-      range-separator="至"
-      start-placeholder="开始月份"
-      end-placeholder="结束月份"
-      :picker-options="pickerOptions">
-    </el-date-picker>
-  </div>
+            <template slot="title">填写新的用户密码</template>
+            <el-input placeholder="请输入新的用户密码" v-model="input" clearable>
+            </el-input>
           </el-menu-item-group>
+
+          
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">
             <i class="el-icon-menu"></i>
             <span slot="title">功能选择</span>
           </template>
-          <el-menu-item-group>
-            <router-link to="/Sale/SaleTime" tag="el-menu-item"
-              >销售趋势分析</router-link
-            >
-            <router-link to="/Sale/SaleNumber" tag="el-menu-item"
-              >销量对比</router-link
-            >
-             <router-link to="/Sale/SalePrice" tag="el-menu-item"
-              >价格对比</router-link
-            >
-             
+          <el-menu-item-group> 
+                   <el-menu-item>
+               <el-button type="text" @click="myadd"> 添加用户信息 </el-button>
+                   </el-menu-item>
+                  <el-menu-item>
+               <el-button type="text" @click="mychange">修改用户信息</el-button>
+                 </el-menu-item>
+                   <el-menu-item>
+               <el-button type="text" @click="mydel">删除目标用户</el-button>
+                 </el-menu-item>
+         
           </el-menu-item-group>
         </el-submenu>
+       
       </el-menu>
       <!-- </el-aside> -->
       <el-container>
-        <router-view> 
-
-        </router-view>
+    <el-main>
+     <el-table
+    :data="tableData"
+    size="medium"
+    :cell-style="cellStyle"
+    :header-cell-style="{
+      color: '#fff',
+      background: 'rgba(78, 131, 211, 0.8)',
+    }"
+    stripe
+    :height="clientHeight - 62 < 370 ? 370 : clientHeight - 62"
+  >
+        <el-table-column prop="date" label="日期" width="140">
+        </el-table-column>
+        <el-table-column prop="name" label="姓名" width="120">
+        </el-table-column>
+        <el-table-column prop="password" label="密码">
+        </el-table-column>
+      </el-table>
+    </el-main>
       </el-container>
     </el-container>
   </div>
@@ -140,69 +145,22 @@
 
 <script>
 export default {
-  name: "Sale",
-  data() {
-   
-
-     return {
-       //输出信息
-      input: "",
-        isCollapse: false,
-        pickerOptions: {
-          shortcuts: [{
-            text: '本月',
-            onClick(picker) {
-              picker.$emit('pick', [new Date(), new Date()]);
-            }
-          }, {
-            text: '今年至今',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date(new Date().getFullYear(), 0);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: '最近六个月',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setMonth(start.getMonth() - 6);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
-        value1: '',
-        value2: ''
  
-     }
-  },
+    data() {
+      const item = {
+        date: '2111-11-11',
+        name: '路人甲',
+        password: '000000'
+      };
+      return {
+         isCollapse: false,
+        tableData: Array(10).fill(item)
+      }
+    },
 
   methods: {
-     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
     //注销用户
-    changeData() {
-      this.$prompt("请输入新密码，为6~20位数字+字母", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        //密码格式为6~20位有字母和数字
-        inputPattern: /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{6,20})$/,
-        inputErrorMessage: "密码格式不正确",
-      })
-        .then(({ value }) => {
-          this.$message({
-            type: "success",
-            message: "修改密码成功",
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "取消修改密码",
-          });
-        });
-    }, destoryUser() {
+    logoff() {
       this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -221,70 +179,99 @@ export default {
           });
         });
     },
-  
+     //添加用户
+    myadd() {
+      this.$confirm("您正在添加一名新的用户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+     //修改用户
+    mychange() {
+      this.$confirm("您正在修改用户的信息, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+     //删除用户
+    mydel() {
+      this.$confirm("您正在删除用户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
 
-    open() {
-      this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
-    },
   },
 };
 </script>
 
 <style scoped>
-/* #Sale {
-  
+#Manager {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-} */
-#Sale {
-  background: url("../../assets/img/home-background.png") no-repeat;
-  background-position: center;
-  height: 100%;
-  width: 100%;
-background-size: cover;
-  background-position: top;
-
 }
-html,
-body {
-  margin: 0;
-  padding: 0;;
-  height: 100%;
-  width: 100%;
-}
-
-
-
-/* .el-menu.el-menu--horizontal {
-  border-bottom: none;
-} */
 .el-header {
-  background-color: transparent;
+  background-color: #134194;
   color: #ffffff;
   line-height: 60px;
 }
+
 .el-aside {
   color: #333;
 }
+#Manager {
+  background: url("../assets/img/home-background.png") no-repeat;
 
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: top;
+
+  margin: 0;
+  padding: 0;
+}
 </style>

@@ -28,22 +28,22 @@
     </el-header>
 
     <el-container>
-      <el-aside id="left_box" width="400px">
+      <el-aside id="left_box" width="250">
         <div>
-          <el-row :gutter="200">
+          <el-row :gutter="130">
             <el-col :span="1">
-              <img src="../../assets/img/car1.jpg" alt="car1" width="190"
+              <img src="../../assets/img/car1.jpg" alt="car1" width="125"
             /></el-col>
             <el-col :span="1"
-              ><img src="../../assets/img/car2.jpg" alt="car2" width="190"
+              ><img src="../../assets/img/car2.jpg" alt="car2" width="125"
             /></el-col>
           </el-row>
-          <el-row :gutter="200">
+          <el-row :gutter="130">
             <el-col :span="1"
-              ><img src="../../assets/img/car3.jpg" alt="car3" width="190"
+              ><img src="../../assets/img/car3.jpg" alt="car3" width="125"
             /></el-col>
             <el-col :span="1"
-              ><img src="../../assets/img/car4.jpg" alt="car4" width="190"
+              ><img src="../../assets/img/car4.jpg" alt="car4" width="125"
             /></el-col>
           </el-row>
         </div>

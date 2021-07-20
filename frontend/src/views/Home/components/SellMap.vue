@@ -12,7 +12,7 @@ import axios from "axios";
 import Vue from "vue";
 
 Vue.component("sale-map",{
-    template: "<div id='chinese_selling_map' style='width: 1000px; height: 700px'></div>"
+    template: "<div id='chinese_selling_map' style='width: 1000px; height: 450px'></div>"
 });
 
 export default {

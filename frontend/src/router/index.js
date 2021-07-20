@@ -43,7 +43,7 @@ Vue.use(Sale)
 Vue.use(SaleNumber)
 Vue.use(SaleTime)
 Vue.use(SalePrice)
-Vue.use(SalePlace)
+//Vue.use(SalePlace)
 
 //
 Vue.use(Home)
@@ -105,12 +105,12 @@ export default new Router({
           name:"SaleNumber",
          component:SaleNumber,
         }
-        ,
-        {
-          path:"SalePlace",
-          name:"SalePlace",
-         component: SalePlace,
-        }
+        //,
+        //{
+        //  path:"SalePlace",
+        //  name:"SalePlace",
+        // component: SalePlace,
+        //}
       ]
       //
     },
