@@ -9,10 +9,14 @@
         export default {
             data(){
                 return {
-                    chartColumn: null
+                    chartColumn: null,
+                    mydata:null
                 }
             },
             mounted() {
+                axios.get("http://127.0.0.1:5000/CarSaleTime.json").then((response) => {
+      this.mydata = response.data;
+    });
                 this.drawLine();
             },
             methods: {
@@ -27,6 +31,8 @@
         trigger: 'axis'
     },
     legend: {
+        //data:this.mydata.AName
+        //data:this.mydata.BName
         data: ['甲车型', '乙车型'],
          textStyle:{
                           
@@ -48,6 +54,7 @@
     xAxis: {
         type: 'category',
         boundaryGap: false,
+        //data:this.mydata.time
         data: ['一月', '二月', '三月', '四月', '五月', '六月']
     },
     yAxis: {
@@ -55,15 +62,19 @@
     },
     series: [
         {
+            //name:this.mydata.AName
             name: '甲车型',
             type: 'line',
             stack: '销售占比',
+            //data:this.mydata.AData
             data: [50, 40, 45, 60, 90, 75, 55]
         },
         {
+             //name:this.mydata.BName
             name: '乙车型',
             type: 'line',
             stack: '销售占比',
+             //data:this.mydata.BData
             data: [32, 23, 54, 45, 32, 67, 43]
         }
     ]
