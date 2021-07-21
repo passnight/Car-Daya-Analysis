@@ -1,5 +1,6 @@
 <template>
-  <el-table
+<div>
+  <!-- <el-table
     :data="tableData"
     size="medium"
     :cell-style="cellStyle"
@@ -13,12 +14,27 @@
     <el-table-column prop="carType" label="认证车主平均油耗(L/100km)" width="250"></el-table-column>
     <el-table-column prop="userComment" label="NEDC综合油耗(L/100km)" width="250"></el-table-column>
     <el-table-column prop="carType" label="实测油耗(L/100km)" width="250"></el-table-column>
-  </el-table>
+  </el-table> -->
+  <div class="fchart">
+    <div class="f1">
+      <f-chart-1 class="fchart1"/>
+    </div>
+    <div class="f2">
+      <f-chart-2 class="fchart2"/>
+    </div>
+  </div>
+</div>
 </template>
 
-<script >
+<script > 
+import FChart1 from './FuelChart/FChart1'
+import FChart2 from './FuelChart/FChart2'
 export default {
-  name: "Brake",
+  name: "Fuel",
+  components: {
+    FChart1,
+    FChart2
+  },
   data() {
     const item = {
       carType: "兰博基尼",
@@ -48,4 +64,12 @@ export default {
 </script>
 
 <style scoped>
+.f1{
+	float: left;
+	width: 650px;
+}
+.f2{
+	float: left;
+	width: 650px;
+}
 </style>

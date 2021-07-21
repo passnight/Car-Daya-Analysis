@@ -1,79 +1,55 @@
 <template>
-  <!--为echarts准备一个具备大小的容器dom-->
-  <div id="main" style="width: 600px;height: 400px;"></div>
+<div class="tchart">
+	<div class="t1">
+		<t-chart-1 class="tchart1"/>
+		<t-chart-2 class="tchart2"/>
+		<t-chart-3 class="tchart3"/>
+	</div>
+	<div class="t2">
+		<t-chart-4 class="tchart4"/>
+		<t-chart-5 class="tchart5"/>
+		<t-chart-6 class="tchart6"/>
+	</div>
+	<div class="t3">
+		<t-chart-7 class="tchart7"/>
+	</div>
+</div>
 </template>
+
 <script>
-  import * as echarts from 'echarts'
-    export default {
-        name: '',
-        data () {
-            return {
-                charts: '',
-                opinion:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎'],
-                opinionData:[
-                  {value:335, name:'直接访问'},
-                  {value:310, name:'邮件营销'},
-                  {value:234, name:'联盟广告'},
-                  {value:135, name:'视频广告'},
-                  {value:1548, name:'搜索引擎'}
-                ]
-            }
-        },
-        methods:{
-            drawPie(id){
-               this.charts = echarts.init(document.getElementById(id))
-               this.charts.setOption({
-                 tooltip: {
-                   trigger: 'item',
-                   formatter: '{a}<br/>{b}:{c} ({d}%)'
-                 },
-                 legend: {
-                   orient: 'vertical',
-                   x: 'left',
-                   data:this.opinion
-                 },
-                 series: [
-                   {
-                     name:'访问来源',
-                     type:'pie',
-                     radius:['50%','70%'],
-                     avoidLabelOverlap: false,
-                     label: {
-                       normal: {
-                         show: false,
-                         position: 'center'
-                       },
-                       emphasis: {
-                         show: true,
-                         textStyle: {
-                           fontSize: '30',
-                           fontWeight: 'blod'
-                         }
-                       }
-                     },
-                     labelLine: {
-                       normal: {
-                         show: false
-                       }
-                     },
-                     data:this.opinionData
-                   }
-                 ]
-               })
-            }
-        },
-      //调用
-        mounted(){
-            this.$nextTick(function() {
-                this.drawPie('main')
-            })
-        }
-    }
+import TChart1 from './TargetChart/TChart1'
+import TChart2 from './TargetChart/TChart2'
+import TChart3 from './TargetChart/TChart3'
+import TChart4 from './TargetChart/TChart4'
+import TChart5 from './TargetChart/TChart5'
+import TChart6 from './TargetChart/TChart6'
+import TChart7 from './TargetChart/TChart7'
+export default {
+	name: 'Target',
+  components: {
+    TChart1,
+	TChart2,
+    TChart3,
+	TChart4,
+	TChart5,
+	TChart6,
+	TChart7
+  }
+}
 </script>
-<style scoped>
-    * {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
+
+<style>
+.t1{
+	float: left;
+	width: 270px;
+}
+.t2{
+	float: left;
+	width: 270px;
+}
+.t3{
+	float: right;
+	width: 600px;
+}
 </style>
+

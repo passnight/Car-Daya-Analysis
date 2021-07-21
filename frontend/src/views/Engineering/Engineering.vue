@@ -68,23 +68,19 @@
             <span slot="title">填写分析信息</span>
           </template>
           <el-menu-item-group>
-            <template slot="title">填写汽车型号</template>
-            <el-input placeholder="请输入汽车型号" v-model="input" clearable>
-            </el-input>
-          </el-menu-item-group>
-          <!-- <el-menu-item-group>
-              <template slot="title">选择查看价位</template>
+            <template slot="title">请选择型号</template>
 
-              下拉框
-              <el-select v-model="value" placeholder="请选择">
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </el-menu-item-group> -->
+            <!--型号绑定-->
+            <el-select v-model="mvalue" placeholder="请选择">
+              <el-option
+                v-for="item in carModels.carModelList"
+                :key="item.mvalue"
+                :label="item.model"
+                :value="item.mvalue"
+              >
+              </el-option>
+            </el-select>
+          </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">
@@ -118,8 +114,17 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: "Engineering",
+  mounted() {
+    axios
+      .get("../../../static/data/CarModel.json")
+      .then((response) => {
+        this.carModels=response.data;
+
+      });
+  },
   data() {
     const item = {
       date: "2016-05-02",
@@ -135,38 +140,11 @@ export default {
       //输出信息
       input: "",
 
-      //下拉框信息
-      options: [
-        {
-          value: "选项1",
-          label: "1万以下",
-        },
-        {
-          value: "选项2",
-          label: "1万到5万",
-        },
-        {
-          value: "选项3",
-          label: "5万到10万",
-        },
-        {
-          value: "选项4",
-          label: "10万到20万",
-        },
-        {
-          value: "选项5",
-          label: "20万到50万",
-        },
-        {
-          value: "选项6",
-          label: "50万到100万",
-        },
-        {
-          value: "选项7",
-          label: "100万以上",
-        },
+      //汽车型号
+      carModels:[
+
       ],
-      value: "",
+      mvalue: "",
     };
   },
   methods: {
