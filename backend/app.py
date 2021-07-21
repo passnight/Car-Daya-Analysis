@@ -57,46 +57,6 @@ def handleCarModelRequest():
     ]
     return json.dumps(carModels)
 
-<<<<<<< HEAD
-
-@app.route("/price.json", methods=["GET", "POST"])
-@cross_origin(supports_credentials=True)
-def handlePriceRequest():
-    price = [
-        {"value": "选项1", "label": "1万以下"},
-        {"value": "选项2", "label": "1万到5万"},
-        {"value": "选项3", "label": "5万到10万"},
-        {"value": "选项4", "label": "10万到20万"},
-        {"value": "选项5", "label": "20万到50万"},
-        {"value": "选项6", "label": "50万到100万"},
-        {"value": "选项7", "label": "100万以上"},
-    ]
-    return json.dumps(price)
-
-
-@app.route("/comment.json", methods=["GET", "POST"])
-@cross_origin(supports_credentials=True)
-def handleCommentRequest():
-    comment = [
-        {"carType": "兰博基尼", "userComment": "不错，挺好"},
-        {"carType": "兰博基尼", "userComment": "不错，挺好"},
-        {"carType": "兰博基尼", "userComment": "不错，挺好"},
-    ]
-    return json.dumps(comment)
-
-
-@app.route("/purchase.json", methods=["GET", "POST"])
-@cross_origin(supports_credentials=True)
-def handlePurchaseRequest():
-    comment = [
-        {"carType": "兰博基尼", "price": "100万以上", "purchaseTarget": "装杯啊"},
-        {"carType": "兰博基尼", "price": "100万以上", "purchaseTarget": "装杯啊"},
-        {"carType": "兰博基尼", "price": "100万以上", "purchaseTarget": "装杯啊"},
-    ]
-    return json.dumps(comment)
-
-
-=======
 @app.route("/FChart1.json", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def handleFChart1Request():
@@ -178,5 +138,4 @@ def handleTChart7Request():
 #         {"Bdata": [32, 23, 54, 45, 32, 67, 43]},
 #     ]
 #     return json.dumps(mydata)
->>>>>>> 12a9c562a3008328ea21dcf321ec278bcce8b77b
 app.run(port="5000")
