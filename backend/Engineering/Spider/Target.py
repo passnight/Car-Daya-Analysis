@@ -11,7 +11,9 @@ import re
 import requests
 import SaleDAO
 
-
+carCount=0
+pageCount=0
+itemCount=0
 
 def trim(string):
     string = string.replace(" ", "")
@@ -41,8 +43,8 @@ writer.writerow(("车型", "配置", "空间", "内饰", "操控",
                 "舒适性", "外观", "性价比", "购买时间", "购买地点"))
 
 #3-7没有经销商
-def getCar(carIndex):
-    url = F"https://k.autohome.com.cn/5273/index_{carIndex}.html#dataList"
+def getCar(webIndex, carIndex):
+    url = F"https://k.autohome.com.cn/{webIndex}/index_{carIndex}.html#dataList"
     session = requests.Session()
     response = session.get(
         url, headers=headers)
@@ -85,44 +87,56 @@ def getCar(carIndex):
             continue
         # 车型爬取
         data["车型"] = trim(rank[0].find("a", target="_blank").text)
+        itemCount = itemCount + 1
         data["配置"] = trim(rank[0].find("span", class_="font-arial").text)
+        itemCount = itemCount + 1
         # 空间爬取
         data["空间"] = trim(rank[6].find("span", class_="font-arial c333").text)
+        itemCount = itemCount + 1
         #内饰
         data["内饰"] = trim(rank[12].find("span", class_="font-arial c333").text)  
+        itemCount = itemCount + 1
         #操控
         data["操控"] = trim(rank[8].find("span", class_="font-arial c333").text)
+        itemCount = itemCount + 1
         #舒适性
         data["舒适性"] = trim(rank[10].find("span", class_="font-arial c333").text)
+        itemCount = itemCount + 1
         #外观
         data["外观"] = trim(rank[11].find("span", class_="font-arial c333").text)
+        itemCount = itemCount + 1
         #性价比
         data["性价比"] = trim(rank[13].find("span", class_="font-arial c333").text)
+        itemCount = itemCount + 1
         #购买时间
         temp = trim(rank[3].find("dd").contents[0])
         temp = temp.replace("年","-")
         temp = temp.replace("月", "-1 0:0:0")
         data["购买时间"] = temp
+        itemCount = itemCount + 1
         #购买地点
         data["购买地点"] = trim(rank[1].find("dd").contents[0])
-        print("one line finished")
+        itemCount = itemCount + 1
+        print(F"page{carCount} is finished")
         # dataList.append(data)
         # writer.writerow(data.values())
         saleDAO = SaleDAO
         saleDAO.insert(data["车型"]+data["配置"], data["购买时间"],data["购买地点"])
+        carCount = carCount + 1
+        itemCount = 0
+        
 
 
-def getAllCar(carNumber):
+def getAllCar(webIndex, carNumber):
     for carIndex in range(1,carNumber,1):
-        getCar(carIndex)
-
+        getCar(webIndex, carIndex)
 
 
 
 
 
 # getAllCar(1)
-getAllCar(179)
+getAllCar(5273, 179)
 print("-------------------------------------------")
 for item in dataList:
     print(item)
