@@ -119,6 +119,7 @@ class TargetSpider:
         file.close()
         html = open(filename, "r").read()
         return html
+        # print(content)
     def logItem(self):
         self.itemCount = self.itemCount + 1
         print(F"item {self.itemCount} is finished")
@@ -194,9 +195,10 @@ class TargetSpider:
         # 用户评价
             data["用户评价"] = self.trimComment(comment.find("div", class_="text-cont").text)
         # insert into database
-            saleDAO.insert(data["车型"], data["购买时间"], data["购买地点"])
-            customerCommentDAO.insert(data["车型"],data["空间"], data["内饰"],data["操控"],data["舒适性"],data["外观"],data["性价比"])
-            purchasingPurposeDAO.insert(data["车型"],data["购车目的"],data["用户评价"])
+            print(data)
+            # saleDAO.insert(data["车型"], data["购买时间"], data["购买地点"])
+            # customerCommentDAO.insert(data["车型"],data["空间"], data["内饰"],data["操控"],data["舒适性"],data["外观"],data["性价比"])
+            # purchasingPurposeDAO.insert(data["车型"],data["购车目的"],data["用户评价"])
         # count
         self.pageCount = self.pageCount + 1
         self.itemCount = 0
@@ -220,8 +222,8 @@ class TargetSpider:
 
 
 targetSpider=TargetSpider()
-# targetSpider.getCar(5273,1)
-targetSpider.startSpider()
+targetSpider.getAllCar(3462, 601)
+#targetSpider.startSpider()
 
 # for item in dataList:
 #     print(item)
