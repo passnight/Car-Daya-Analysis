@@ -29,8 +29,13 @@ class SaleDAO:
         cursor.close()
         db.close()
 
-    def toString(self):
-        print(self.host)
+    def readContent(content):
+        filename = "backend/temp/url.html"
+        file = open(filename, "wb", buffering=1024*1024*4)
+        file.write(content)
+        file.close()
+        html = open(filename, "r").read()
+        return html
 
 
 class TargetSpider:
@@ -40,7 +45,6 @@ class TargetSpider:
     data = {"车型": "", "配置": "", "空间": 0, "内饰": 0, "操控": 0,
             "舒适性": 0, "外观": 0, "性价比": 0, "购买时间": "", "购买地点": ""}
     dataList = []
-    filename = "backend/temp/url.html"
     soupFile = "soup.html"
     headers = {
         "Host": "k.autohome.com.cn",
@@ -57,13 +61,13 @@ class TargetSpider:
         string = string.replace("\n", "")
         return string
 
-    def writeToCSV():
+    def writeToCSV(self):
         outputFile = open("backend/temp/output.csv", "w")
         writer = csv.writer(outputFile)
         writer.writerow(("车型", "配置", "空间", "内饰", "操控",
                          "舒适性", "外观", "性价比", "购买时间", "购买地点"))
 
-    def getCar(webIndex, carIndex):
+    def getCar(self, webIndex, carIndex):
         url = F"https://k.autohome.com.cn/{webIndex}/index_{carIndex}.html#dataList"
         session = requests.Session()
         response = session.get(
@@ -74,10 +78,7 @@ class TargetSpider:
 
         soup = bs4.BeautifulSoup(response.content, 'html.parser')
 
-        file = open(filename, "wb", buffering=1024*1024*4)
-        file.write(response.content)
-        file.close()
-        html = open(filename, "r").read()
+
 
     # print(chardet.detect(html))
         soup = bs4.BeautifulSoup(html)
