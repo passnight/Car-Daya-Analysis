@@ -3,8 +3,8 @@ import pymysql
 import pymysql
 
 # 打开数据库连接
-db = pymysql.connect(host="localhost", user="root",
-                     password="123456", database="car_big_data", charset="utf8")
+db = pymysql.connect(host="rm-bp1at82o2l9uonoizao.mysql.rds.aliyuncs.com", user="root",
+                     password="Password123", database="car_big_data", charset="utf8")
 
 # 使用cursor()方法获取操作游标
 cursor = db.cursor()
