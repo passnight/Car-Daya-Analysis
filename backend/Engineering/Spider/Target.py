@@ -195,10 +195,10 @@ class TargetSpider:
         # 用户评价
             data["用户评价"] = self.trimComment(comment.find("div", class_="text-cont").text)
         # insert into database
-            print(data)
-            # saleDAO.insert(data["车型"], data["购买时间"], data["购买地点"])
-            # customerCommentDAO.insert(data["车型"],data["空间"], data["内饰"],data["操控"],data["舒适性"],data["外观"],data["性价比"])
-            # purchasingPurposeDAO.insert(data["车型"],data["购车目的"],data["用户评价"])
+            # print(data)
+            saleDAO.insert(data["车型"], data["购买时间"], data["购买地点"])
+            customerCommentDAO.insert(data["车型"],data["空间"], data["内饰"],data["操控"],data["舒适性"],data["外观"],data["性价比"])
+            purchasingPurposeDAO.insert(data["车型"],data["购车目的"],data["用户评价"])
         # count
         self.pageCount = self.pageCount + 1
         self.itemCount = 0
