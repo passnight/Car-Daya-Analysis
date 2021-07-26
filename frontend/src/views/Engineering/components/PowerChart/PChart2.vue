@@ -1,16 +1,19 @@
 <template>
+<div class="com-container">
     <div id="pchart2" style="width: 600px;height:400px;" ref="pc2"></div>
+</div>
 </template>
 
 <script>
-  import * as echarts from 'echarts'
+import cdw from "../../../../assets/theme/cdw.json";
+import * as echarts from 'echarts'
 export default {
   name: 'pchart2',
   methods:{
 	  myEcharts(){
 		  // 基于准备好的dom，初始化echarts实例
 		  //var myChart = this.$echarts.init(document.getElementById('chart3'));
-		  var myChart = echarts.init(this.$refs.pc2);
+		  var myChart = echarts.init(this.$refs.pc2,'cdw');
 		  // 指定图表的配置项和数据
 		  var option = {
 			  title: {

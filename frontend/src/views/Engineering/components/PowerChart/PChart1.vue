@@ -1,14 +1,17 @@
 <template>
+<div class="com-container">
     <div id="pchart1" style="width: 600px;height:400px;" ref="pc1"></div>
+</div>
 </template>
 
 <script>
-  import * as echarts from 'echarts'
+import cdw from "../../../../assets/theme/cdw.json";
+import * as echarts from 'echarts'
 export default {
     name: 'pchart1',
     methods:{
       drawPie() {
-          var charts = echarts.init(this.$refs.pc1);
+          var charts = echarts.init(this.$refs.pc1,'cdw');
           var option = {
                     title: {
                         text: "动力分析",
@@ -85,5 +88,11 @@ export default {
 </script>
 
 <style>
-
+.com-container {
+    z-index: 999;
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    cursor: pointer;
+}
 </style>

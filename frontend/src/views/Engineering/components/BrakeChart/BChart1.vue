@@ -1,16 +1,16 @@
 <template>
-    <div id="chart4" style="width: 600px;height:400px;" ref="c4"></div>
+    <div id="bchart1" style="width: 600px;height:400px;" ref="bc1"></div>
 </template>
 
 <script>
   import * as echarts from 'echarts'
 export default {
-  name: 'chart4',
+  name: 'bchart1',
   methods:{
 	  myEcharts(){
 		  // 基于准备好的dom，初始化echarts实例
 		  //var myChart = this.$echarts.init(document.getElementById('chart3'));
-		  var myChart = echarts.init(this.$refs.c4);
+		  var myChart = echarts.init(this.$refs.bc1);
 		  // 指定图表的配置项和数据
 		var option = {
 		series: [{

@@ -39,17 +39,26 @@ export default {
 </script>
 
 <style>
+.tchart{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  margin-top: 10px;
+}
 .t1{
-	float: left;
-	width: 270px;
+	height: 100%;
+	width: 27.6%;
+	position: relative;
 }
 .t2{
-	float: left;
-	width: 270px;
+	height: 100%;
+	width: 27.6%;
+	position: relative;
 }
 .t3{
-	float: right;
-	width: 600px;
+	height: 100%;
+	width: 41.5%;
+	position: relative;
 }
 </style>
 
