@@ -1,38 +1,75 @@
 <template>
-  <div id="app">
-    <el-row>
-    
-      <el-col style="height: 60px">
-
-        <el-header style="text-align: right; font-size: 12px">
-          
-          <el-dropdown>
-            <i
-              class="el-icon-setting"
-              style="margin-right: 15px; color: #ffffff"
-            ></i>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>修改密码</el-dropdown-item>
-              <el-button @click="logoff">注销用户</el-button>
-            </el-dropdown-menu>
-          </el-dropdown>
-          <span>王小虎</span>
-        </el-header>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-button style="color = transprant" @click="isCollapse = !isCollapse"
-        ><i class="el-icon-s-fold"></i
+  <div id="Manager" style="display: flex; flex-direction: column">
+    <el-row style="flex: none; display: flex; height: 60px">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          margin-left: 10px;
+          flex: none;
+        "
       >
-      </el-button>
+        <el-button stytle="color = #719cdc" @click="isCollapse = !isCollapse">
+          <i class="el-icon-s-fold"></i>
+        </el-button>
+      </div>
+      <el-menu
+        class="el-menu-demo"
+        mode="horizontal"
+        router
+        default-active="/feedback"
+        @select="handleSelect"
+        background-color="transparent"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+        style="flex: auto; display: flex"
+      >
+        <el-menu-item
+          index="/sale"
+          style="margin-left: 70px; margin-right: 10px"
+          >销售分析</el-menu-item
+        >
+        <el-menu-item index="/feedback">用户反馈</el-menu-item>
+        <el-menu-item index="/engineering" style="margin-left: auto"
+          >指标分析</el-menu-item
+        >
+        <el-menu-item index="/manager" style="margin-right: 40px">用户管理</el-menu-item>
+      </el-menu>
+      <div
+        style="
+          margin-left: auto;
+          display: flex;
+          align-items: center;
+          margin-right: 10px;
+          flex: none;
+        "
+      >
+        <el-dropdown>
+          <i
+            class="el-icon-setting"
+            style="margin-right: 10px; color: #ffffff"
+          ></i>
+          <el-dropdown-menu slot="dropdown">
+            <el-button @click="changeData">修改密码</el-button>
+            <el-button @click="destoryUser">注销用户</el-button>
+          </el-dropdown-menu>
+        </el-dropdown>
+
+        <span style="color: white"> 王小虎 </span>
+      </div>
     </el-row>
+    
     <el-container style="height: 500px; border: 1px solid #eee">
       <!-- <el-aside width="200px" style="background-color: #024195"> -->
 
-      <el-menu
+     <el-menu
+        style="flex: none"
         :default-openeds="['1', '2']"
         :collapse="isCollapse"
         :collapse-transition="false"
+        background-color="rgba(35,81,162,0.5)"
+        text-color="#fff"
+        active-text-color="white"
       >
         <el-submenu index="1">
           <template slot="title">
@@ -82,7 +119,17 @@
       <!-- </el-aside> -->
       <el-container>
     <el-main>
-      <el-table :data="tableData">
+     <el-table
+    :data="tableData"
+    size="medium"
+    :cell-style="cellStyle"
+    :header-cell-style="{
+      color: '#fff',
+      background: 'rgba(78, 131, 211, 0.8)',
+    }"
+    stripe
+    :height="clientHeight - 62 < 370 ? 370 : clientHeight - 62"
+  >
         <el-table-column prop="date" label="日期" width="140">
         </el-table-column>
         <el-table-column prop="name" label="姓名" width="120">
@@ -198,7 +245,7 @@ export default {
 </script>
 
 <style>
-#app {
+#Manager {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -215,7 +262,14 @@ export default {
 .el-aside {
   color: #333;
 }
-#app {
+#Manager {
+background: url("./Sale/test/home-background.png") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: top;
+
   margin: 0;
   padding: 0;
 }
