@@ -20,12 +20,12 @@ class SaleDAO:
     charset = "utf8"
     database = "car_big_data"
 
-    def insert(self, carModel, saleDatetime, saleRegion):
+    def insert(self, carModel, saleDatetime, saleRegion, salePrice):
         db = pymysql.connect(host=self.host, user=self.user,
                              password=self.password, database=self.database, charset=self.charset)
         cursor = db.cursor()
         cursor.execute(
-            F"INSERT INTO `basic_sale_info_table` (`car_model`, `sale_datetime`, `sale_region`) VALUES ('{carModel}', '{saleDatetime}', '{saleRegion}')")
+            F"INSERT INTO `basic_sale_info_table` (`car_model`, `sale_datetime`, `sale_region`, `sale_price`) VALUES ('{carModel}', '{saleDatetime}', '{saleRegion}', {salePrice})")
         db.commit()
         cursor.close()
         db.close()
@@ -75,7 +75,7 @@ class TargetSpider:
     carCount = 0
     pageCount = 0
     itemCount = 0
-    data = {"车型": "", "配置": "", "空间": 0, "内饰": 0, "操控": 0,
+    data = {"车型": "","价格":0, "配置": "", "空间": 0, "内饰": 0, "操控": 0,
             "舒适性": 0, "外观": 0, "性价比": 0, "购买时间": "", "购买地点":"", "购车目的":[],"用户评价":""}
     dataList = []
     soupFile = "soup.html"
@@ -138,7 +138,7 @@ class TargetSpider:
         for comment in comments:
             rank = bs4.BeautifulSoup(
                 comment.prettify()).find_all(class_="choose-dl")
-            data = {"车型": "", "配置": "", "空间": 0, "内饰": 0, "操控": 0,
+            data = {"车型": "","价格":0, "配置": "", "空间": 0, "内饰": 0, "操控": 0,
                     "舒适性": 0, "外观": 0, "性价比": 0, "购买时间": "", "购买地点": "", "购车目的": [], "用户评价": ""}
             try:
                 rank[14]
@@ -148,7 +148,11 @@ class TargetSpider:
         # 车型爬取
             data["车型"] = self.trim(rank[0].find("a", target="_blank").text)
             self.logItem()
+        #配置爬取
             data["配置"] = self.trim(rank[0].find("span", class_="font-arial").text)
+            self.logItem()
+        #价格爬取
+            data["价格"] =float(self.trim(rank[4].find("dd", class_="font-arial bg-blue").text).replace("万元",""))*10000
             self.logItem()
         # 空间爬取
             data["空间"] = self.trim(rank[6].find(
@@ -196,7 +200,7 @@ class TargetSpider:
             data["用户评价"] = self.trimComment(comment.find("div", class_="text-cont").text)
         # insert into database
             # print(data)
-            saleDAO.insert(data["车型"], data["购买时间"], data["购买地点"])
+            saleDAO.insert(data["车型"], data["购买时间"], data["购买地点"],data["价格"])
             customerCommentDAO.insert(data["车型"],data["空间"], data["内饰"],data["操控"],data["舒适性"],data["外观"],data["性价比"])
             purchasingPurposeDAO.insert(data["车型"],data["购车目的"],data["用户评价"])
         # count
