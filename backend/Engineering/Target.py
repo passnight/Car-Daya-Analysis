@@ -29,8 +29,20 @@ class SaleDAO:
         db.commit()
         cursor.close()
         db.close()
-
-
+    def insert(self, dataList):
+        db = pymysql.connect(host=self.host, user=self.user,
+                             password=self.password, database=self.database, charset=self.charset)
+        cursor = db.cursor()
+        for item in dataList:
+            carModel = item["车型"]
+            saleDatetime = item["购买时间"]
+            saleRegion = item["购买地点"]
+            salePrice = item["价格"]
+            cursor.execute(
+                F"INSERT INTO `basic_sale_info_table` (`car_model`, `sale_datetime`, `sale_region`, `sale_price`) VALUES ('{carModel}', '{saleDatetime}', '{saleRegion}', {salePrice})")
+        db.commit()
+        cursor.close()
+        db.close()       
 
 class CustomerCommentDAO:
     host = "rm-bp1at82o2l9uonoizao.mysql.rds.aliyuncs.com"
@@ -48,8 +60,23 @@ class CustomerCommentDAO:
         db.commit()
         cursor.close()
         db.close()
-
-
+    def insert(self, dataList):
+        db = pymysql.connect(host=self.host, user=self.user,
+                             password=self.password, database=self.database, charset=self.charset)
+        cursor = db.cursor()
+        for item in dataList:
+            carModel = item["车型"]
+            carSpace = item["空间"]
+            carDecoration = item["内饰"]
+            carControl = item["操控"]
+            carConfortableness = item["舒适性"]
+            carAppearance = item["外观"]
+            carValueForMoney = item["性价比"]
+            cursor.execute(
+                F"INSERT INTO `customer_comment_table` (`car_model`, `car_space`, `car_decoration`, `car_control`, `car_confortableness`, `car_appearance`, `car_value_for_money`) VALUES('{carModel}', '{carSpace}', '{carDecoration}', '{carControl}', '{carConfortableness}', '{carAppearance}', '{carValueForMoney}')")
+        db.commit()
+        cursor.close()
+        db.close()
 
 class PurchasingPurposeDAO:
     host = "rm-bp1at82o2l9uonoizao.mysql.rds.aliyuncs.com"
@@ -67,6 +94,21 @@ class PurchasingPurposeDAO:
         db.commit()
         cursor.close()
         db.close()
+
+    def insert(self, dataList):
+        db = pymysql.connect(host=self.host, user=self.user,
+                             password=self.password, database=self.database, charset=self.charset)
+        cursor = db.cursor()
+        for item in dataList:
+             carModel = item["车型"]
+             purchasePurpose = item["购车目的"]
+             comment = item["用户评价"]
+        cursor.execute(
+            F"INSERT INTO `purchasing_purpose_table` (`car_model`, `purchase_purpose`, `comment`) VALUES ('{carModel}', '{purchasePurpose}', '{comment}');")
+        db.commit()
+        cursor.close()
+        db.close()
+    
 
 purchasingPurposeDAO = PurchasingPurposeDAO()
 saleDAO = SaleDAO()
@@ -199,7 +241,8 @@ class TargetSpider:
         # 用户评价
             data["用户评价"] = self.trimComment(comment.find("div", class_="text-cont").text)
         # insert into database
-            # print(data)
+            self.dataList.append(data)
+            print(data)
             saleDAO.insert(data["车型"], data["购买时间"], data["购买地点"],data["价格"])
             customerCommentDAO.insert(data["车型"],data["空间"], data["内饰"],data["操控"],data["舒适性"],data["外观"],data["性价比"])
             purchasingPurposeDAO.insert(data["车型"],data["购车目的"],data["用户评价"])
@@ -212,16 +255,21 @@ class TargetSpider:
     def getAllCar(self, webIndex, carNumber):
         for pageIndex in range(1, carNumber, 1):
             self.getCar(webIndex, pageIndex)
-            self.carCount = self.carCount+1
+        self.pageCount = 0
+        self.carCount = self.carCount+1
         print("-------------------------------------------")
         print(F"car {self.carCount} is finished")
+        print("uploading to database")
+        # saleDAO.insert(self.dataList)
+        # customerCommentDAO.insert(self.dataList)
+        # purchasingPurposeDAO.insert(self.dataList)
+        # self.dataList = []
 
     def startSpider(self):
         with open('backend/data/temp.json', 'r', encoding='utf8')as fp:
             webList = json.load(fp)
             for webItem in webList:
                 self.getAllCar(webItem["index"], webItem["number"])
-                self.carCount = 0
                 
 
 
