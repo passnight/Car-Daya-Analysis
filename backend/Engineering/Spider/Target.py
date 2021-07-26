@@ -222,8 +222,8 @@ class TargetSpider:
 
 
 targetSpider=TargetSpider()
-targetSpider.getAllCar(3462, 601)
-#targetSpider.startSpider()
+# targetSpider.getAllCar(3462, 601)
+targetSpider.startSpider()
 
 # for item in dataList:
 #     print(item)
