@@ -131,24 +131,25 @@ class PurchasingPurposeDAO:
         db = pymysql.connect(host=self.host, user=self.user,
                              password=self.password, database=self.database, charset=self.charset)
         cursor = db.cursor()
+        carType="有限制"
         if carModel != "无限制":
-            if priceLevel == 1:
+            if priceLevel == "选项1":
                 cursor.execute(
                         F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 0 and 10000 and car_model = '{carModel}'")
-                priceLevelName = "1万一下"
-            elif priceLevel == 2:
+                priceLevelName = "1万以下"
+            elif priceLevel == "选项2":
                 cursor.execute(
                         F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 10000 and 50000 and car_model = '{carModel}'")
                 priceLevelName = "1万到5万"
-            elif priceLevel == 3:
+            elif priceLevel == "选项3":
                 cursor.execute(
                         F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 50000 and 100000 and car_model = '{carModel}'")
                 priceLevelName = "5万到10万"
-            elif priceLevel == 4:
+            elif priceLevel == "选项4":
                 cursor.execute(
                         F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 100000 and 200000 and car_model = '{carModel}'")
                 priceLevelName = "10万到20万"
-            elif priceLevel == 5:
+            elif priceLevel == "选项5":
                 cursor.execute(
                         F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price > 200000 and car_model = '{carModel}'")
                 priceLevelName = "20万以上"
@@ -158,30 +159,30 @@ class PurchasingPurposeDAO:
                 priceLevelName = "无限制"
         else:
             carType = "无限制"
-            if priceLevel == 1:
+            if priceLevel == "选项1":
                 cursor.execute(
                         F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 0 and 10000")
-                priceLevelName = "1万一下"
-            elif priceLevel == 2:
+                priceLevelName = "1万以下"
+            elif priceLevel == "选项2":
                 cursor.execute(
                         F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 10000 and 50000")
                 priceLevelName = "1万到5万"
-            elif priceLevel == 3:
+            elif priceLevel == "选项3":
                 cursor.execute(
                         F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 50000 and 100000")
                 priceLevelName = "5万到10万"
-            elif priceLevel == 4:
+            elif priceLevel == "选项4":
                 cursor.execute(
                         F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 100000 and 200000")
                 priceLevelName = "10万到20万"
-            elif priceLevel == 5:
+            elif priceLevel == "选项5":
                 cursor.execute(
                         F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price > 200000")
-                priceLevelName = "20万以上"
+                priceLevelName = "无限制"
             else:
                 cursor.execute(
                         F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where car_model = '{carModel}'")
-                priceLevelName = "无限制"
+                priceLevelName = "选项0"
         datas = cursor.fetchall()
         purposes = []
         for item in datas:

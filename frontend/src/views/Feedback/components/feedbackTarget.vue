@@ -46,7 +46,7 @@ export default {
       this.clientHeight = document.body.clientHeight;
       this.clientWidth = document.body.clientWidth;
     };
-    axios.get("http://127.0.0.1:5000/purchase.json").then((response) => {
+    axios.get("http://127.0.0.1:5000/Feedback/Purpose.json").then((response) => {
       console.log(response.data);
       this.tableData = response.data;
     });

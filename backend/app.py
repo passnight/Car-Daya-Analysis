@@ -72,7 +72,7 @@ def handleFeedbackCarModelRequest():
 def handlePriceRequest():
     price = [
         {"value": "选项0", "label": "无限制"},
-        {"value": "选项1", "label": "1万一下"},
+        {"value": "选项1", "label": "1万以下"},
         {"value": "选项2", "label": "1万到5万"},
         {"value": "选项3", "label": "5万到10万"},
         {"value": "选项4", "label": "10万到20万"},
@@ -86,11 +86,22 @@ def handlePriceRequest():
 def handleCommentRequest():
     global feedbackSelectModel
     global feedbackSelectPriceLevel
-    print(F"get comment about {feedbackSelectModel} and start loading data")
+    print(F"get comment about {feedbackSelectModel}")
     # comment = [{"carType": "userComment", "userComment": "userComment"}]
     comment = target.purchasingPurposeDAO.getAllPurchasingcomment(feedbackSelectModel)
     return json.dumps(comment)
 
+
+@app.route("/Feedback/Purpose.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handlePurposeRequest():
+    global feedbackSelectModel
+    global feedbackSelectPriceLevel
+    print(
+        F"get purpose about {feedbackSelectModel} and price in {feedbackSelectPriceLevel}")
+    # comment = [{"carType": "userComment", "userComment": "userComment"}]
+    comment = target.purchasingPurposeDAO.getAllPurchasingPurpose(feedbackSelectModel, feedbackSelectPriceLevel)
+    return json.dumps(comment)
 
 @app.route("/Feedback/SendParameter", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
@@ -169,15 +180,17 @@ def handleTChart7Request():
 
 
 
-@app.route("/purchase.json", methods=["GET", "POST"])
-@cross_origin(supports_credentials=True)
-def handlePurchaseRequest():
-    comment = [
-        {"carType": "兰博基尼", "price": "1万以上", "purchaseTarget": "装杯啊"},
-        {"carType": "兰博基尼", "price": "1万以上", "purchaseTarget": "装杯啊"},
-        {"carType": "兰博基尼", "price": "1万以上", "purchaseTarget": "装杯啊"},
-    ]
-    return json.dumps(comment)
+# @app.route("/purchase.json", methods=["GET", "POST"])
+# @cross_origin(supports_credentials=True)
+# def handlePurchaseRequest():
+#     comment = [
+#         {"carType": "兰博基尼", "price": "1万以上", "purchaseTarget": "装杯啊"},
+#         {"carType": "兰博基尼", "price": "1万以上", "purchaseTarget": "装杯啊"},
+#         {"carType": "兰博基尼", "price": "1万以上", "purchaseTarget": "装杯啊"},
+#     ]
+#     return json.dumps(comment)
+
+
 # @app.route("/carSlaePrice.json", methods=["GET", "POST"])
 # @cross_origin(supports_credentials=True)
 # def handleCarSalePriceRequest():
@@ -189,8 +202,6 @@ def handlePurchaseRequest():
 #         {"BData": [220, 182, 191, 234, 290, 330, 310]},
 #     ]
 #     return json.dumps(mydata)
-
-
 # @app.route("/carSaleNumber.json", methods=["GET", "POST"])
 # @cross_origin(supports_credentials=True)
 # def handleCarSaleNumberRequest():
@@ -202,10 +213,7 @@ def handlePurchaseRequest():
 #         {"BData": [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]},
 #         {"totalData": [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]}
 #     ]
-
 #     return json.dumps(mydata)
-
-
 # @app.route("/carSaleTime.json", methods=["GET", "POST"])
 # @cross_origin(supports_credentials=True)
 # def handleCarSaleTimeRequest():
@@ -217,6 +225,5 @@ def handlePurchaseRequest():
 #         {"Bdata": [32, 23, 54, 45, 32, 67, 43]},
 #     ]
 #     return json.dumps(mydata)
-
 app.run(port="5000")
-# print(target.purchasingPurposeDAO.getAllPurchasingcomment("无限制"))
+# print(target.purchasingPurposeDAO.getAllPurchasingPurpose("星瑞", "选项4"))
