@@ -3,27 +3,23 @@
 </template>
 
 <script>
+import cdw from "../../../../assets/theme/cdw.json";
 import * as echarts from "echarts";
 import axios from "axios";
 export default {
   data() {
     return {
-      tChart7: [1,2,3]
+      tChart7: null
     };
   },
   name: "tchart7",
   methods: {
-    async getCarSellingData () {
-      await axios.post("http://127.0.0.1:5000/TChart7.json").then((response) => {
-      console.log("origin:", this.tChart7);
-      this.tChart7 = response.data;
-      console.log("after:", this.tChart7);
-    });
-    },
     myEcharts() {
       // 基于准备好的dom，初始化echarts实例
+      let obj = cdw;
+      echarts.registerTheme('cdw', obj)
       //var myChart = this.$echarts.init(document.getElementById('chart3'));
-      var myChart = echarts.init(this.$refs.tc7);
+      var myChart = echarts.init(this.$refs.tc7,'cdw');
       // 指定图表的配置项和数据
       var option = {
         title: {
@@ -49,7 +45,7 @@ export default {
           {
             name: "百分比",
             type: "bar",
-            data: this.tChart7,
+            data: [],
             showBackground: true,
             backgroundStyle: {
               color: "rgba(180, 180, 180, 0.2)",
@@ -60,9 +56,15 @@ export default {
       };
 
       // 使用刚指定的配置项和数据显示图表。
-      console.log("before draw:", this.tChart7);
       myChart.setOption(option);
-      console.log("after draw", this.tChart7);
+      axios.post("http://127.0.0.1:5000/TChart7.json").then((response) => {
+        this.tChart7 = response.data;
+        myChart.setOption({  //动画的配置
+                        series: [{
+                        data: this.tChart7 //这里数据是一个数组的形似
+                        }]
+                    })
+      });
     },
   },
   mounted() {

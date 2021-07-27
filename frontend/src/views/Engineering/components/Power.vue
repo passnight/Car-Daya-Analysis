@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="screen-body">
   <!-- <el-table
     :data="tableData"
     size="medium"
@@ -11,20 +11,20 @@
     stripe
     :height="clientHeight - 62 < 370 ? 370 : clientHeight - 62"
   >
-    <el-table-column prop="carType" label="最大功率(KW)" width="120"></el-table-column>
+    <el-table-column prop="carType" label="最大功率(KW)" width="120"></el-table-column> 
     <el-table-column prop="userComment" label="最大扭矩(N-m)" width="150"></el-table-column>
     <el-table-column prop="carType" label="最高车速(km/h)" width="150"></el-table-column>
     <el-table-column prop="carType" label="官方0-100km/h加速(s)" width="200"></el-table-column>
     <el-table-column prop="carType" label="最大马力(Ps)" width="120"></el-table-column>
   </el-table> -->
-  <div class="pchart">
-    <div class="p1">
+  <section class="screen-top">
+    <div id="left-top">
       <p-chart-1 class="pchart1"/>
     </div>
-    <div class="p2">
+    <div id="right-top">
       <p-chart-2 class="pchart2"/>
     </div>
-  </div>
+  </section>
 </div>
 </template>
 
@@ -66,12 +66,30 @@ export default {
 </script>
 
 <style scoped>
-.p1{
+.screen-body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  margin-top: 10px;
+}
+  .screen-top {
+    height: 60%;
+    width: 100%;}
+    .left-top {
+      height: 53%;
+      position: relative;
+    }
+    .right-top {
+      height: 53%;
+      position: relative;
+    }
+
+/* .p1{
 	float: left;
 	width: 650px;
 }
 .p2{
 	float: left;
 	width: 650px;
-}
+} */
 </style>
