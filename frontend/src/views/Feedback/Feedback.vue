@@ -80,12 +80,12 @@
             <template slot="title">请选择型号</template>
 
             <!--型号绑定-->
-            <el-select v-model="mvalue" placeholder="请选择">
+            <el-select v-model="chooseModel" placeholder="请选择" @change="sendParameter">
               <el-option
                 v-for="item in this.carModels"
-                :key="item.mvalue"
+                :key="item.model"
                 :label="item.model"
-                :value="item.mvalue"
+                :value="item.model"
               >
               </el-option>
             </el-select>
@@ -94,7 +94,7 @@
             <template slot="title">选择查看价位</template>
 
             <!--下拉框-->
-            <el-select v-model="value" placeholder="请选择">
+            <el-select v-model="priceLevel" placeholder="请选择" @change="sendParameter">
               <el-option
                 v-for="item in this.options"
                 :key="item.value"
@@ -111,7 +111,9 @@
             <span slot="title">功能选择</span>
           </template>
           <el-menu-item-group>
-            <router-link to="/feedback/feedbackTarget" tag="el-menu-item"
+            <router-link
+              to="/feedback/feedbackTarget"
+              tag="el-menu-item"
               >购车目的</router-link
             >
             <router-link to="/feedback/feedbackComment" tag="el-menu-item"
@@ -135,11 +137,14 @@ export default {
   name: "Feedback",
 
   mounted() {
-    axios.get("http://127.0.0.1:5000/CarModel.json").then((response) => {
-      this.carModels = response.data;
-    });
-    axios.get("http://127.0.0.1:5000/price.json").then((response) => {
-      console.log(response.data);
+    this.chooseModel = "无限制";
+    this.priceLevel = "无限制";
+    axios
+      .get("http://127.0.0.1:5000/Feedback/CarModel.json")
+      .then((response) => {
+        this.carModels = response.data;
+      });
+    axios.get("http://127.0.0.1:5000/Feedback/price.json").then((response) => {
       this.options = response.data;
     });
   },
@@ -171,16 +176,26 @@ export default {
         {
           value: "选项4",
           label: "10万到20万",
-        }
+        },
       ],
       //汽车型号
       carModels: [],
-      value: "",
-      mvalue: "",
+      priceLevel: "无限制",
+      chooseModel: "无限制",
     };
   },
 
   methods: {
+    sendParameter(){
+    let dataForm = new FormData();
+    dataForm.append("priceLevel", this.priceLevel);
+    dataForm.append("chooseModel", this.chooseModel);
+    axios
+      .post("http://127.0.0.1:5000/Feedback/SendParameter", dataForm)
+      .then((response) => {
+        this.tableData = response.data;
+      });
+    },
     //注销用户
     destoryUser() {
       this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {

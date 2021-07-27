@@ -2,6 +2,20 @@ from flask import Flask, request
 from flask_cors import cross_origin, CORS
 import json
 
+
+import os
+import sys
+
+
+global feedbackSelectModel
+global feedbackSelectPriceLevel
+feedbackSelectModel = "无限制"
+feedbackSelectPriceLevel = "选项0"
+current_dir = os.path.dirname(os.path.abspath(__file__))
+# 将需要导入模块代码文件相对于当前文件目录的绝对路径加入到sys.path中
+sys.path.append(os.path.join(current_dir, ".."))
+from backend.Engineering import Target as target
+
 app = Flask(__name__, static_folder="http", static_url_path="/pages")
 CORS(app, supports_credentials=True)
 
@@ -43,6 +57,55 @@ def handleSellingDataRequest():
         {"name": "河北省", "value": 25000},
     ]
     return json.dumps(sellingData)
+
+
+@app.route("/Feedback/CarModel.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleFeedbackCarModelRequest():
+    carModelList = target.saleDAO.getAllCarModel()
+    carModels = [{"model": "无限制"}]
+    for item in carModelList:
+        carModels.append({"model": item})
+    return json.dumps(carModels)
+@app.route("/Feedback/price.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handlePriceRequest():
+    price = [
+        {"value": "选项0", "label": "无限制"},
+        {"value": "选项1", "label": "1万一下"},
+        {"value": "选项2", "label": "1万到5万"},
+        {"value": "选项3", "label": "5万到10万"},
+        {"value": "选项4", "label": "10万到20万"},
+        {"value": "选项5", "label": "20万以上"},
+    ]
+    return json.dumps(price)
+
+
+@app.route("/Feedback/Comment.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleCommentRequest():
+    global feedbackSelectModel
+    global feedbackSelectPriceLevel
+    print(F"get comment about {feedbackSelectModel} and start loading data")
+    # comment = [{"carType": "userComment", "userComment": "userComment"}]
+    comment = target.purchasingPurposeDAO.getAllPurchasingcomment(feedbackSelectModel)
+    return json.dumps(comment)
+
+
+@app.route("/Feedback/SendParameter", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleSendParameter():
+    dataForm = request.form
+    global feedbackSelectModel
+    global feedbackSelectPriceLevel
+    feedbackSelectModel = dataForm["chooseModel"]
+    feedbackSelectPriceLevel = dataForm["priceLevel"]
+    print(
+        F"now feedbackSelectModel is set to {feedbackSelectModel}, and feedbackSelectPriceLevel is set to {feedbackSelectPriceLevel}")
+    return json.dumps(dataForm)
+
+
+
 
 
 @app.route("/CarModel.json", methods=["GET", "POST"])
@@ -100,39 +163,19 @@ def handleTChart7Request():
     return json.dumps(data)
 
 
-@app.route("/price.json", methods=["GET", "POST"])
-@cross_origin(supports_credentials=True)
-def handlePriceRequest():
-    price = [
-        {"value": "选项1", "label": "1万以下"},
-        {"value": "选项2", "label": "1万到5万"},
-        {"value": "选项3", "label": "5万到10万"},
-        {"value": "选项4", "label": "10万到20万"},
-        {"value": "选项5", "label": "20万到50万"},
-        {"value": "选项6", "label": "50万到100万"},
-        {"value": "选项7", "label": "100万以上"},
-    ]
-    return json.dumps(price)
 
 
-@app.route("/comment.json", methods=["GET", "POST"])
-@cross_origin(supports_credentials=True)
-def handleCommentRequest():
-    comment = [
-        {"carType": "兰博基尼", "userComment": "不错，挺好"},
-        {"carType": "兰博基尼", "userComment": "不错，挺好"},
-        {"carType": "兰博基尼", "userComment": "不错，挺好"},
-    ]
-    return json.dumps(comment)
+
+
 
 
 @app.route("/purchase.json", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def handlePurchaseRequest():
     comment = [
-        {"carType": "兰博基尼", "price": "100万以上", "purchaseTarget": "装杯啊"},
-        {"carType": "兰博基尼", "price": "100万以上", "purchaseTarget": "装杯啊"},
-        {"carType": "兰博基尼", "price": "100万以上", "purchaseTarget": "装杯啊"},
+        {"carType": "兰博基尼", "price": "1万以上", "purchaseTarget": "装杯啊"},
+        {"carType": "兰博基尼", "price": "1万以上", "purchaseTarget": "装杯啊"},
+        {"carType": "兰博基尼", "price": "1万以上", "purchaseTarget": "装杯啊"},
     ]
     return json.dumps(comment)
 # @app.route("/carSlaePrice.json", methods=["GET", "POST"])
@@ -174,4 +217,6 @@ def handlePurchaseRequest():
 #         {"Bdata": [32, 23, 54, 45, 32, 67, 43]},
 #     ]
 #     return json.dumps(mydata)
+
 app.run(port="5000")
+# print(target.purchasingPurposeDAO.getAllPurchasingcomment("无限制"))

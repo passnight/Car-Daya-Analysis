@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.min.js"></script>
+    <title>my first vue program</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <span v-bind:style="binding_message">{{real_message}}</span>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                binding_message: "color:red",
+                real_message: "hello world"
+            }
+        })
+    </script>
+
+</body>
+
+</html>

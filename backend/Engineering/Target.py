@@ -1,13 +1,8 @@
 
 from io import BytesIO, StringIO
 from bs4 import builder
-import chardet
-import os
-import time
-import codecs
 import csv
 import bs4
-import re
 import requests
 import pymysql
 import json
@@ -42,7 +37,20 @@ class SaleDAO:
                 F"INSERT INTO `basic_sale_info_table` (`car_model`, `sale_datetime`, `sale_region`, `sale_price`) VALUES ('{carModel}', '{saleDatetime}', '{saleRegion}', {salePrice})")
         db.commit()
         cursor.close()
-        db.close()       
+        db.close()  
+    def getAllCarModel(self):
+        db = pymysql.connect(host=self.host, user=self.user,
+                             password=self.password, database=self.database, charset=self.charset)
+        cursor = db.cursor()
+        cursor.execute("select distinct car_model from basic_sale_info_table ")
+        carModelTuple = cursor.fetchall()
+        carModelList = []
+        for item in carModelTuple:
+            carModelList.append(item[0])
+        cursor.close()
+        db.close()
+        return carModelList
+         
 
 class CustomerCommentDAO:
     host = "rm-bp1at82o2l9uonoizao.mysql.rds.aliyuncs.com"
@@ -77,7 +85,18 @@ class CustomerCommentDAO:
         db.commit()
         cursor.close()
         db.close()
-
+    def getAllComment(self, carModel):
+        db = pymysql.connect(host=self.host, user=self.user,
+                             password=self.password, database=self.database, charset=self.charset)
+        cursor = db.cursor()
+        cursor.execute(F"SELECT avg(car_space), avg(car_decoration), avg(car_control), avg(car_confortableness), avg(car_appearance), avg(car_value_for_money) from customer_comment_table where car_model='{carModel}'")
+        comment = []
+        commentList = cursor.fetchall()
+        for item in commentList[0]:
+            comment.append(int(item * 20))
+        cursor.close()
+        db.close()
+        return comment
 class PurchasingPurposeDAO:
     host = "rm-bp1at82o2l9uonoizao.mysql.rds.aliyuncs.com"
     user = "root"
@@ -108,6 +127,100 @@ class PurchasingPurposeDAO:
         db.commit()
         cursor.close()
         db.close()
+    def getAllPurchasingPurpose(self, carModel, priceLevel):
+        db = pymysql.connect(host=self.host, user=self.user,
+                             password=self.password, database=self.database, charset=self.charset)
+        cursor = db.cursor()
+        if carModel != "无限制":
+            if priceLevel == 1:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 0 and 10000 and car_model = '{carModel}'")
+                priceLevelName = "1万一下"
+            elif priceLevel == 2:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 10000 and 50000 and car_model = '{carModel}'")
+                priceLevelName = "1万到5万"
+            elif priceLevel == 3:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 50000 and 100000 and car_model = '{carModel}'")
+                priceLevelName = "5万到10万"
+            elif priceLevel == 4:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 100000 and 200000 and car_model = '{carModel}'")
+                priceLevelName = "10万到20万"
+            elif priceLevel == 5:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price > 200000 and car_model = '{carModel}'")
+                priceLevelName = "20万以上"
+            else:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where car_model = '{carModel}'")
+                priceLevelName = "无限制"
+        else:
+            carType = "无限制"
+            if priceLevel == 1:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 0 and 10000")
+                priceLevelName = "1万一下"
+            elif priceLevel == 2:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 10000 and 50000")
+                priceLevelName = "1万到5万"
+            elif priceLevel == 3:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 50000 and 100000")
+                priceLevelName = "5万到10万"
+            elif priceLevel == 4:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price between 100000 and 200000")
+                priceLevelName = "10万到20万"
+            elif priceLevel == 5:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where sale_price > 200000")
+                priceLevelName = "20万以上"
+            else:
+                cursor.execute(
+                        F"select car_model, purchase_purpose, sale_price from purchasing_purpose_table where car_model = '{carModel}'")
+                priceLevelName = "无限制"
+        datas = cursor.fetchall()
+        purposes = []
+        for item in datas:
+            if carType != "无限制":
+                purposes.append({"carType": item[0], "price": F"{priceLevelName}", "purchaseTarget": item[1]})
+            else:
+                purposes.append({"carType": "无限制", "price": F"{priceLevelName}", "purchaseTarget": item[1]})
+        cursor.close()
+        db.close()
+        return purposes
+
+    def getAllPurchasingcomment(self, carModel):
+        if carModel != "无限制":
+            db = pymysql.connect(host=self.host, user=self.user,
+                                password=self.password, database=self.database, charset=self.charset)
+            cursor = db.cursor()
+            print(
+                F"select car_model, comment from purchasing_purpose_table where car_model = '{carModel}'")
+            cursor.execute(
+                    F"select car_model, comment from purchasing_purpose_table where car_model = '{carModel}'")
+            datas = cursor.fetchall()
+            comments = []
+            for item in datas:
+                comments.append({"carType": item[0], "userComment": item[1]})
+            cursor.close()
+            db.close()
+        else:
+            db = pymysql.connect(host=self.host, user=self.user,
+                                 password=self.password, database=self.database, charset=self.charset)
+            cursor = db.cursor()
+            cursor.execute(
+                F"select car_model, comment from purchasing_purpose_table")
+            datas = cursor.fetchall()
+            comments = []
+            for item in datas:
+                comments.append({"carType": item[0], "userComment": item[1]})
+            cursor.close()
+            db.close()
+        return comments
     
 
 purchasingPurposeDAO = PurchasingPurposeDAO()
@@ -274,7 +387,7 @@ class TargetSpider:
 
 targetSpider=TargetSpider()
 # targetSpider.getAllCar(3462, 601)
-targetSpider.startSpider()
+# targetSpider.startSpider()
 
 # for item in dataList:
 #     print(item)

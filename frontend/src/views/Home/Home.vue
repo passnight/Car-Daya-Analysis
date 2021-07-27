@@ -63,10 +63,10 @@
         <sale-map style="background-color: transparent"></sale-map>
         <p></p>
 
-        <el-select v-model="value" placeholder="请选择汽车型号">
+        <el-select v-model="model" placeholder="请选择汽车型号">
           <el-option
             v-for="item in carModels"
-            :key="item.value"
+            :key="item.model"
             :label="item.model"
             :value="item.model"
           >
