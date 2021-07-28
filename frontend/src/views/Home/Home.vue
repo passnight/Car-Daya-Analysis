@@ -48,12 +48,12 @@
             style="margin-right: 10px; color: #ffffff"
           ></i>
           <el-dropdown-menu slot="dropdown">
-            <el-button @click="changeData">修改密码</el-button>
-            <el-button @click="destoryUser">注销用户</el-button>
+            <el-button @click="changePassword">修改密码</el-button>
+            <el-button @click="destroyUser">注销用户</el-button>
           </el-dropdown-menu>
         </el-dropdown>
 
-        <span style="color: white"> 王小虎 </span>
+        <span style="color: white"> {{ userName }} </span>
       </div>
     </el-row>
 
@@ -62,7 +62,10 @@
         <div id="left-top">
           <el-row :gutter="100">
             <el-col :span="1"
-              ><img class="car001" src="../../assets/img/car2.jpg" width="269px"
+              ><img
+                class="car001"
+                src="../../assets/img/car2.jpg"
+                width="269px"
             /></el-col>
           </el-row>
           <el-row :gutter="100">
@@ -84,10 +87,16 @@
       </section>
       <section class="screen-middle">
         <div id="middle-top">
-          <sale-map style="background-color: transparent; width: 500px ;height: 450px"></sale-map>
+          <sale-map
+            style="background-color: transparent; width: 500px; height: 450px"
+          ></sale-map>
         </div>
         <div id="middle-bottom">
-          <el-select v-model="selectedCarModel" placeholder="请选择汽车型号" @change="sendParameter">
+          <el-select
+            v-model="selectedCarModel"
+            placeholder="请选择汽车型号"
+            @change="sendParameter"
+          >
             <el-option
               v-for="item in this.carModels"
               :key="item.model"
@@ -104,7 +113,6 @@
               type="daterange"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
-
               :default-time="['00:00:00', '23:59:59']"
             >
             </el-date-picker>
@@ -141,7 +149,7 @@
 <script>
 import vueSeamless from "vue-seamless-scroll";
 import * as echarts from "echarts";
-import axios from 'axios'
+import axios from "axios";
 export default {
   components: {
     //组件
@@ -164,80 +172,61 @@ export default {
   },
 
   methods: {
-    sendParameter(){
+    sendParameter() {
       let form = new FormData();
       form.append("selectedCarModel", this.selectedCarModel);
       let d = new Date(this.selectedTime[0]);
-      let startDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-1';
+      let startDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-1";
       d = new Date(this.selectedTime[1]);
-      let endDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-1';
+      let endDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-1";
       form.append("startDate", startDate);
       form.append("endDate", endDate);
       console.log(endDate);
-      axios.post("http://127.0.0.1:5000/Main/SellingData.json", form).then((response) => {
-        let result = response.data;
-        this.datas = result;
-                let option = {
-          title: {
-            text: "车辆销售区域分布图",
-            x: "center",
-            textStyle: {
-              color: "#9c0505",
-            },
-          },
-
-          series: [
-            {
-              type: "map",
-              map: "china",
-              label: {
-                show: this.showLabel,
-                color: "black",
-                fontSize: 10,
+      axios
+        .post("http://127.0.0.1:5000/Main/SellingData.json", form)
+        .then((response) => {
+          let result = response.data;
+          this.datas = result;
+          let option = {
+            title: {
+              text: "车辆销售区域分布图",
+              x: "center",
+              textStyle: {
+                color: "#9c0505",
               },
-              // 地图大小倍数
-              zoom: 1.2,
-              data: this.datas,
             },
-          ],
-          visualMap: {
-            min: 0,
-            max: 200,
-            text: ["High", "Low"],
-            realtime: false,
-            calculable: true,
-            inRange: {
-              color: ["lightskyblue", "yellow", "orangered"],
+
+            series: [
+              {
+                type: "map",
+                map: "china",
+                label: {
+                  show: this.showLabel,
+                  color: "black",
+                  fontSize: 10,
+                },
+                // 地图大小倍数
+                zoom: 1.2,
+                data: this.datas,
+              },
+            ],
+            visualMap: {
+              min: 0,
+              max: 200,
+              text: ["High", "Low"],
+              realtime: false,
+              calculable: true,
+              inRange: {
+                color: ["lightskyblue", "yellow", "orangered"],
+              },
             },
-          },
-        };
-        console.log(this.datas);
-        this.mapChart.setOption(option);
-      })
+          };
+          console.log(this.datas);
+          this.mapChart.setOption(option);
+        });
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
-    },
-    changeData() {
-      this.$prompt("请输入新密码，为6~20位数字+字母", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        //密码格式为6~20位有字母和数字
-        inputPattern: /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{6,20})$/,
-        inputErrorMessage: "密码格式不正确",
-      })
-        .then(({ value }) => {
-          this.$message({
-            type: "success",
-            message: "修改密码成功",
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "取消修改密码",
-          });
-        });
     },
     drawMap() {
       axios.get("../../../static/json/ChinaMap.json").then((response) => {
@@ -282,18 +271,55 @@ export default {
         this.mapChart.setOption(option);
       });
     },
+    //修改密码
+    changePassword() {
+      let pwd = this.$prompt("请输入新密码，为6~20位数字+字母", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        //密码格式为6~20位有字母和数字
+        inputPattern: /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{6,20})$/,
+        inputErrorMessage: "密码格式不正确",
+      })
+        .then(({ value }) => {
+          console.log(value);
+          let data = new FormData();
+          data.append("username", this.userName);
+          data.append("password", value);
+          console.log(data);
+          axios
+            .post("http://127.0.0.1:5000/Manager/ChangeUserInfo", data)
+            .then((response) => {});
+          this.$message({
+            type: "success",
+            message: "修改密码成功",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消修改密码",
+          });
+        });
+    },
     //注销用户
-    destoryUser() {
+    destroyUser() {
       this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
+          let data = new FormData();
+          data.append("username", this.userName);
+          console.log(data);
+          axios
+            .post("http://127.0.0.1:5000/Manager/DeleteUser", data)
+            .then((response) => {});
           this.$message({
             type: "success",
             message: "删除成功!",
           });
+          this.$router.push("/");
         })
         .catch(() => {
           this.$message({
@@ -310,8 +336,12 @@ export default {
       userComment: "不错，挺好",
     };
     return {
-      selectedCarModel:"卡罗拉",
-      selectedTime: [Date("Wed Jul 15 2019 13:48:55 GMT+0800 (GMT+08:00)"),Date("Wed Jul 28 2021 13:48:55 GMT+0800 (GMT+08:00)")],
+      selectedCarModel: "卡罗拉",
+      selectedTime: [
+        Date("Wed Jul 15 2019 13:48:55 GMT+0800 (GMT+08:00)"),
+        Date("Wed Jul 28 2021 13:48:55 GMT+0800 (GMT+08:00)"),
+      ],
+      userName: "1111",
       mapChart: null,
       showLabel: false,
       datas: [{ name: "北京市", value: 50 }],
@@ -321,7 +351,7 @@ export default {
         {
           model: "特斯拉",
         },
-                {
+        {
           model: "兰博基尼",
         },
       ],
@@ -334,19 +364,19 @@ export default {
     };
   },
   mounted() {
+    axios.get("http://127.0.0.1:5000/UserName").then((response) => {
+      this.userName = response.data;
+      console.log("user anme:" + this.userName);
+    });
     this.drawMap();
     // this.chooseModel = "无限制";
     // this.priceLevel = "无限制";
-    axios
-      .get("http://127.0.0.1:5000/Main/CarModel.json")
-      .then((response) => {
-        this.carModels = response.data;
-      });
-    axios
-      .get("http://127.0.0.1:5000/Main/TopSale")
-      .then((response) => {
-        this.List = response.data;
-      });
+    axios.get("http://127.0.0.1:5000/Main/CarModel.json").then((response) => {
+      this.carModels = response.data;
+    });
+    axios.get("http://127.0.0.1:5000/Main/TopSale").then((response) => {
+      this.List = response.data;
+    });
   },
 };
 </script>

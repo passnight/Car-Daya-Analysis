@@ -40,14 +40,17 @@ export default {
       data.append("username", this.username);
       data.append("password", this.password);
       console.log(data)
-      axios.post("http://127.0.0.1:5000/user.json", data).then((response) => {
+      axios.post("http://127.0.0.1:5000/Login", data).then((response) => {
         console.log(response.data);
         let result = response.data;
-        if (result==="success") {
-          alert("login succeed");
+        if (result==="user") {
           this.$router.push("/home");
-        } else {
-          alert("you stupid");
+        }
+         else if (result==="admin"){
+          this.$router.push("/manager");
+        }
+        else {
+          alert("登录失败");
         }
       });
     },

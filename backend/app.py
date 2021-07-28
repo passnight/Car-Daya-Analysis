@@ -14,13 +14,16 @@ global feedbackSelectPriceLevel
 global mainSelectModel
 global mainStartDate
 global mainEndDate
+global userName
 feedbackSelectModel = "无限制"
 feedbackSelectPriceLevel = "选项0"
 mainSelectModel = "卡罗拉"
 mainStartDate = "2020-7-1"
 mainEndDate = "2021-8-1"
+userName = "user name"
 from backend.Engineering import Target as target
 from backend.Sale import SaleNumber as saleNumber
+import User as user
 app = Flask(__name__, static_folder="http", static_url_path="/pages")
 CORS(app, supports_credentials=True)
 
@@ -40,15 +43,77 @@ def index():
 #     return 'Hello, World'
 # app.run()
 
-@app.route("/user.json", methods=["get", "post"])
+@app.route("/Login", methods=["get", "post"])
 @cross_origin(supports_credentials=True)
-def handleForm():
+def handleLoginRequest():
+    global userName
     myForm = request.form
     result = myForm.to_dict()
-    if(result["username"] == "rjx" and result["password"] == "123456"):
-        return "success"
+    if user.userDAO.isAdmin(result["username"], result["password"]):
+        userName = result["username"]
+        return "admin"
+    elif user.userDAO.isUser(result["username"], result["password"]):
+        userName = result["username"]
+        return "user"
     else:
         return "fail"
+
+
+@app.route("/UserName", methods=["get", "post"])
+@cross_origin(supports_credentials=True)
+def handleUserNameRequest():
+    global userName
+    return userName
+
+
+@app.route("/Manager/UserList", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleUserListRequest():
+    userList = user.userDAO.getAllUser()
+    users = []
+    for item in userList:
+        data = {
+            "userID": "1",
+            "userName": "路人甲",
+            "userPassword": "000000",
+            "userStatus": "管理员",
+        }
+        data["userID"] = item["id"]
+        data["userName"] = item["name"]
+        data["userPassword"] = item["password"]
+        data["userStatus"] = item["status"]
+        users.append(data)
+    return json.dumps(users)
+
+
+@app.route("/Manager/AddUser", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleAddUserRequest():
+    myForm = request.form
+    result = myForm.to_dict()
+    print("add user and the info is ", myForm)
+    user.userDAO.insert(result["username"], result["password"], 0)
+    return "success"
+
+
+@app.route("/Manager/ChangeUserInfo", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleChangeUserInfoRequest():
+    myForm = request.form
+    result = myForm.to_dict()
+    print("change user info and the parameters are ", myForm)
+    user.userDAO.changePassword(result["username"], result["password"])
+    return "success"
+
+
+@app.route("/Manager/DeleteUser", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleDeleteUserRequest():
+    myForm = request.form
+    result = myForm.to_dict()
+    print("delete user and the parameters are ", myForm)
+    user.userDAO.deleteUser(result["username"])
+    return "success"
 
 
 @app.route("/Main/CarModel.json", methods=["GET", "POST"])
@@ -257,5 +322,6 @@ def handleTChart7Request():
 #     ]
 #     return json.dumps(mydata)
 app.run(port="5000")
+# print(user.userDAO.getAllUser())
 
 
