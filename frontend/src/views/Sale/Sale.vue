@@ -80,31 +80,45 @@
             <span slot="title">填写销售分析信息</span>
           </template>
           <el-menu-item-group>
-            <template slot="title">填写A汽车型号</template>
-            <el-input placeholder="请输入汽车型号" v-model="input" clearable>
-            </el-input>
+            <el-select v-model="chooseModel1" placeholder="请选择" @change="sendParameter">
+              <el-option
+                v-for="item in this.carModels1"
+                :key="item.model"
+                :label="item.model"
+                :value="item.model"
+              >
+              </el-option>
+            </el-select>
           </el-menu-item-group>
 
           <el-menu-item-group>
-            <template slot="title">填写B汽车型号</template>
-            <el-input placeholder="请输入汽车型号" v-model="input" clearable>
-            </el-input>
+            <el-select v-model="chooseModel2" placeholder="请选择" @change="sendParameter">
+              <el-option
+                v-for="item in this.carModels2"
+                :key="item.model"
+                :label="item.model"
+                :value="item.model"
+              >
+              </el-option>
+            </el-select>
           </el-menu-item-group>
 
           <el-menu-item-group>
             <template slot="title">选择分析时间区间</template>
 
             <div class="block">
-    
+    <!-- value-format 非绑定更改格式 -->
+    <!-- format 绑定更改格式 直接显示到前端 -->
     <el-date-picker
-      v-model="value2"
+      v-model="value1"
       type="monthrange"
       align="right"
+      value-format="yyyy-MM-dd HH:mm:ss"   
       unlink-panels
       range-separator="至"
       start-placeholder="开始月份"
       end-placeholder="结束月份"
-      :picker-options="pickerOptions">
+      :picker-options="pickerOptions" @change="sendParameter">
     </el-date-picker>
   </div>
           </el-menu-item-group>
@@ -139,8 +153,19 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "Sale",
+  mounted() {
+    this.chooseModel1 = "";
+    this.chooseModel2 = "";
+    axios.get("http://127.0.0.1:5000/Sale/CarModel1.json").then((response) => {
+      this.carModels1 = response.data;
+    });
+    axios.get("http://127.0.0.1:5000/Sale/CarModel2.json").then((response) => {
+      this.carModels2 = response.data;
+    });
+  },
   data() {
    
 
@@ -171,9 +196,16 @@ export default {
             }
           }]
         },
-        value1: '',
-        value2: ''
- 
+        value1: '2015-01-01 00:00:00, 2015-01-01 00:00:00',
+
+        carModels1:[
+
+        ],
+        carModels2:[
+
+        ],
+        chooseModel1: "",
+        chooseModel2: "",
      }
   },
 
@@ -222,6 +254,17 @@ export default {
         });
     },
   
+    sendParameter() {
+    let dataForm = new FormData();
+    dataForm.append("chooseModel1", this.chooseModel1);
+    dataForm.append("chooseModel2", this.chooseModel2);
+    dataForm.append("time", this.value1)
+    axios
+      .post("http://127.0.0.1:5000/Sale/SendParameter.json", dataForm)
+      .then((response) => {
+        this.tableData = response.data;
+      });
+    },
 
     open() {
       this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {

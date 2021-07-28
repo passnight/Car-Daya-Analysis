@@ -6,11 +6,13 @@
 
 <script>
        import * as echarts from 'echarts'
+       import axios from "axios";
         export default {
             data(){
                 return {
                     chartColumn: null,
-                    mydata:null
+                    mydata:null,
+                    salePrice: null
                 }
             },
             mounted() {
@@ -27,61 +29,62 @@
                         document.getElementById('折线图'));
 
                     this.chartColumn.setOption({
-                       title: {
-        text: '汽车价格对比折线图'
-    },
-    tooltip: {
-        trigger: 'axis'
-    },
-    legend: {
-        //data:this.mydata.AName
-        //data:this.mydata.BName
-        data: ['甲车型', '乙车型']
-        ,
-         textStyle:{
-                          
+                    
+                title: {
+                    text: '汽车价格对比阶梯折线图',
+                    textStyle: {
+                    fontSize: 25,
+                    color: '#ffffff'}
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [],
+                    textStyle:{
                             color: '#ffffff'//字体颜色
                         },
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        top:'15%',
-        containLabel: true
-    },
-    toolbox: {
-        feature: {
-            saveAsImage: {}
-        }
-    },
-    xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        //data:this.mydata.time
-         data: ['一月', '二月', '三月', '四月', '五月', '六月']
-    },
-    yAxis: {
-        type: 'value'
-    },
-    series: [
-        {
-            //name:this.mydata.AName
-            name: '甲车型',
-            type: 'line',
-            stack: '售价',
-            //data:this.mydata.Adata
-            data: [120, 132, 101, 134, 90, 230, 210]
-        },
-        {
-               //name:this.mydata.BName
-            name: '乙车型',
-            type: 'line',
-            stack: '售价',
-              //data:this.mydata.Bdata
-            data: [220, 182, 191, 234, 290, 330, 310]
-        }
-    ]
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: '',
+                        type: 'line',
+                        step: 'start',
+                        data: []
+                    },
+                    {
+                        name: '',
+                        type: 'line',
+                        step: 'middle',
+                        data: []
+                    }
+                ]
+            });
+            axios.post("http://127.0.0.1:5000/carSalePrice.json").then((response) => {
+                    this.salePrice = response.data;
+                    //this.saleTime2 = response.data2;
+                    console.log(this.salePrice)
+                    this.chartColumn.setOption( //动画的配置
+                        this.salePrice
+                    )
                 });
                 }
             }

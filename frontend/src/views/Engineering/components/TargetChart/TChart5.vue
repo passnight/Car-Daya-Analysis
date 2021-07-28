@@ -20,7 +20,7 @@ export default {
   props: {
     percent: {
       type: Number,
-      default: 37
+      default: 69
     }
   },
   computed: {

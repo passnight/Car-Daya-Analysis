@@ -63,4 +63,12 @@ export default {
 </script>
 
 <style scoped>
+.b1{
+	float: left;
+	width: 650px;
+}
+.b2{
+	float: left;
+	width: 650px;
+}
 </style>

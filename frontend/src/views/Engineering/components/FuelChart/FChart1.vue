@@ -1,21 +1,30 @@
 <template>
-    <div id="fchart1" style="width: 600px;height:400px;" ref="fc1"></div>
+    <div id="fchart1" style="width: 650px;height:600px;" ref="fc1"></div>
 </template>
 
 <script>
 import cdw from "../../../../assets/theme/cdw.json";
 import * as echarts from 'echarts'
+import axios from "axios";
 export default {
     name: 'fchart1',
     methods:{
+        data() {
+        return {
+            fChart1: null
+        };
+    },
       drawPie() {
-          var charts = echarts.init(this.$refs.fc1,'cdw');
+          var charts = echarts.init(this.$refs.fc1);
           var option = {
                     title: {
                         text: "油耗分析",
                         target: "blank",
                         textAlign: 'left',
- 
+                        textStyle: {
+                        fontSize: 25,
+                        color: '#ffffff'
+                    },
                     },
                     tooltip: {},//提示层
                     legend: {
@@ -34,16 +43,16 @@ export default {
                         radius: '60%',
                         startAngle: 270,
                         indicator: [{
-                                name: '认证车主平均油耗',
-                                max: 30
+                                name: 'NEDC综合油耗(L/100km)',
+                                max: 20
                             },
                             {
-                                name: 'NEDC综合油耗',
-                                max: 30
+                                name: '实测油耗(L/100km)',
+                                max: 20
                             },
                             {
-                                name: '实测油耗',
-                                max: 30
+                                name: '标准油耗(L/100km)',
+                                max: 20
                             }
                         ],
                     },
@@ -51,7 +60,7 @@ export default {
                         name: '油耗分析',
                         type: 'radar',
                         data: [{
-                            value: [10.4,12.4,11.5],
+                            value: [10.4,12.4,10],
                             name: "油耗分析结果"
                         }],
                         itemStyle: {
@@ -65,6 +74,17 @@ export default {
                     }]
                 };
                 charts.setOption(option);
+                axios.post("http://127.0.0.1:5000/FChart1.json").then((response) => {
+                    this.fChart1 = response.data;
+                    console.log(this.fChart1)
+                    charts.setOption({  //动画的配置
+                        series: [{
+                            data: [{
+                                value: this.fChart1 //这里数据是一个数组的形似
+                            }]
+                        }]
+                    })
+                });
             }
         },
         mounted() {

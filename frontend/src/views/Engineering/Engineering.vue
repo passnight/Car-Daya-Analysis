@@ -71,12 +71,12 @@
             <template slot="title">请选择型号</template>
 
             <!--型号绑定-->
-            <el-select v-model="mvalue" placeholder="请选择">
+            <el-select v-model="chooseModel" placeholder="请选择" @change="sendParameter">
               <el-option
-                v-for="item in carModels.carModelList"
-                :key="item.mvalue"
+                v-for="item in this.carModels"
+                :key="item.model"
                 :label="item.model"
-                :value="item.mvalue"
+                :value="item.model"
               >
               </el-option>
             </el-select>
@@ -118,12 +118,10 @@ import axios from 'axios'
 export default {
   name: "Engineering",
   mounted() {
-    axios
-      .get("../../../static/data/CarModel.json")
-      .then((response) => {
-        this.carModels=response.data;
-
-      });
+    this.chooseModel = "";
+    axios.get("http://127.0.0.1:5000/Engineering/CarModel.json").then((response) => {
+      this.carModels = response.data;
+    });
   },
   data() {
     const item = {
@@ -144,7 +142,7 @@ export default {
       carModels:[
 
       ],
-      mvalue: "",
+      chooseModel: "",
     };
   },
   methods: {
@@ -152,6 +150,15 @@ export default {
       if (rowIndex % 2 == 1) {
         return "background:rgba(160,188,231,0.3)";
       }
+    },
+    sendParameter() {
+    let dataForm = new FormData();
+    dataForm.append("chooseModel", this.chooseModel);
+    axios
+      .post("http://127.0.0.1:5000/Engineering/SendParameter.json", dataForm)
+      .then((response) => {
+        this.tableData = response.data;
+      });
     },
     //注销用户
     destoryUser() {

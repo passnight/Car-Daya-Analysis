@@ -1,5 +1,5 @@
 <template>
-  <div id="tchart7" style="width: 600px; height: 400px" ref="tc7"></div>
+  <div id="tchart7" style="width: 730px; height: 600px" ref="tc7"></div>
 </template>
 
 <script>
@@ -19,7 +19,8 @@ export default {
       let obj = cdw;
       echarts.registerTheme('cdw', obj)
       //var myChart = this.$echarts.init(document.getElementById('chart3'));
-      var myChart = echarts.init(this.$refs.tc7,'cdw');
+      // var myChart = echarts.init(this.$refs.tc7,'cdw');  使用主题
+      var myChart = echarts.init(this.$refs.tc7);
       // 指定图表的配置项和数据
       var option = {
         title: {

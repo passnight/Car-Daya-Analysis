@@ -1,18 +1,29 @@
 <template>
-    <div id="fchart2" style="width: 600px;height:400px;" ref="fc2"></div>
+    <div id="fchart2" style="width: 650px;height:600px;" ref="fc2"></div>
 </template>
 
 <script>
 import cdw from "../../../../assets/theme/cdw.json";
 import * as echarts from 'echarts'
+import axios from "axios";
 export default {
   name: 'fchart2',
-  data () {
+  methods: {
+    data() {
         return {
-            option:{
+            fChart2: null
+        };
+    },
+    draw () {
+        var charts = echarts.init(this.$refs.fc2);
+        var option = {
                     color:['rgb(8,252,7)','rgb(255,168,0)',],
                     title: {
-                        text: ''
+                        text: '油耗分析',
+                        textStyle: {
+                        fontSize: 25,
+                        color: '#ffffff'
+                    },
                     },
                     tooltip: { //提示框
                         trigger: 'axis',
@@ -40,7 +51,7 @@ export default {
                     xAxis: {
                         type: 'category', //坐标轴类型。
                         boundaryGap: false, //坐标轴两边留白策略
-                        data: ['认证车主平均油耗', 'NEDC综合油耗', '实测油耗'],
+                        data: ['NEDC综合油耗(L/100km)', '实测油耗(L/100km)', '标准油耗'],
                         axisLabel: {//坐标轴刻度标签的相关设置
                             interval:0,
                             textStyle: {
@@ -87,31 +98,30 @@ export default {
                         {
                             name: '油耗分析',
                             type: 'line',
-                            data: [10.4,12.4,11.5],
+                            data: [10.4,12.4,10],
                             lineStyle:{
                                 color:'rgb(8,252,7)'  //线的颜色
                             }
                         }
                     ]
-                }
+                
+        };
+            charts.setOption(option);
+            axios.post("http://127.0.0.1:5000/FChart1.json").then((response) => {
+                    this.fChart2 = response.data;
+                    console.log(this.fChart2)
+                    charts.setOption({  //动画的配置
+                        series: [{
+                            data: this.fChart2 //这里数据是一个数组的形似
+                        }]
+                    })
+                });
+            //图表自适应
         }
-    },
-    created () {
-        
     },
     mounted () {
-        this.mycharts()
+        this.draw()
     },
-    methods: {
-        mycharts(){
-            let myChart =echarts.init(this.$refs.fc2,'cdw');
-            myChart.setOption(this.option)
-            //图表自适应
-            window.addEventListener("resize",function(){
-                myChart.resize()  // myChart 是实例对象
-            })
-        }
-    }
 }
 
 </script>

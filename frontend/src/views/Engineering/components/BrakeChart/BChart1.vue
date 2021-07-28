@@ -1,11 +1,17 @@
 <template>
-    <div id="bchart1" style="width: 600px;height:400px;" ref="bc1"></div>
+    <div id="bchart1" style="width: 650px;height:600px;" ref="bc1"></div>
 </template>
 
 <script>
-  import * as echarts from 'echarts'
+import * as echarts from 'echarts'
+import axios from "axios";
 export default {
   name: 'bchart1',
+  data() {
+        return {
+            bChart1: null
+        };
+    },
   methods:{
 	  myEcharts(){
 		  // 基于准备好的dom，初始化echarts实例
@@ -50,17 +56,17 @@ export default {
 			},
 			data: [{
 				value: 20,
-				name: 'Perfect',
+				name: '实测100-0km/h制动(m)',
 				title: {
 					offsetCenter: ['0%', '-55%']
 				},
 				detail: {
-					offsetCenter: ['0%', '-45%']
+					offsetCenter: ['0%', '-45%'],
 				}
 			},
 			{
-				value: 40,
-				name: 'Good',
+				value: 100,
+				name: 'ABS防抱死',
 				title: {
 					offsetCenter: ['0%', '-25%']
 				},
@@ -70,7 +76,7 @@ export default {
 			},
 			{
 				value: 60,
-				name: 'Commonly',
+				name: '制动力分配(EBD/CBC等)',
 				title: {
 					offsetCenter: ['0%', '5%']
 				},
@@ -79,8 +85,8 @@ export default {
 				}
 			},
 			{
-				value: 60,
-				name: '233',
+				value: 80,
+				name: '主动刹车/主动安全系统',
 				title: {
 					offsetCenter: ['0%', '35%']
 				},
@@ -106,6 +112,28 @@ export default {
 	};
 		  // 使用刚指定的配置项和数据显示图表。
 		myChart.setOption(option);
+		axios.post("http://127.0.0.1:5000/BChart1.json").then((response) => {
+                    this.bChart1 = response.data;
+                    console.log(this.bChart1)
+                    myCharts.setOption({  //动画的配置
+                        series: [{
+                            data: [
+								{
+                                	value: this.bChart1[0]       //这里数据是一个数组的形似
+                            	},
+								{
+                                	value: this.bChart1[0]       //这里数据是一个数组的形似
+                            	},
+								{
+                                	value: this.bChart1[0]       //这里数据是一个数组的形似
+                            	},
+								{
+                                	value: this.bChart1[0]       //这里数据是一个数组的形似
+                            	},
+							]
+                        }]
+                    })
+                });
 	}
   },
   mounted() {

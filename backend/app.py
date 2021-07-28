@@ -2,6 +2,13 @@ from flask import Flask, request
 from flask_cors import cross_origin, CORS
 import json
 
+import FuelDao 
+import PowerDao
+import BrakeDao
+import TargetDao
+import SaleTimeDao
+import SaleNumberDao
+import SalePriceDao
 
 import os
 import sys
@@ -15,6 +22,16 @@ global mainSelectModel
 global mainStartDate
 global mainEndDate
 global userName
+global engineeringSelectModel
+global saleSelectModel1
+global saleSelectModel2
+global t1
+global t2
+t1 = ""
+t2 = ""
+saleSelectModel1 = ""
+saleSelectModel2 = ""
+engineeringSelectModel = ""
 feedbackSelectModel = "无限制"
 feedbackSelectPriceLevel = "选项0"
 mainSelectModel = "卡罗拉"
@@ -219,63 +236,243 @@ def handleSendParameter():
         F"now feedbackSelectModel is set to {feedbackSelectModel}, and feedbackSelectPriceLevel is set to {feedbackSelectPriceLevel}")
     return json.dumps(dataForm)
 
+@app.route("/Engineering/SendParameter.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def EngineeringParameter():
+    dataForm = request.form
+    global engineeringSelectModel
+    engineeringSelectModel = dataForm["chooseModel"]
+    print(json.dumps(engineeringSelectModel))
+    return json.dumps(engineeringSelectModel)
 
-
-
-
-@app.route("/CarModel.json", methods=["GET", "POST"])
+@app.route("/Engineering/CarModel.json", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def handleCarModelRequest():
-    carModels = [
-        {"model": "A"},
-        {"model": "B"},
-        {"model": "C"},
-        {"model": "D"},
-        {"model": "E"},
-    ]
-    return json.dumps(carModels)
-
-@app.route("/FChart1.json", methods=["GET", "POST"])
-@cross_origin(supports_credentials=True)
-def handleFChart1Request():
-    data = 66
-    print(json.dumps(data))
-    return json.dumps(data)
-
-@app.route("/FChart1.json", methods=["GET", "POST"])
-@cross_origin(supports_credentials=True)
-def handleFChart2Request():
-    data = 66
-    print(json.dumps(data))
-    return json.dumps(data)
+    carModels = FuelDao.getmodels()
+    #print(carModels)
+    return carModels
 
 @app.route("/PChart1.json", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def handlePChart1Request():
-    data = 66
-    print(json.dumps(data))
-    return json.dumps(data)
+    global engineeringSelectModel
+    data = PowerDao.query(engineeringSelectModel)
+    print(data)
+    return data
 
-@app.route("/PChart1.json", methods=["GET", "POST"])
+@app.route("/BChart1.json", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
-def handlePChart2Request():
-    data = 66
-    print(json.dumps(data))
-    return json.dumps(data)
+def handleBChart1Request():
+    global engineeringSelectModel
+    data = BrakeDao.query(engineeringSelectModel)
+    print(data)
+    return data
 
-@app.route("/TChart1.json", methods=["GET", "POST"])
+@app.route("/FChart1.json", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
-def handleTChart1Request():
-    data = 66
-    print(json.dumps(data))
+def handleFChart1Request():
+    global engineeringSelectModel
+    data = FuelDao.query(engineeringSelectModel)
+    print(data)
     return json.dumps(data)
 
 @app.route("/TChart7.json", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def handleTChart7Request():
-    data = [66, 23, 52, 77, 37, 90]
-    print(json.dumps(data))
+    global engineeringSelectModel
+    data = TargetDao.query(engineeringSelectModel)
+    print(data)
+    return data
+
+
+@app.route("/Sale/SendParameter.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def SaleParameter():
+    global saleSelectModel1
+    global saleSelectModel2
+    global t1
+    global t2
+    dataForm = request.form
+    saleSelectModel1 = dataForm["chooseModel1"]
+    saleSelectModel2 = dataForm["chooseModel2"]
+    t1 = dataForm["time"].split(',')[0]     #切割时间段（begin，end）
+    t2 = dataForm["time"].split(',')[1]
+    print(t1)
+    print(t2)
+    return json.dumps(dataForm)
+
+@app.route("/Sale/CarModel1.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleSaleCarModel1Request():
+    carModels = SaleTimeDao.getmodels()
+    #print(carModels)
+    return carModels
+
+@app.route("/Sale/CarModel2.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleSaleCarModel2Request():
+    carModels = SaleTimeDao.getmodels()
+    #print(carModels)
+    return carModels
+
+@app.route("/carSaleTime.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleCarSaleTimeRequest():
+    global saleSelectModel1
+    global saleSelectModel2
+    global t1
+    global t2
+    # data = [
+    #     {"data": SaleTimeDao.query(saleSelectModel1, t1, t2)},
+    #     {"data": SaleTimeDao.query(saleSelectModel2, t1, t2)},
+    # ]
+    data = {
+        "legend": {
+            "data": [saleSelectModel1, saleSelectModel2],
+        },
+        "xAxis": {
+            "data": SaleTimeDao.getTime(t1, t2)
+        },
+        "series": [
+        {
+            "name": saleSelectModel1,
+            "data": SaleTimeDao.query(saleSelectModel1, t1, t2)
+        },
+        {
+            "name": saleSelectModel2,
+            "data": SaleTimeDao.query(saleSelectModel2, t1, t2)
+        }
+        ]
+    }
     return json.dumps(data)
+
+@app.route("/carSaleNumber.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleCarSaleNumbeerRequest():
+    global saleSelectModel1
+    global saleSelectModel2
+    global t1
+    global t2
+    # data = [
+    #     {"data": SaleNumberDao.query(saleSelectModel1, t1, t2)},
+    #     {"data": SaleNumberDao.query(saleSelectModel2, t1, t2)},
+    # ]
+    data = {
+        "legend": {
+            "data": [saleSelectModel1, saleSelectModel2,'总体趋势'],
+        },
+        "xAxis": {
+            "data": SaleNumberDao.getTime(t1, t2)
+        },
+        "yAxis": [
+        {
+            "name": saleSelectModel1,
+        },
+        {
+            "name": saleSelectModel2,
+        }
+        ],
+        "series": [
+        {
+            "name": saleSelectModel1,
+            "data": SaleNumberDao.query(saleSelectModel1, t1, t2)
+        },
+        {
+            "name": saleSelectModel2,
+            "data": SaleNumberDao.query(saleSelectModel2, t1, t2)
+        },
+        {
+            "data": SaleNumberDao.query(saleSelectModel1, t1, t2)
+        }
+        ]
+    }
+    return json.dumps(data)
+
+@app.route("/carSalePrice.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleCarSalePriceRequest():
+    global saleSelectModel1
+    global saleSelectModel2
+    global t1
+    global t2
+    # data = [
+    #     {"data": SaleNumberDao.query(saleSelectModel1, t1, t2)},
+    #     {"data": SaleNumberDao.query(saleSelectModel2, t1, t2)},
+    # ]
+    data = {
+        "legend": {
+            "data": [saleSelectModel1, saleSelectModel2],
+        },
+        "xAxis": {
+            "data": SalePriceDao.getTime(t1, t2)
+        },
+        "series": [
+        {
+            "name": saleSelectModel1,
+            "data": SalePriceDao.query(saleSelectModel1, t1, t2)
+        },
+        {
+            "name": saleSelectModel2,
+            "data": SalePriceDao.query(saleSelectModel2, t1, t2)
+        }
+        ]
+    }
+    return json.dumps(data)
+
+
+# @app.route("/CarModel.json", methods=["GET", "POST"])
+# @cross_origin(supports_credentials=True)
+# def handleCarModelRequest():
+#     carModels = [
+#         {"model": "A"},
+#         {"model": "B"},
+#         {"model": "C"},
+#         {"model": "D"},
+#         {"model": "E"},
+#     ]
+#     return json.dumps(carModels)
+
+# @app.route("/FChart1.json", methods=["GET", "POST"])
+# @cross_origin(supports_credentials=True)
+# def handleFChart1Request():
+#     data = 66
+#     print(json.dumps(data))
+#     return json.dumps(data)
+
+# @app.route("/FChart1.json", methods=["GET", "POST"])
+# @cross_origin(supports_credentials=True)
+# def handleFChart2Request():
+#     data = 66
+#     print(json.dumps(data))
+#     return json.dumps(data)
+
+# @app.route("/PChart1.json", methods=["GET", "POST"])
+# @cross_origin(supports_credentials=True)
+# def handlePChart1Request():
+#     data = 66
+#     print(json.dumps(data))
+#     return json.dumps(data)
+
+# @app.route("/PChart1.json", methods=["GET", "POST"])
+# @cross_origin(supports_credentials=True)
+# def handlePChart2Request():
+#     data = 66
+#     print(json.dumps(data))
+#     return json.dumps(data)
+
+# @app.route("/TChart1.json", methods=["GET", "POST"])
+# @cross_origin(supports_credentials=True)
+# def handleTChart1Request():
+#     data = 66
+#     print(json.dumps(data))
+#     return json.dumps(data)
+
+# @app.route("/TChart7.json", methods=["GET", "POST"])
+# @cross_origin(supports_credentials=True)
+# def handleTChart7Request():
+#     data = [66, 23, 52, 77, 37, 90]
+#     print(json.dumps(data))
+#     return json.dumps(data)
 
 
 # @app.route("/purchase.json", methods=["GET", "POST"])

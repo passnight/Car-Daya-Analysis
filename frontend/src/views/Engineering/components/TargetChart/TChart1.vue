@@ -22,7 +22,7 @@ export default {
   props: {
     percent: {
       type: Number,
-      default: this.tChart1
+      default: 66
     }
   },
   computed: {
@@ -32,11 +32,6 @@ export default {
     }
   },
   mounted () {
-    axios.post("http://127.0.0.1:5000/TChart1.json").then((response) => {
-    console.log("origin:", this.tChart1);
-    this.tChart1 = response.data;
-    console.log("after:", this.tChart1);
-    });
     this.startAnimate(1, this.percent, 30)  
   },
   watch: {
@@ -46,6 +41,28 @@ export default {
     }
   },
   methods: {
+    // mychart(){
+
+    //   var option = {
+    //     props: {
+    //       percent: {
+    //         type: Number,
+    //         default: 66
+    //       }
+    //     },
+    //     computed: {
+    //       delay () {
+    //   // 转化为延迟多少秒
+    //         return `-${this.num}s`
+    //       }
+    //     },
+    //   }
+
+    //   axios.post("http://127.0.0.1:5000/TChart1.json").then((response) => {
+    //           this.tChart1 = response.data;
+    //           this.mychart.option
+    //   });
+    // },
     // 匀动动画
     startAnimate (step, limit, speed) {
       // console.log(this.num, typeof limit)
@@ -57,6 +74,7 @@ export default {
           this.num = limit
         }
       }, speed)
+      
     }
   }
 }
