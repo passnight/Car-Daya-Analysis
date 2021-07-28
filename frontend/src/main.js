@@ -4,6 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import scroll from 'vue-seamless-scroll'
+
+
+Vue.use(scroll)
 
 Vue.config.productionTip = false;
 // axios.defaults.baseURL = "http://127.0.0.1:5000";

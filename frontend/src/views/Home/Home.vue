@@ -1,6 +1,14 @@
-<template>
-  <el-container class="homepage">
-    <el-header>
+<template id = "car-big-data-home">
+  <div id="home" style="display: flex; flex-direction: column">
+    <el-row style="flex: none; display: flex; height: 60px">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          margin-left: 10px;
+          flex: none;
+        "
+      ></div>
       <el-menu
         class="el-menu-demo"
         mode="horizontal"
@@ -25,78 +33,159 @@
           >销售分析</el-menu-item
         >
       </el-menu>
-    </el-header>
+      <div
+        style="
+          margin-left: auto;
+          display: flex;
+          align-items: center;
+          margin-right: 10px;
+          flex: none;
+        "
+      >
+        <el-dropdown>
+          <i
+            class="el-icon-setting"
+            style="margin-right: 10px; color: #ffffff"
+          ></i>
+          <el-dropdown-menu slot="dropdown">
+            <el-button @click="changeData">修改密码</el-button>
+            <el-button @click="destoryUser">注销用户</el-button>
+          </el-dropdown-menu>
+        </el-dropdown>
 
-    <el-container>
-      <el-aside id="left_box" width="400px">
-        <div>
-          <el-row :gutter="200">
-            <el-col :span="1">
-              <img src="../../assets/img/car1.jpg" alt="car1" width="190"
-            /></el-col>
+        <span style="color: white"> 王小虎 </span>
+      </div>
+    </el-row>
+
+    <el-container style="border: 1px solid #eee; display: flex; flex: auto">
+      <section class="screen-left">
+        <div id="left-top">
+          <el-row :gutter="100">
             <el-col :span="1"
-              ><img src="../../assets/img/car2.jpg" alt="car2" width="190"
+              ><img class="car001" src="../../assets/img/car2.jpg" width="269px"
             /></el-col>
           </el-row>
-          <el-row :gutter="200">
+          <el-row :gutter="100">
             <el-col :span="1"
-              ><img src="../../assets/img/car3.jpg" alt="car3" width="190"
-            /></el-col>
-            <el-col :span="1"
-              ><img src="../../assets/img/car4.jpg" alt="car4" width="190"
+              ><img class="car002" src="../../assets/img/car4.jpg"
             /></el-col>
           </el-row>
         </div>
-
-        <div>
-          <el-carousel :interval="5000" arrow="always" height="300">
-            <el-carousel-item v-for="item in teamMembers" :key="item">
-              <h3>{{ item }}</h3>
-            </el-carousel-item>
-          </el-carousel>
+        <div id="left-bottom">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>小组成员介绍</span>
+            </div>
+            <div class="text item">
+              <span>71119113 lirui </span>
+            </div>
+          </el-card>
         </div>
-      </el-aside>
-
-      <el-main id="main_table">
-        <div></div>
-        <!-- <img src="../../assets/img/car1.jpg" alt="car" width="60%" /> -->
-        <sale-map style="background-color: transparent"></sale-map>
-        <p></p>
-
-        <el-select v-model="value" placeholder="请选择汽车型号">
-          <el-option
-            v-for="item in carModels"
-            :key="item.value"
-            :label="item.model"
-            :value="item.model"
-          >
-          </el-option>
-        </el-select>
-
-        <div class="block">
-          <p style="color: white">请选择分析时间：{{ value }}</p>
-          <el-date-picker
-            v-model="value"
-            type="daterange"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :default-time="['00:00:00', '23:59:59']"
-          >
-          </el-date-picker>
+      </section>
+      <section class="screen-middle">
+        <div id="middle-top">
+          <sale-map style="background-color: transparent; width: 500px ;height: 450px"></sale-map>
         </div>
-      </el-main>
+        <div id="middle-bottom">
+          <el-select v-model="value" placeholder="请选择汽车型号">
+            <el-option
+              v-for="item in carModels"
+              :key="item.value"
+              :label="item.model"
+              :value="item.model"
+            >
+            </el-option>
+          </el-select>
+
+          <div class="block">
+            <p style="color: white">请选择分析时间：{{ value }}</p>
+            <el-date-picker
+              v-model="value"
+              type="daterange"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :default-time="['00:00:00', '23:59:59']"
+            >
+            </el-date-picker>
+          </div>
+        </div>
+      </section>
+      <section class="screen-right">
+        >
+        <span style="color: white">汽车销量排行榜</span>
+        <div class="scollbox" style="margin-top: 10px">
+          <vue-seamless-scroll
+            :data="List"
+            class="seamless-warp"
+            :class-option="classOption"
+          >
+            <ul>
+              <li
+                class="DataList_top"
+                v-for="(item, index) in List"
+                :key="index"
+              >
+                <div class="DataList_left one">{{ index + 1 }}</div>
+                <div class="DataList_left two">{{ item.name }}</div>
+                <div class="DataList_left three">{{ item.sale }}</div>
+              </li>
+            </ul>
+          </vue-seamless-scroll>
+        </div>
+      </section>
     </el-container>
-  </el-container>
+  </div>
 </template>
 
 <script>
+import vueSeamless from "vue-seamless-scroll";
 import * as echarts from "echarts";
-import axios from "axios";
+import axios from 'axios'
 export default {
-  name: "home",
+  components: {
+    //组件
+    vueSeamless,
+  },
+  computed: {
+    classOption() {
+      return {
+        step: 1, // 数值越大速度滚动越快
+        limitMoveNum: 4, // 开始无缝滚动的数据量 this.dataList.length
+        hoverStop: true, // 是否开启鼠标悬停stop
+        direction: 1, // 0向下 1向上 2向左 3向右
+        openWatch: true, // 开启数据实时监控刷新dom
+        singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
+        singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
+        waitTime: 1000, // 单步运动停止的时间(默认值1000ms)
+        autoPlay: true,
+      };
+    },
+  },
+
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    changeData() {
+      this.$prompt("请输入新密码，为6~20位数字+字母", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        //密码格式为6~20位有字母和数字
+        inputPattern: /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{6,20})$/,
+        inputErrorMessage: "密码格式不正确",
+      })
+        .then(({ value }) => {
+          this.$message({
+            type: "success",
+            message: "修改密码成功",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消修改密码",
+          });
+        });
     },
     drawMap() {
       axios.get("../../../static/json/ChinaMap.json").then((response) => {
@@ -141,7 +230,28 @@ export default {
         this.mapChart.setOption(option);
       });
     },
+    //注销用户
+    destoryUser() {
+      this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
   },
+
   data() {
     const item = {
       carType: "兰博基尼",
@@ -158,19 +268,35 @@ export default {
           model: "特斯拉",
         },
       ],
+      List: [
+        {
+          name: "特斯拉",
+          sale: "100000",
+        },
+        {
+          name: "特斯拉",
+          sale: "100000",
+        },
+        {
+          name: "特斯拉",
+          sale: "100000",
+        },
+        {
+          name: "特斯拉",
+          sale: "100000",
+        },
+        {
+          name: "特斯拉",
+          sale: "100000",
+        },
+        {
+          name: "特斯拉",
+          sale: "100000",
+        },
+      ],
     };
   },
   mounted() {
-    axios.get("http://127.0.0.1:5000/CarModel.json").then((response) => {
-      this.carModels = response.data;
-    });
-    axios.post("http://127.0.0.1:5000/SellingData.json").then((response) => {
-      this.datas = response.data;
-      console.log(this.datas)
-    });
-    // axios.get("../../../static/data/SellingData.json").then((response) => {
-    //   this.datas = response.data;
-    // });
     this.$nextTick(function () {
       this.drawMap();
     });
@@ -178,23 +304,96 @@ export default {
 };
 </script>
 <style scoped>
-#main_table {
-  height: auto;
+#home {
+  background: url("../../assets/img/home-background.png") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  margin-left: 0;
+  margin-top: 0;
+  background-size: cover;
+  background-position: top;
 }
-#left_box {
-  border: 2px solid white;
-}
-#selLayer {
-  width: 200px;
-  display: block;
-  height: 26px;
-  background-color: transparent;
-  color: #0b7ff3;
-  border: #0b7ff3 2px solid;
+.resize {
   position: absolute;
-  right: 2px;
-  border-radius: 5px;
-  margin-top: 2px;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
+}
+#car001 {
+  width: 100%;
+  height: 100%;
+}
+.screen-left {
+  overflow: hidden;
+  /* display: flex; */
+  height: 100%;
+  width: 27.6%;
+}
+
+#left-top {
+  height: 53%;
+  position: relative;
+}
+#left-bottom {
+  height: 31%;
+  margin-top: 10%;
+  position: relative;
+}
+
+.screen-middle {
+  height: 100%;
+  width: 41.5%;
+  margin-left: 1.6%;
+  margin-right: 1.6%;
+}
+
+#middle-top {
+  width: 100%;
+  height: 56%;
+  position: relative;
+}
+#middle-bottom {
+  margin-top: 25px;
+  width: 100%;
+  height: 28%;
+  position: relative;
+}
+
+.screen-right {
+  height: 100%;
+  width: 27.6%;
+}
+#right-top {
+  height: 46%;
+  position: relative;
+}
+#right-bottom {
+  height: 38%;
+  margin-top: 25px;
+  position: relative;
+}
+.text {
+  font-size: 14px;
+}
+
+.item {
+  margin-bottom: 18px;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both;
+}
+
+.box-card {
+  width: 100%;
+  background-color: #134094;
+  color: white;
 }
 .map {
   width: 100%;
@@ -233,105 +432,45 @@ export default {
   border-radius: 11px 11px 0px 0px;
   position: relative;
 }
-.dataAllBorder01 {
+.seamless-warp {
+  width: 100%;
+  height: 90%;
+  overflow: hidden;
+}
+ul {
+  padding: 0;
+}
+.DataList_top {
+  list-style: none;
   width: 100%;
   height: 100%;
-  border-radius: 10px;
-  border: 1px #0174f5 solid;
-  padding: 1px;
-  box-sizing: border-box;
-}
-.cage_cl {
-  background-color: rgba(2, 8, 23, 0.1);
-}
-.dataAllBorder02 {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  border: 2px solid #016ae0;
-  border-radius: 10px;
-}
-.homepage {
-  /* width: 100%;
-  height: 100%;
-  background-image: url("../../assets/img/home-background.png");
-  background-size: 100% 100%;
-  position: absolute; */
-
-  background: url("../../assets/img/home-background.png") no-repeat;
-  background-position: center;
-  height: 100%;
-  width: 100%;
-  background-size: cover;
-  background-position: top;
-}
-.message_scroll {
-  border: rgba(12, 122, 200, 0.5) 1px solid;
-  background-color: rgba(20, 66, 125, 0.12);
-  height: 90px;
-  cursor: pointer;
-  margin-bottom: 6px;
-}
-.scroll_top {
-  height: 25px;
-}
-.scroll_title {
-  float: left;
-  background-image: url("../../assets/img/pushmessage_class.png");
-  background-repeat: no-repeat;
-  width: 150px;
-  line-height: 25px;
+  background-color: #4383c1;
+  margin-top: 0.5rem;
   color: white;
-  font-size: 14px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+.DataList_left {
+  float: left;
   text-align: center;
 }
-.msg_cage {
-  padding-left: 10px;
-  padding-right: 6px;
-  height: 18px;
-  overflow: hidden;
-  margin-top: 8px;
+.one {
+  width: 9%;
 }
-.localize_title {
-  color: #2c85d2;
+.two {
+  width: 60%;
+  color: rgb(9, 255, 0);
+  margin-left: 1%;
 }
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 18px;
-  opacity: 0.75;
-  line-height: 300px;
+.three {
+  width: 29%;
+  margin-left: 1%;
+}
+html,
+body {
   margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
-
-.el-row {
-  margin-bottom: 20px;
-}
-.el-col {
-  border-radius: 4px;
-}
-.bg-purple-dark {
-  background: #99a9bf;
-}
-.bg-purple {
-  background: #d3dce6;
-}
-.bg-purple-light {
-  background: #e5e9f2;
-}
-.grid-content {
-  border-radius: 4px;
-  min-height: 36px;
-}
-.row-bg {
-  padding: 10px 0;
-  background-color: #f9fafc;
+  height: 100%;
+  width: 100%;
 }
 </style>

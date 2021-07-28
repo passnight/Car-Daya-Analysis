@@ -15,7 +15,8 @@
     "element-ui": "^2.15.3",
     "vue": "^2.5.2",
     "vue-axios": "^3.2.4",
-    "vue-router": "^3.5.2"
+    "vue-router": "^3.5.2",
+    "vue-seamless-scroll": "^1.1.23"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -34,8 +35,6 @@
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
-    "less": "^4.1.1",
-    "less-loader": "^10.0.1",
     "node-notifier": "^5.1.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
