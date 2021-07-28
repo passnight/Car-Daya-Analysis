@@ -12,6 +12,7 @@
     :height="clientHeight - 62 < 370 ? 370 : clientHeight - 62"
   >
     <el-table-column prop="carType" label="认证车主平均油耗(L/100km)" width="250"></el-table-column>
+    <el-table-column prop="carType" label="能源类型" width="250"></el-table-column>
     <el-table-column prop="userComment" label="NEDC综合油耗(L/100km)" width="250"></el-table-column>
     <el-table-column prop="carType" label="实测油耗(L/100km)" width="250"></el-table-column>
   </el-table> -->

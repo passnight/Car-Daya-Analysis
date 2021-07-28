@@ -166,14 +166,11 @@ export default {
     });
     axios.post("http://127.0.0.1:5000/SellingData.json").then((response) => {
       this.datas = response.data;
-      console.log(this.datas)
+      this.drawMap();
     });
     // axios.get("../../../static/data/SellingData.json").then((response) => {
     //   this.datas = response.data;
     // });
-    this.$nextTick(function () {
-      this.drawMap();
-    });
   },
 };
 </script>

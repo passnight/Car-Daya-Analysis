@@ -202,8 +202,13 @@ export default {
 };
 </script>
 
+<<<<<<< HEAD
 <style scoped>
 #Sale {
+=======
+<style>
+/* #Sale {
+>>>>>>> 731a7ad7df324c6e85617f6e7a32741e551a3f68
   
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -211,6 +216,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+<<<<<<< HEAD
 }
 .el-header {
   background-color: #134194;
@@ -221,10 +227,27 @@ export default {
 html,
 body {
   margin: 0;
+=======
+} */
+#Sale {
+  background: url("../../assets/img/home-background.png") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+background-size: cover;
+  background-position: top;
+
+}
+html,
+body {
+  margin: 0;
+  padding: 0;;
+>>>>>>> 731a7ad7df324c6e85617f6e7a32741e551a3f68
   height: 100%;
   width: 100%;
 }
 
+<<<<<<< HEAD
 .el-aside {
   color: #333;
 }
@@ -241,4 +264,20 @@ body {
 .el-menu.el-menu--horizontal {
   border-bottom: none;
 }
+=======
+
+
+/* .el-menu.el-menu--horizontal {
+  border-bottom: none;
+} */
+.el-header {
+  background-color: transparent;
+  color: #ffffff;
+  line-height: 60px;
+}
+.el-aside {
+  color: #333;
+}
+
+>>>>>>> 731a7ad7df324c6e85617f6e7a32741e551a3f68
 </style>

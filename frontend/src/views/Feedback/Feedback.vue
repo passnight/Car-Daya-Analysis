@@ -80,10 +80,10 @@
             <!--型号绑定-->
             <el-select v-model="mvalue" placeholder="请选择">
               <el-option
-                v-for="item in carModels.carModelList"
+                v-for="item in this.carModels"
                 :key="item.mvalue"
                 :label="item.model"
-                :value="item.mvalue"
+                :value="item.model"
               >
               </el-option>
             </el-select>
@@ -94,7 +94,7 @@
             <!--下拉框-->
             <el-select v-model="value" placeholder="请选择">
               <el-option
-                v-for="item in options"
+                v-for="item in this.options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -127,18 +127,19 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "Feedback",
 
   mounted() {
-    axios
-      .get("../../../static/data/CarModel.json")
-      .then((response) => {
-        this.carModels=response.data;
-
-      });
+    axios.get("http://127.0.0.1:5000/CarModel.json").then((response) => {
+      this.carModels = response.data;
+    });
+    axios.get("http://127.0.0.1:5000/price.json").then((response) => {
+      console.log(response.data);
+      this.options = response.data;
+    });
   },
 
   data() {
@@ -168,24 +169,10 @@ export default {
         {
           value: "选项4",
           label: "10万到20万",
-        },
-        {
-          value: "选项5",
-          label: "20万到50万",
-        },
-        {
-          value: "选项6",
-          label: "50万到100万",
-        },
-        {
-          value: "选项7",
-          label: "100万以上",
-        },
+        }
       ],
       //汽车型号
-      carModels:[
-
-      ],
+      carModels: [],
       value: "",
       mvalue: "",
     };

@@ -17,6 +17,8 @@
 </template>
 
 <script >
+import axios from "axios";
+
 export default {
   data() {
     const item = {
@@ -26,7 +28,7 @@ export default {
     return {
       clientWidth: document.documentElement.clientWidth,
       clientHeight: document.documentElement.clientHeight,
-      tableData: Array(20).fill(item),
+      tableData: [],
       document,
     };
   },
@@ -42,6 +44,10 @@ export default {
       this.clientHeight = document.body.clientHeight;
       this.clientWidth = document.body.clientWidth;
     };
+    axios.get("http://127.0.0.1:5000/comment.json").then((response) => {
+      console.log(response.data);
+      this.tableData = response.data;
+    });
   },
 };
 </script>
