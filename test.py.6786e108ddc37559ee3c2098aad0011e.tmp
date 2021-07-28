@@ -171,16 +171,16 @@ with f:
         for e in row:
             modelList.append(e)
             count+=1
-            if count == 20297:
+            if count == 60891:
                 break
     print(modelList)
     db = pymysql.connect(host=host, user=user,
                      password=password, database=database, charset=charset)
     cursor = db.cursor()
-    for i in range(1,20298):
+    for i in range(1,60892):
         sql = F"update customer_comment_table set car_model = '{modelList[i]}' where id = {i}"
-        # print(sql)
-        cursor.execute(sql)
-    db.commit()
-    cursor.close()
-    db.close()
+        cursor.execute(
+            )
+    # db.commit()
+    # cursor.close()
+    # db.close()
