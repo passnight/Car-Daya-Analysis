@@ -11,11 +11,16 @@ sys.path.append(os.path.join(current_dir, ".."))
 
 global feedbackSelectModel
 global feedbackSelectPriceLevel
+global mainSelectModel
+global mainStartDate
+global mainEndDate
 feedbackSelectModel = "无限制"
 feedbackSelectPriceLevel = "选项0"
-
+mainSelectModel = "卡罗拉"
+mainStartDate = "2020-7-1"
+mainEndDate = "2021-8-1"
 from backend.Engineering import Target as target
-
+from backend.Sale import SaleNumber as saleNumber
 app = Flask(__name__, static_folder="http", static_url_path="/pages")
 CORS(app, supports_credentials=True)
 
@@ -46,18 +51,57 @@ def handleForm():
         return "fail"
 
 
-@app.route("/SellingData.json", methods=["GET", "POST"])
+@app.route("/Main/CarModel.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleMainCarModelRequest():
+    carModelList = target.saleDAO.getAllCarModel()
+    carModels = [{"model": "无限制"}]
+    for item in carModelList:
+        carModels.append({"model": item})
+    return json.dumps(carModels)
+
+
+@app.route("/Main/SellingData.json", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def handleSellingDataRequest():
-    sellingData = [
-        {"name": "北京市", "value": 40000},
-        {"name": "山西省", "value": 30000},
-        {"name": "内蒙古自治区", "value": 5000},
-        {"name": "青海省", "value": 7000},
-        {"name": "河北省", "value": 25000},
-    ]
+
+    myForm = request.form
+    result = myForm.to_dict()
+    print(myForm)
+    rowData = target.saleDAO.getAllSaleInfo(
+        result["selectedCarModel"], result["startDate"], result["endDate"])
+    global mainSelectModel
+    global mainStartDate
+    global mainEndDate
+    mainSelectModel = result["selectedCarModel"]
+    mainStartDate = result["startDate"]
+    mainEndDate = result["endDate"]
+    sellingData = []
+    for key, value in rowData.items():
+        sellingData.append(
+            {"name": key, "value": value}
+        )
     return json.dumps(sellingData)
 
+
+@app.route("/Main/SendParameter.json", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleSendParameterFromMain():
+    myForm = request.form
+    result = myForm.to_dict()
+    print(myForm)
+    global mainSelectModel
+    global mainStartDate
+    global mainEndDate
+    mainSelectModel = result["selectedCarModel"]
+    mainStartDate = result["startDate"]
+    mainEndDate = result["endDate"]
+
+
+@app.route("/Main/TopSale", methods=["GET", "POST"])
+@cross_origin(supports_credentials=True)
+def handleTopSaleRequest():
+    return json.dumps(saleNumber.priceDAO.getTopSales(10))
 
 @app.route("/Feedback/CarModel.json", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
@@ -79,8 +123,6 @@ def handlePriceRequest():
         {"value": "选项5", "label": "20万以上"},
     ]
     return json.dumps(price)
-
-
 @app.route("/Feedback/Comment.json", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def handleCommentRequest():
@@ -90,8 +132,6 @@ def handleCommentRequest():
     # comment = [{"carType": "userComment", "userComment": "userComment"}]
     comment = target.purchasingPurposeDAO.getAllPurchasingcomment(feedbackSelectModel)
     return json.dumps(comment)
-
-
 @app.route("/Feedback/Purpose.json", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def handlePurposeRequest():
@@ -102,7 +142,6 @@ def handlePurposeRequest():
     # comment = [{"carType": "userComment", "userComment": "userComment"}]
     comment = target.purchasingPurposeDAO.getAllPurchasingPurpose(feedbackSelectModel, feedbackSelectPriceLevel)
     return json.dumps(comment)
-
 @app.route("/Feedback/SendParameter", methods=["GET", "POST"])
 @cross_origin(supports_credentials=True)
 def handleSendParameter():
@@ -174,12 +213,6 @@ def handleTChart7Request():
     return json.dumps(data)
 
 
-
-
-
-
-
-
 # @app.route("/purchase.json", methods=["GET", "POST"])
 # @cross_origin(supports_credentials=True)
 # def handlePurchaseRequest():
@@ -189,8 +222,6 @@ def handleTChart7Request():
 #         {"carType": "兰博基尼", "price": "1万以上", "purchaseTarget": "装杯啊"},
 #     ]
 #     return json.dumps(comment)
-
-
 # @app.route("/carSlaePrice.json", methods=["GET", "POST"])
 # @cross_origin(supports_credentials=True)
 # def handleCarSalePriceRequest():
@@ -226,4 +257,5 @@ def handleTChart7Request():
 #     ]
 #     return json.dumps(mydata)
 app.run(port="5000")
-# print(target.purchasingPurposeDAO.getAllPurchasingPurpose("星瑞", "选项4"))
+
+

@@ -43,11 +43,25 @@ class PriceDAO:
                 F"INSERT INTO `sale_info` (`car_model`, `sale_datetime`, `sale_number`, `min_price`, `max_price`) VALUES ('{carModel}', '{saleDatetime}', '{saleNumber}', '{minPrice}', '{maxPrice}');")
         db.commit()
         cursor.close()
-        db.close()       
+        db.close() 
+    def getTopSales(self, number):
+        db = pymysql.connect(host=self.host, user=self.user,
+                             password=self.password, database=self.database, charset=self.charset)
+        cursor = db.cursor()
+        cursor.execute(
+            F"SELECT car_model, sale_datetime, sale_number FROM car_big_data.sale_info ORDER BY sale_number DESC LIMIT {number};")
+        sales = []
+        saleList = cursor.fetchall()
+        for item in saleList:
+            sales.append({"name": item[1].__format__(
+                '%Y年%m月 ') + item[0], "sale": item[2]})
+        cursor.close()
+        db.close()
+        return sales
 
 
 
-priceDao = PriceDAO()
+priceDAO = PriceDAO()
 
 
 class SaleNumberSpider:
@@ -133,11 +147,8 @@ class SaleNumberSpider:
             print("---------------page "+ str(self.pageCount) +" is finished-------------------")
     def startSpider(self):
         self.getAllSaleNumber(2015,1,2021,3,6)
-        priceDao.insert(self.dataList)
+        priceDAO.insert(self.dataList)
 
             
 
-saleNumberSpider = SaleNumberSpider()
-# saleNumberSpider.getSaleNumber(2020, 3,1)
-saleNumberSpider.startSpider()
 

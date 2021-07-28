@@ -87,23 +87,24 @@
           <sale-map style="background-color: transparent; width: 500px ;height: 450px"></sale-map>
         </div>
         <div id="middle-bottom">
-          <el-select v-model="value" placeholder="请选择汽车型号">
+          <el-select v-model="selectedCarModel" placeholder="请选择汽车型号" @change="sendParameter">
             <el-option
-              v-for="item in carModels"
-              :key="item.value"
+              v-for="item in this.carModels"
+              :key="item.model"
               :label="item.model"
               :value="item.model"
             >
             </el-option>
           </el-select>
-
           <div class="block">
-            <p style="color: white">请选择分析时间：{{ value }}</p>
+            <p style="color: white">请选择分析时间</p>
             <el-date-picker
-              v-model="value"
+              @change="sendParameter"
+              v-model="selectedTime"
               type="daterange"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
+
               :default-time="['00:00:00', '23:59:59']"
             >
             </el-date-picker>
@@ -163,6 +164,57 @@ export default {
   },
 
   methods: {
+    sendParameter(){
+      let form = new FormData();
+      form.append("selectedCarModel", this.selectedCarModel);
+      let d = new Date(this.selectedTime[0]);
+      let startDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-1';
+      d = new Date(this.selectedTime[1]);
+      let endDate = d.getFullYear() + '-' + (d.getMonth() + 1) + '-1';
+      form.append("startDate", startDate);
+      form.append("endDate", endDate);
+      console.log(endDate);
+      axios.post("http://127.0.0.1:5000/Main/SellingData.json", form).then((response) => {
+        let result = response.data;
+        this.datas = result;
+                let option = {
+          title: {
+            text: "车辆销售区域分布图",
+            x: "center",
+            textStyle: {
+              color: "#9c0505",
+            },
+          },
+
+          series: [
+            {
+              type: "map",
+              map: "china",
+              label: {
+                show: this.showLabel,
+                color: "black",
+                fontSize: 10,
+              },
+              // 地图大小倍数
+              zoom: 1.2,
+              data: this.datas,
+            },
+          ],
+          visualMap: {
+            min: 0,
+            max: 200,
+            text: ["High", "Low"],
+            realtime: false,
+            calculable: true,
+            inRange: {
+              color: ["lightskyblue", "yellow", "orangered"],
+            },
+          },
+        };
+        console.log(this.datas);
+        this.mapChart.setOption(option);
+      })
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -217,8 +269,8 @@ export default {
             },
           ],
           visualMap: {
-            min: 800,
-            max: 50000,
+            min: 0,
+            max: 200,
             text: ["High", "Low"],
             realtime: false,
             calculable: true,
@@ -258,37 +310,22 @@ export default {
       userComment: "不错，挺好",
     };
     return {
+      selectedCarModel:"卡罗拉",
+      selectedTime: [Date("Wed Jul 15 2019 13:48:55 GMT+0800 (GMT+08:00)"),Date("Wed Jul 28 2021 13:48:55 GMT+0800 (GMT+08:00)")],
       mapChart: null,
       showLabel: false,
-      datas: [{ name: "北京市", value: 40000 }],
+      datas: [{ name: "北京市", value: 50 }],
       value: null,
       teamMembers: ["rjx", "lr", "cdw", "zhj"],
       carModels: [
         {
           model: "特斯拉",
         },
+                {
+          model: "兰博基尼",
+        },
       ],
       List: [
-        {
-          name: "特斯拉",
-          sale: "100000",
-        },
-        {
-          name: "特斯拉",
-          sale: "100000",
-        },
-        {
-          name: "特斯拉",
-          sale: "100000",
-        },
-        {
-          name: "特斯拉",
-          sale: "100000",
-        },
-        {
-          name: "特斯拉",
-          sale: "100000",
-        },
         {
           name: "特斯拉",
           sale: "100000",
@@ -297,9 +334,19 @@ export default {
     };
   },
   mounted() {
-    this.$nextTick(function () {
-      this.drawMap();
-    });
+    this.drawMap();
+    // this.chooseModel = "无限制";
+    // this.priceLevel = "无限制";
+    axios
+      .get("http://127.0.0.1:5000/Main/CarModel.json")
+      .then((response) => {
+        this.carModels = response.data;
+      });
+    axios
+      .get("http://127.0.0.1:5000/Main/TopSale")
+      .then((response) => {
+        this.List = response.data;
+      });
   },
 };
 </script>
