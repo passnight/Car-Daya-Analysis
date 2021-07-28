@@ -20,6 +20,7 @@
 import axios from "axios";
 
 export default {
+  name: "FeedbackComment",
   data() {
     const item = {
       carType: "兰博基尼",
@@ -30,6 +31,9 @@ export default {
       clientHeight: document.documentElement.clientHeight,
       tableData: [],
       document,
+      priceLevel: "无限制",
+      priceLevel: "无限制",
+      chooseModel: "无限制",
     };
   },
   methods: {
@@ -44,10 +48,11 @@ export default {
       this.clientHeight = document.body.clientHeight;
       this.clientWidth = document.body.clientWidth;
     };
-    axios.get("http://127.0.0.1:5000/comment.json").then((response) => {
-      console.log(response.data);
-      this.tableData = response.data;
-    });
+    axios
+      .get("http://127.0.0.1:5000/Feedback/Comment.json")
+      .then((response) => {
+        this.tableData = response.data;
+      });
   },
 };
 </script>

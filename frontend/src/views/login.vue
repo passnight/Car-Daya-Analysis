@@ -39,6 +39,7 @@ export default {
       var data = new FormData();
       data.append("username", this.username);
       data.append("password", this.password);
+      console.log(data)
       axios.post("http://127.0.0.1:5000/user.json", data).then((response) => {
         console.log(response.data);
         let result = response.data;

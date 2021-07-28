@@ -3,12 +3,13 @@
 </template>
 
 <script>
-  import * as echarts from 'echarts'
+import cdw from "../../../../assets/theme/cdw.json";
+import * as echarts from 'echarts'
 export default {
     name: 'fchart1',
     methods:{
       drawPie() {
-          var charts = echarts.init(this.$refs.fc1);
+          var charts = echarts.init(this.$refs.fc1,'cdw');
           var option = {
                     title: {
                         text: "油耗分析",

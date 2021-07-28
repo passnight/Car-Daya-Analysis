@@ -3,7 +3,8 @@
 </template>
 
 <script>
-  import * as echarts from 'echarts'
+import cdw from "../../../../assets/theme/cdw.json";
+import * as echarts from 'echarts'
 export default {
   name: 'fchart2',
   data () {
@@ -103,7 +104,7 @@ export default {
     },
     methods: {
         mycharts(){
-            let myChart =echarts.init(this.$refs.fc2);
+            let myChart =echarts.init(this.$refs.fc2,'cdw');
             myChart.setOption(this.option)
             //图表自适应
             window.addEventListener("resize",function(){
