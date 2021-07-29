@@ -50,7 +50,7 @@ export default {
           this.$router.push("/manager");
         }
         else {
-          alert("登录失败");
+          alert("密码不正确或用户名不存在");
         }
       });
     },
