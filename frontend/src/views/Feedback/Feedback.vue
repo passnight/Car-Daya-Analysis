@@ -52,8 +52,8 @@
             style="margin-right: 10px; color: #ffffff"
           ></i>
           <el-dropdown-menu slot="dropdown">
-            <el-button @click="changeData">修改密码</el-button>
-            <el-button @click="destoryUser">注销用户</el-button>
+            <el-button @click="changePassword">修改密码</el-button>
+            <el-button @click="destroyUser">注销用户</el-button>
           </el-dropdown-menu>
         </el-dropdown>
 

@@ -44,11 +44,11 @@
             style="margin-right: 10px; color: #ffffff"
           ></i>
           <el-dropdown-menu slot="dropdown">
-            <el-button @click="changeData">修改密码</el-button>
-            <el-button @click="destoryUser">注销用户</el-button>
+            <el-button @click="changePassword">修改密码</el-button>
+            <el-button @click="destroyUser">注销用户</el-button>
           </el-dropdown-menu>
         </el-dropdown>
-        <span style="color: white">王小虎</span>
+        <span style="color: white">{{ userName }} </span>
       </div>
     </el-row>
     <el-container style="border: 1px solid #eee; display: flex; flex: auto">
@@ -71,7 +71,11 @@
             <template slot="title">请选择型号</template>
 
             <!--型号绑定-->
-            <el-select v-model="chooseModel" placeholder="请选择" @change="sendParameter">
+            <el-select
+              v-model="chooseModel"
+              placeholder="请选择"
+              @change="sendParameter"
+            >
               <el-option
                 v-for="item in this.carModels"
                 :key="item.model"
@@ -114,13 +118,19 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   name: "Engineering",
   mounted() {
     this.chooseModel = "";
-    axios.get("http://127.0.0.1:5000/Engineering/CarModel.json").then((response) => {
-      this.carModels = response.data;
+    axios
+      .get("http://127.0.0.1:5000/Engineering/CarModel.json")
+      .then((response) => {
+        this.carModels = response.data;
+      });
+    axios.get("http://127.0.0.1:5000/UserName").then((response) => {
+      this.userName = response.data;
+      console.log("user anme:" + this.userName);
     });
   },
   data() {
@@ -130,6 +140,7 @@ export default {
       address: "上海市普陀区金沙江路 1518 弄",
     };
     return {
+      userName: "1111",
       //收缩和弹出
       isCollapse: false,
 
@@ -139,9 +150,7 @@ export default {
       input: "",
 
       //汽车型号
-      carModels:[
-
-      ],
+      carModels: [],
       chooseModel: "",
     };
   },
@@ -152,38 +161,16 @@ export default {
       }
     },
     sendParameter() {
-    let dataForm = new FormData();
-    dataForm.append("chooseModel", this.chooseModel);
-    axios
-      .post("http://127.0.0.1:5000/Engineering/SendParameter.json", dataForm)
-      .then((response) => {
-        this.tableData = response.data;
-      });
-    },
-    //注销用户
-    destoryUser() {
-      this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
+      let dataForm = new FormData();
+      dataForm.append("chooseModel", this.chooseModel);
+      axios
+        .post("http://127.0.0.1:5000/Engineering/SendParameter.json", dataForm)
+        .then((response) => {
+          this.tableData = response.data;
         });
     },
-
-    //修改密码
-    changeData() {
-      this.$prompt("请输入新密码，为6~20位数字+字母", "提示", {
+    changePassword() {
+      let pwd = this.$prompt("请输入新密码，为6~20位数字+字母", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         //密码格式为6~20位有字母和数字
@@ -191,6 +178,14 @@ export default {
         inputErrorMessage: "密码格式不正确",
       })
         .then(({ value }) => {
+          console.log(value);
+          let data = new FormData();
+          data.append("username", this.userName);
+          data.append("password", value);
+          console.log(data);
+          axios
+            .post("http://127.0.0.1:5000/Manager/ChangeUserInfo", data)
+            .then((response) => {});
           this.$message({
             type: "success",
             message: "修改密码成功",
@@ -200,6 +195,33 @@ export default {
           this.$message({
             type: "info",
             message: "取消修改密码",
+          });
+        });
+    },
+    //注销用户
+    destroyUser() {
+      this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          let data = new FormData();
+          data.append("username", this.userName);
+          console.log(data);
+          axios
+            .post("http://127.0.0.1:5000/Manager/DeleteUser", data)
+            .then((response) => {});
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+          this.$router.push("/");
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
           });
         });
     },

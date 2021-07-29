@@ -80,7 +80,16 @@
               <span>小组成员介绍</span>
             </div>
             <div class="text item">
-              <span>71119113 lirui </span>
+              <span>71119113 李锐 </span>
+            </div>
+            <div class="text item">
+              <span>71119201 饶杰熙 </span>
+            </div>
+            <div class="text item">
+              <span>71119117 陈铎文 </span>
+            </div>
+            <div class="text item">
+              <span>71119221 张惠杰 </span>
             </div>
           </el-card>
         </div>
