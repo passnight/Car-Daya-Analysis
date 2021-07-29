@@ -24,18 +24,7 @@
         active-text-color="#ffd04b"
         style="flex: auto; display: flex"
       >
-        <el-menu-item
-          index="/sale"
-          style="margin-left: 70px; margin-right: 10px"
-          >销售分析</el-menu-item
-        >
-        <el-menu-item index="/feedback">用户反馈</el-menu-item>
-        <el-menu-item index="/engineering" style="margin-left: auto"
-          >指标分析</el-menu-item
-        >
-        <el-menu-item index="/manager" style="margin-right: 40px"
-          >用户管理</el-menu-item
-        >
+
       </el-menu>
       <div
         style="
@@ -98,15 +87,6 @@
             </el-input>
           </el-menu-item-group>
 
-          <el-menu-item-group>
-            <template slot="title">填写新的用户密码</template>
-            <el-input
-              placeholder="请输入新的用户密码"
-              v-model="newPassword"
-              clearable
-            >
-            </el-input>
-          </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
           <template slot="title">
